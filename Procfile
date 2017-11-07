@@ -1,1 +1,1 @@
-worker: python Rawr/bot.js
+worker: python Rawr/rawr.py

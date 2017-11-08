@@ -1,3 +1,4 @@
+import os
 import sys
 import discord
 import re, json
@@ -28,13 +29,13 @@ async def on_ready():
 
 ###-- hello --###
 @bot.command(brief="Send hello", help="Send hello\nsdfdcvb")
-async def hello():    
-    await bot.say(":laughing: Hello!") 
+async def hello():
+    await bot.say(":laughing: Hello!")
 
 ###-- who --###
 @bot.command()
 async def who():
-    await bot.say("Full-fledged Hero!!") 
+    await bot.say("Full-fledged Hero!!")
 
 ###-- ping --###
 @bot.command()
@@ -70,7 +71,7 @@ def get_choice(r):
 async def get(ctx, *name):
 
     await bot.type()
-    
+
     # get keyword #
     name = '+'.join(name)
 
@@ -85,7 +86,7 @@ async def get(ctx, *name):
     res_len = len(result_table)
     start = 0
     end = 7
-    
+
     for no, row in enumerate(result_table[start:end], start=0):
         columns = row.find_all('td')
         item_links.append(columns[1].find('a').get('href'))
@@ -168,7 +169,7 @@ async def skill(ctx, *job):
 
     keyword = ' '.join(job)
 
-    for tos_class in tos_classes2:  
+    for tos_class in tos_classes2:
         if tos_class['regex'].match(keyword):
             code, name = tos_class['code'], tos_class['name']
             print('Founded?: ' + name + " :" + code)
@@ -250,7 +251,7 @@ async def news(ctx):
     for n, news in enumerate(resnews, start=1):
         title = news.find('h3').get_text()
         link = 'https://treeofsavior.com' + news.find('a').get('href')
-    
+
         news_list +=  "{}. [{}]({})\n".format(str(n), title, link)
 
     embed = discord.Embed(colour=discord.Colour(0x1abc9c), description="[All](https://treeofsavior.com/page/news/?n=1) | [Event](https://treeofsavior.com/page/news/?c=33&n=1) | [Patch Notes](https://treeofsavior.com/page/news/?c=3&n=1) | [Dev's Blog](https://treeofsavior.com/page/news/?c=31&n=1) | [Known Issues](https://treeofsavior.com/page/news/?c=32&n=1)", timestamp=datetime.datetime.utcfromtimestamp(1509378412))
@@ -265,4 +266,4 @@ async def news(ctx):
     await bot.say(embed=embed)
 
 
-bot.run('token')
+bot.run(os.environ['BOT_TOKEN'])

@@ -128,16 +128,15 @@ async def help(ctx):
     # await bot.send_message(ctx.message.author, content=halpme)
 
 
-
 ###-- hello --###
-@bot.command(pass_context=True)
-async def hello():    
-    await bot.say(":laughing: Hello!") 
+@bot.command()
+async def hello():
+    await bot.say(":laughing: Hello!")
 
 ###-- who --###
 @bot.command()
 async def who():
-    await bot.say("Full-fledged Hero!!") 
+    await bot.say("Full-fledged Hero!!")
 
 ###-- ping --###
 @bot.command()

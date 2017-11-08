@@ -28,7 +28,7 @@ async def on_ready():
 #####
 
 ###-- hello --###
-@bot.command(brief="Send hello", help="Send hello\nsdfdcvb")
+@bot.command()
 async def hello():
     await bot.say(":laughing: Hello!")
 

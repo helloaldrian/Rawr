@@ -15,6 +15,9 @@ import urllib.request
 
 bot = commands.Bot(command_prefix='!rawr ', description='this is rawr test!', pm_help = True)
 
+bot.remove_command("help")
+
+
 ###-- prep --###
 @bot.event
 async def on_ready():
@@ -27,15 +30,114 @@ async def on_ready():
     print('-----------------------')
 #####
 
+
+###-- on server join --###
+@bot.event
+async def on_server_join(server):
+    
+    ##-- send msg to the server owner --##
+    owner = server.owner
+
+    welcome = """
+_`Hello there!`_
+
+Nice to meet you, I am Rawr!!
+I'm a simple Tree of Savior Discord bot that can help you and your community find and gather information regarding ToS.
+
+Here, I am request permission to stay in your server.
+- Rawr
+    """
+    await bot.send_message(owner, welcome)
+
+    ##-- send msg to the 1st text channel on the server --##
+    chch = server.channels
+
+    spawn = """
+```css
+"When you meet someone for the first time, that's not the whole book. That's just the first page."
+``` 
+:ghost: Hello Hooman! I'm **Rawr!**
+
+I am a simple bot that aims to help Tree of Savior players find information related to ToS.
+Use `!rawr help` to find out more commands.
+Alright Boys, Rawr at your service!! :sunglasses:
+================================================================
+    """   
+    for channel in server.channels:
+        if channel.type == discord.ChannelType.text:
+            try:
+                await bot.send_message(channel, spawn)
+                break
+            except discord.errors.Forbidden:
+                continue
+                break
+
+
+###-- help --###
+@bot.command(pass_context=True)
+async def help(ctx):
+
+    halpme = """
+
+**Rawr Help**
+```md
+<prefix : !rawr>
+<format : prefix command>
+    e.g : !rawr 
+```
+**List of commands:**
+```md
+# help :
+  this message
+
+# hello:
+  greets the bot
+
+# news: 
+  get latest news/updates from Tree of Savior official website
+
+# ping:
+  ping the bot
+
+# ktest:
+  get link for ktest version of tos.neet
+
+# update:
+  get link for latest datamined file(s)
+
+# planner:
+  get link for class/build planner
+
+# inv:
+  get my invitation link
+
+# get item info:
+  cmd: get "item name"
+  < e.g. : !rawr get solmiki >
+  /* important: only use this command to find info for crafted item(s) and not cards, materials, recipes etc. *
+
+# get skill info:
+  scommand: skill "class name"
+  < e.g. : !rawr skill diev >
+  /* you may use shorten class name (e.g. sr, pd, diev etc.) *
+```
+    """
+
+    await bot.whisper(halpme)
+    # await bot.send_message(ctx.message.author, halpme)
+    # await bot.send_message(ctx.message.author, content=halpme)
+
+
+
 ###-- hello --###
-@bot.command()
-async def hello():
-    await bot.say(":laughing: Hello!")
+@bot.command(pass_context=True)
+async def hello():    
+    await bot.say(":laughing: Hello!") 
 
 ###-- who --###
 @bot.command()
 async def who():
-    await bot.say("Full-fledged Hero!!")
+    await bot.say("Full-fledged Hero!!") 
 
 ###-- ping --###
 @bot.command()
@@ -43,7 +145,7 @@ async def ping(*args):
     await bot.say(":ping_pong: Pong!")
 
 ###-- die --###
-@bot.command()
+@bot.command(hidden=True, no_pm=True)
 async def die():
     sys.exit(0)
 
@@ -61,6 +163,12 @@ async def update():
 @bot.command()
 async def planner():
     await bot.say("Plan your character build!!  " + "https://tos.neet.tv/skill-planner")
+
+###-- invite --###
+@bot.command()
+async def inv():
+    invt = "https://discordapp.com/api/oauth2/authorize?client_id=336363921466195968&scope=bot&permissions=0"
+    await bot.say("**Use this link to invite me to your server.**\n\n" + invt)
 
 
 ###-- get / item --###

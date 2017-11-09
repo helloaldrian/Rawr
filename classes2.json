@@ -1,0 +1,357 @@
+[
+	{
+		"code": "Char2_5",
+		"name": "Alchemist",
+		"regex": "Alche?m?i?s?t?"
+	},
+	{
+		"code": "Char3_13",
+		"name": "Appraiser",
+		"regex": "Appra?i?s?e?r?"
+	},
+	{
+		"code": "Char3_1",
+		"name": "Archer",
+		"regex": "Arc?h?e?r?"
+	},
+	{
+		"code": "Char1_6",
+		"name": "Barbarian",
+		"regex": "Barba?r?i?a?n?"
+	},
+	{
+		"code": "Char4_4",
+		"name": "Bokor",
+		"regex": "Boko?r?"
+	},
+	{
+		"code": "Char3_15",
+		"name": "Cannoneer",
+		"regex": "Canno?n?e?e?r?"
+	},
+	{
+		"code": "Char1_7",
+		"name": "Cataphract",
+		"regex": "Catap?h?r?a?c?t?"
+	},
+	{
+		"code": "Char1_5",
+		"name": "Centurion",
+		"regex": "Centu?r?i?o?n?"
+	},
+	{
+		"code": "Char4_12",
+		"name": "Chaplain",
+		"regex": "Chapl?a?i?n?"
+	},
+	{
+		"code": "Char2_8",
+		"name": "Chronomancer",
+		"regex": "Chron?o?m?a?n?c?e?r?"
+	},
+	{
+		"code": "Char2_13",
+		"name": "Citydummy",
+		"regex": "Citydummy"
+	},
+	{
+		"code": "Char4_1",
+		"name": "Cleric",
+		"regex": "Cler?i?c?"
+	},
+	{
+		"code": "Char1_8",
+		"name": "Corsair",
+		"regex": "Cors?a?i?r?"
+	},
+	{
+		"code": "Char2_3",
+		"name": "Cryomancer",
+		"regex": "Cryom?a?n?c?e?r?"
+	},
+	{
+		"code": "Char4_7",
+		"name": "Dievdirbys",
+		"regex": "Dievd?i?r?b?y?s?"
+	},
+	{
+		"code": "Char1_9",
+		"name": "Doppelsoeldner",
+		"regex": "Dopp?e?l?s?o?e?l?d?n?e?r?"
+	},
+	{
+		"code": "Char1_15",
+		"name": "Dragoon",
+		"regex": "goon|Drago?o?n?"
+	},
+	{
+		"code": "Char4_5",
+		"name": "Druid",
+		"regex": "Drui?d?"
+	},
+	{
+		"code": "Char2_11",
+		"name": "Elementalist",
+		"regex": "Elem?e?n?t?a?l?i?s?t?"
+	},
+	{
+		"code": "Char2_18",
+		"name": "Enchanter",
+		"regex": "Encha?n?t?e?r?"
+	},
+	{
+		"code": "Char3_14",
+		"name": "Falconer",
+		"regex": "Falc?o?n?e?r?"
+	},
+	{
+		"code": "Char2_16",
+		"name": "Featherfoot",
+		"regex": "ff|Feather?f?o?o?t?"
+	},
+	{
+		"code": "Char1_14",
+		"name": "Fencer",
+		"regex": "Fencer"
+	},
+	{
+		"code": "Char3_11",
+		"name": "Fletcher",
+		"regex": "Fletc?h?e?r?"
+	},
+	{
+		"code": "Char4_99",
+		"name": "GM",
+		"regex": "GM"
+	},
+	{
+		"code": "Char3_7",
+		"name": "Hackapell",
+		"regex": "hakka|Hackap?e?l?l?"
+	},
+	{
+		"code": "Char1_2",
+		"name": "Highlander",
+		"regex": "hl|Highlander"
+	},
+	{
+		"code": "Char1_4",
+		"name": "Hoplite",
+		"regex": "Hopl?i?t?e?"
+	},
+	{
+		"code": "Char3_2",
+		"name": "Hunter",
+		"regex": "Hunte?r?"
+	},
+	{
+		"code": "Char4_16",
+		"name": "Inquisitor",
+		"regex": "Inqui?s?i?t?o?r?"
+	},
+	{
+		"code": "Char4_15",
+		"name": "Kabbalist",
+		"regex": "Kab?b?a?l?i?s?t?"
+	},
+	{
+		"code": "Char4_3",
+		"name": "Krivis",
+		"regex": "Kriv?i?s?"
+	},
+	{
+		"code": "Char1_17",
+		"name": "Lancer",
+		"regex": "Lanc?e?r?"
+	},
+	{
+		"code": "Char2_7",
+		"name": "Linker",
+		"regex": "Linke?r?"
+	},
+	{
+		"code": "Char3_17",
+		"name": "Mergen",
+		"regex": "Merg?e?n?"
+	},
+	{
+		"code": "Char4_18",
+		"name": "Miko",
+		"regex": "Miko"
+	},
+	{
+		"code": "Char2_12",
+		"name": "Mimic",
+		"regex": "Mimic"
+	},
+	{
+		"code": "Char4_9",
+		"name": "Monk",
+		"regex": "Monk"
+	},
+	{
+		"code": "Char1_12",
+		"name": "Murmillo",
+		"regex": "Murmi?l?l?o?"
+	},
+	{
+		"code": "Char3_16",
+		"name": "Musketeer",
+		"regex": "Muske?t?e?e?r?"
+	},
+	{
+		"code": "Char2_9",
+		"name": "Necromancer",
+		"regex": "Necrom?a?n?c?e?r?"
+	},
+	{
+		"code": "Char4_8",
+		"name": "Oracle",
+		"regex": "Orac?l?e?"
+	},
+	{
+		"code": "Char4_11",
+		"name": "Paladin ",
+		"regex": "Palad?i?n?"
+	},
+	{
+		"code": "Char4_10",
+		"name": "Pardoner",
+		"regex": "Pardo?n?e?r?"
+	},
+	{
+		"code": "Char1_3",
+		"name": "Peltasta",
+		"regex": "Pelta?s?t?a?"
+	},
+	{
+		"code": "Char3_12",
+		"name": "Pied Piper",
+		"regex": "Pied Piper"
+	},
+	{
+		"code": "Char4_14",
+		"name": "Plague Doctor",
+		"regex": "PD|(Plague(  Doctor)?)"
+	},
+	{
+		"code": "Char4_2",
+		"name": "Priest",
+		"regex": "Prie?s?t?"
+	},
+	{
+		"code": "Char2_4",
+		"name": "Psychokino",
+		"regex": "P?s?y?c?h?o?kino"
+	},
+	{
+		"code": "Char2_2",
+		"name": "Pyromancer",
+		"regex": "Pyrom?a?n?c?e?r?"
+	},
+	{
+		"code": "Char3_3",
+		"name": "Quarrel Shooter",
+		"regex": "qs|Quarrel Shooter"
+	},
+	{
+		"code": "Char3_4",
+		"name": "Ranger",
+		"regex": "Range?r?"
+	},
+	{
+		"code": "Char1_10",
+		"name": "Rodelero",
+		"regex": "Rodel?e?r?o?"
+	},
+	{
+		"code": "Char3_9",
+		"name": "Rogue",
+		"regex": "Rog?u?e?"
+	},
+	{
+		"code": "Char2_17",
+		"name": "Rune Caster",
+		"regex": "rc|Rune ?C?a?s?t?e?r?"
+	},
+	{
+		"code": "Char4_6",
+		"name": "Sadhu",
+		"regex": "Sadhu"
+	},
+	{
+		"code": "Char2_14",
+		"name": "Sage",
+		"regex": "Sage"
+	},
+	{
+		"code": "Char3_5",
+		"name": "Sapper",
+		"regex": "Sappe?r?"
+	},
+	{
+		"code": "Char3_10",
+		"name": "Schwarzer Reiter",
+		"regex": "S?(chwarzer)? ?R(eiter)?"
+	},
+	{
+		"code": "Char3_8",
+		"name": "Scout",
+		"regex": "Sco?u?t?"
+	},
+	{
+		"code": "Char4_13",
+		"name": "Shepherd",
+		"regex": "Shepherd"
+	},
+	{
+		"code": "Char1_13",
+		"name": "Shinobi",
+		"regex": "(Shi)?nobi"
+	},
+	{
+		"code": "Char2_6",
+		"name": "Sorcerer",
+		"regex": "Sorce?r?e?r?"
+	},
+	{
+		"code": "Char1_11",
+		"name": "Squire",
+		"regex": "Squ?i?r?e?"
+	},
+	{
+		"code": "Char1_1",
+		"name": "Swordsman",
+		"regex": "Sw(ordsman)?"
+	},
+	{
+		"code": "Char4_17",
+		"name": "Taoist",
+		"regex": "Taoi?s?t?"
+	},
+	{
+		"code": "Char1_16",
+		"name": "Templar",
+		"regex": "Templar"
+	},
+	{
+		"code": "Char2_10",
+		"name": "Thaumaturge",
+		"regex": "Thaum?(aturge)?"
+	},
+	{
+		"code": "Char2_15",
+		"name": "Warlock",
+		"regex": "wl|Warlock"
+	},
+	{
+		"code": "Char2_1",
+		"name": "Wizard",
+		"regex": "Wiz(ard)?"
+	},
+	{
+		"code": "Char3_6",
+		"name": "Wugushi",
+		"regex": "Wugu(shi)?"
+	}
+]

@@ -264,8 +264,8 @@ async def skill(ctx, *job):
     await bot.type()
 
     # get keyword #
-    __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
-
+    # __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    
     with open(os.path.join(__location__, 'classes2.json')) as f: classes2.json
         content = f.read()
 

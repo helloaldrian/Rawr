@@ -264,7 +264,8 @@ async def skill(ctx, *job):
     await bot.type()
 
     # get keyword #
-    with open('classes2.json') as f:
+    __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    with open(os.path.join(__location__, 'classes2.json')) as f: classes2.json
         content = f.read()
 
     tos_classes2 = json.loads(content)
@@ -371,6 +372,5 @@ async def news(ctx):
     embed.add_field(name="Patch Notes & News", value=nlist, inline = False)
 
     await bot.say(embed=embed)
-
 
 bot.run(os.environ['BOT_TOKEN'])

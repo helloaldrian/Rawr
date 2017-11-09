@@ -265,8 +265,8 @@ async def skill(ctx, *job):
 
     # get keyword #
     __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
-    
-    with open(os.path.join(__location__, 'classes2.json')):
+
+    with open(os.path.join(__location__, 'classes2.json')) as f:
     # with open('classes2.json') as f:
         content = f.read()
 
@@ -282,7 +282,7 @@ async def skill(ctx, *job):
     for tos_class in tos_classes2:
         if tos_class['regex'].match(keyword):
             code, name = tos_class['code'], tos_class['name']
-            print('Founded?: ' + name + " :" + code)
+            # print('Founded?: ' + name + " :" + code)
             break
 
     jobs = code

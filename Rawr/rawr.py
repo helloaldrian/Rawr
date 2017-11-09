@@ -174,7 +174,7 @@ async def inv():
 def get_choice(r):
     return (r.content.isdigit() and int(r.content) >= 1 and int(r.content) <= len(result_search))
 
-@bot.command(pass_context=True)
+@bot.command(pass_context=True, no_pm=True)
 async def get(ctx, *name):
 
     await bot.type()
@@ -258,7 +258,7 @@ async def get(ctx, *name):
 
 
 ### get skill ###
-@bot.command(pass_context=True)
+@bot.command(pass_context=True, no_pm=True)
 async def skill(ctx, *job):
 
     await bot.type()
@@ -344,7 +344,7 @@ async def skill(ctx, *job):
 
 
 ### get news - official website ###
-@bot.command(pass_context=True)
+@bot.command(pass_context=True, no_pm=True)
 async def news(ctx):
 
     await bot.type()

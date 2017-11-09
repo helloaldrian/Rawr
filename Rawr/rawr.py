@@ -264,7 +264,7 @@ async def skill(ctx, *job):
     await bot.type()
 
     # get keyword #
-    with open('classes2.json') as f: classes2.json
+    with open('classes2.json') as f:
         content = f.read()
 
     tos_classes2 = json.loads(content)

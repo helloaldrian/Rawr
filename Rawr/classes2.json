@@ -2,7 +2,7 @@
 	{
 		"code": "Char2_5",
 		"name": "Alchemist",
-		"regex": "Alche?m?i?s?t?"
+		"regex": "Alchemistake|Alche?m?i?s?t?"
 	},
 	{
 		"code": "Char3_13",
@@ -232,7 +232,7 @@
 	{
 		"code": "Char4_14",
 		"name": "Plague Doctor",
-		"regex": "PD|(Plague(  Doctor)?)"
+		"regex": "PD|(Plague ?(Doctor)?)"
 	},
 	{
 		"code": "Char4_2",
@@ -252,7 +252,7 @@
 	{
 		"code": "Char3_3",
 		"name": "Quarrel Shooter",
-		"regex": "qs|Quarrel? ?Shooter"
+		"regex": "qs|Quarr?el? ?Shooter"
 	},
 	{
 		"code": "Char3_4",

@@ -21,7 +21,7 @@ bot.remove_command("help")
 ###-- prep --###
 @bot.event
 async def on_ready():
-    await bot.change_presence(game=discord.Game(name="Trial Run"), status=discord.Status("dnd"))
+    await bot.change_presence(game=discord.Game(name="!rawr help"), status=discord.Status("online"))
     print('-----------------------')
     print('> Are you ready Rawr?!')
     print('> ' + bot.user.name)
@@ -74,7 +74,7 @@ Alright Boys, Rawr at your service!! :sunglasses:
 
 
 ###-- help --###
-@bot.command(pass_context=True)
+@bot.command(pass_context=True, aliases=['halp'])
 async def help(ctx):
 
     halpme = """
@@ -111,13 +111,15 @@ async def help(ctx):
 # inv:
   get my invitation link
 
-# get item info:
-  cmd: get "item name"
+# get / item:
+  - get item info
+  command: get "item name"
   < e.g. : !rawr get solmiki >
   /* important: only use this command to find info for crafted item(s) and not cards, materials, recipes etc. *
 
-# get skill info:
-  scommand: skill "class name"
+# skill:
+  - get skill info
+  command: skill "class name"
   < e.g. : !rawr skill diev >
   /* you may use shorten class name (e.g. sr, pd, diev etc.) *
 ```
@@ -154,7 +156,7 @@ async def ktest():
     await bot.say("Let's see the future!!  " + "https://tos-ktest.neet.tv/")
 
 ###-- update --###
-@bot.command()
+@bot.command(aliases=['updates'])
 async def update():
     await bot.say("Check what is new!!  " + "https://tos.neet.tv/changes")
 
@@ -164,7 +166,7 @@ async def planner():
     await bot.say("Plan your character build!!  " + "https://tos.neet.tv/skill-planner")
 
 ###-- invite --###
-@bot.command()
+@bot.command(aliases=['invite'])
 async def inv():
     invt = "https://discordapp.com/api/oauth2/authorize?client_id=336363921466195968&scope=bot&permissions=0"
     await bot.say("**Use this link to invite me to your server.**\n\n" + invt)
@@ -174,7 +176,7 @@ async def inv():
 def get_choice(r):
     return (r.content.isdigit() and int(r.content) >= 1 and int(r.content) <= len(result_search))
 
-@bot.command(pass_context=True, no_pm=True)
+@bot.command(pass_context=True, aliases=['item'], no_pm=True)
 async def get(ctx, *name):
 
     await bot.type()
@@ -203,14 +205,14 @@ async def get(ctx, *name):
         result_search += str(no + 1) + '. ' + columns[2].get_text() + ' - [' + columns[3].get_text() + ']' + '\n'
 
     # send search result - multiple choice #
-    await bot.say(content=ctx.message.author.mention + "  **Please choose one by giving its number**, type `next` or `>` to display more result." + "\n" + str(result_search))
+    await bot.say(content=ctx.message.author.mention + "\n**Please choose one by giving its number**,\n_type `next` or `>` to display more result._" + "```" + str(result_search) + "```" + "\n")
 
     # waiting for response from user #
     while True:
         choice = await bot.wait_for_message(timeout=30.0, author=ctx.message.author)
 
         if choice is None:
-            await bot.say('too slow...:smirk:')
+            await bot.say('_**too slow...**_   **(╯°□°）╯︵ ┻━┻**')
             break
 
         elif choice.content == 'next' or choice.content == '>':
@@ -226,7 +228,7 @@ async def get(ctx, *name):
 
                         result_search += str(no + 1) + '. ' + columns[2].get_text() + ' - [' + columns[3].get_text() + ']' + '\n'
 
-                    await bot.say(content=ctx.message.author.mention + "  **Please choose one by giving its number**, type `next` or `>` to display more result." + "\n" + str(result_search))
+                    await bot.say(content=ctx.message.author.mention + "\n**Please choose one by giving its number**,\n_type `next` or `>` to display more result._" + "```" + str(result_search) + "```" + "\n")
 
     # send search result - embed #
         elif choice.content.isdigit() and int(choice.content) >= 1 and int(choice.content) <= len(result_search):
@@ -252,7 +254,7 @@ async def get(ctx, *name):
             if setbns != '':
                 embed.add_field(name="Set Bonus", value='```' + setbns + '```', inline=True)
 
-            await bot.say(content=ctx.message.author.mention + "\nThis is your search result!\n_Click the item name to open it on your browser._", embed=embed)
+            await bot.say(content=ctx.message.author.mention + "\n**This is your search result!**\n_Click the item name to see more info on your browser._", embed=embed)
             break
 #####
 
@@ -308,14 +310,14 @@ async def skill(ctx, *job):
         skill_res += str(no + 1) + '. ' + columns[2].string + '\n'
 
     # send search result - multiple choice #
-    await bot.say(content=ctx.message.author.mention + "\n**Please choose one by giving its number:**" + "\n" + (skill_res))
+    await bot.say(content=ctx.message.author.mention + "\n**Please choose one by giving its number:**" + "```" + (skill_res) + "```" + "\n")
 
     # waiting for response from user #
     while True:
         choice = await bot.wait_for_message(timeout=30.0, author=ctx.message.author)
 
         if choice is None:
-            await bot.say('too slow...:smirk:')
+            await bot.say('_**too slow...**_   **(╯°□°）╯︵ ┻━┻**')
             break
 
     # send search result - embed #
@@ -340,7 +342,7 @@ async def skill(ctx, *job):
                 sklatrb = '```' +'\n\n'.join(["{}\n{}".format(*item.values()) for item in items['attribs']]) + '```'
                 embed.add_field(name="Attributes", value=sklatrb, inline=False)
 
-            await bot.say(content=ctx.message.author.mention + " This is your search result!", embed=embed)
+            await bot.say(content=ctx.message.author.mention + "\n**This is your search result!**\n_Click the skill name to see more info on your browser._", embed=embed)
             break
 
 #####

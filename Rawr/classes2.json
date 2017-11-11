@@ -252,7 +252,7 @@
 	{
 		"code": "Char3_3",
 		"name": "Quarrel Shooter",
-		"regex": "qs|Quarrel Shooter"
+		"regex": "qs|Quarrel? ?Shooter"
 	},
 	{
 		"code": "Char3_4",

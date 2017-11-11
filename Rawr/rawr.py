@@ -21,7 +21,7 @@ bot.remove_command("help")
 ###-- prep --###
 @bot.event
 async def on_ready():
-    await bot.change_presence(game=discord.Game(name="!rawr help"), status=discord.Status("online"))
+    await bot.change_presence(game=discord.Game(name="[!rawr help]"), status=discord.Status("online"))
     print('-----------------------')
     print('> Are you ready Rawr?!')
     print('> ' + bot.user.name)

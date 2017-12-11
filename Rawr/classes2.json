@@ -353,4 +353,24 @@
 		"code": "Char3_6",
 		"name": "Wugushi",
 		"regex": "Wugu(shi)?"
+	},
+	{
+		"code": "Char3_18",
+		"name": "Bullet Marker",
+		"regex": "B?(ullet)? ?M(arker)?"
+	},
+	{
+		"code": "Char2_19",
+		"name": "Shadowmancer",
+		"regex": "sm|Shado?w?m?a?n?c?e?r?"
+	},
+	{
+		"code": "Char1_19",
+		"name": "Matador",
+		"regex": "Matad?o?r?"
+	},
+	{
+		"code": "Char4_19",
+		"name": "Zealot",
+		"regex": "Zeal?o?t?"
 	}

@@ -356,7 +356,7 @@ async def news(ctx):
 
     r = urllib.request.urlopen('https://treeofsavior.com/page/news/').read()
     soup = BeautifulSoup(r, 'html.parser')
-    resnews = soup.find(id= 'news_box_wrap').find_all('div', {"class": 'news_box'}, limit = 5)
+    resnews = soup.find(id= 'news_box_wrap').find_all('div', {"class": 'news_box'}, limit = 7)
 
 
     news_list = ""

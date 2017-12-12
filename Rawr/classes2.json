@@ -357,7 +357,7 @@
 	{
 		"code": "Char3_18",
 		"name": "Bullet Marker",
-		"regex": "B?(ullet)? ?M(arker)?"
+		"regex": "B(ullet)? ?M(arker)?"
 	},
 	{
 		"code": "Char2_19",

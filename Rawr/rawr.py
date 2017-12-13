@@ -74,7 +74,7 @@ async def on_ready():
 
             db['servers'][server.id] = VERSION
 
-    with open('db.json', 'w') as f:
+    with open(os.path.join(__location__, 'db.json', 'w')) as f:
         json.dump(db, f, indent=4)
 
 

@@ -60,8 +60,11 @@ def get_first_text_channel(server):
 @bot.event
 async def on_ready():
 
+    __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-    with open('db.json') as f:
+    with open(os.path.join(__location__, 'db.json')) as f:
+
+    # with open('db.json') as f:
         db = json.loads(f.read())
 
     for server in bot.servers:
@@ -198,6 +201,7 @@ async def help(ctx):
 
 
 ###-- hello --###
+@bot.command(pass_context=True)
 async def hello():
     me = """
 Hello, I am **Rawr** 

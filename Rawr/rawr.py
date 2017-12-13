@@ -9,6 +9,8 @@ from discord.ext import commands
 from bs4 import BeautifulSoup
 from urlbreak import get_item, skill_info
 import urllib.request
+import urllib.parse
+from urllib.parse import urlencode
 
 ###-- Invitation Link --###
 #https://discordapp.com/api/oauth2/authorize?client_id=336363921466195968&scope=bot&permissions=0
@@ -18,17 +20,76 @@ bot = commands.Bot(command_prefix='!rawr ', description='this is rawr test!', pm
 bot.remove_command("help")
 
 
+VERSION='0.1.7'
+CHANGELOG="""
+```md
+[Changelog](version: 0.1.7)
+```
+```md
+# Added Features:
+* Changelog created
+* New commands:
+    - pccu, TOS stats.
+    - pnt, ktos/ktest patch notes translation from Greyhiem & Gwenyth.
+
+# Changes:
+* Rank reset event, Rawrr! change its build.
+    - Rawrr now can farming at tos.neet more efficiently.
+    - Rawrr farming equipments upgraded, search more items & information!
+* Contents of hello command changed, know Rawrr better!!
+* Auto delete choices dialog, i heard people hate spammy chats.
+
+# Incoming:
+* Beautification of help formatting.
+* Learn ability to farming at ktest & ktos, Rawrr is taking Korean Language Class now!
+
+# Extra:
+* Blame @Jiyuu#6312 for broken grammar & commands.
+```
+"""
+
+db = {'servers': {}}
+
+def get_first_text_channel(server):
+    for channel in server.channels:
+        if channel.type == discord.ChannelType.text:
+            return channel
+
+
 ###-- prep --###
 @bot.event
 async def on_ready():
-    await bot.change_presence(game=discord.Game(name="[!rawr help]"), status=discord.Status("online"))
-    print('-----------------------')
-    print('> Are you ready Rawr?!')
-    print('> ' + bot.user.name)
-    print('-----------------------')
-    print('     Let\'s Rawr!!')
-    print('-----------------------')
-#####
+
+
+    with open('db.json') as f:
+        db = json.loads(f.read())
+
+    for server in bot.servers:
+        if server.id not in db['servers'].keys() or (server.id in db['servers'].keys() and db['servers'][server.id] != VERSION):
+            channel = get_first_text_channel(server)
+            await bot.send_message(channel, CHANGELOG)
+
+            db['servers'][server.id] = VERSION
+
+    with open('db.json', 'w') as f:
+        json.dump(db, f, indent=4)
+
+
+    await bot.change_presence(game=discord.Game(name="with Jiyuu's heart"), status=discord.Status("online"))
+    print('=============================')
+    print('     Are you ready Rawr?!'    )
+    print('         '+ bot.user.name     )
+    print('-----------------------------')
+    print('        Let\'s Rawr!!        ')
+    print('-----------------------------')
+    print("  _____                      ")
+    print(" |  __ \                     ")
+    print(" | |__) |__ ___      ___ __  ")
+    print(" |  _  // _` \ \ /\ / / '__| ")
+    print(" | | \ \ (_| |\ V  V /| |    ")
+    print(" |_|  \_\__,_| \_/\_/ |_|    ")
+    print('                             ')
+    print('=============================')
 
 
 ###-- on server join --###
@@ -114,6 +175,9 @@ async def help(ctx):
 # pccu:
   get tos's player statistics
 
+# pnt:
+  get pastebin link for ktos/ktest patch notes translation from Greyhiem & Gwenyth.
+
 # get / item:
   - get item info
   command: get "item name"
@@ -134,9 +198,17 @@ async def help(ctx):
 
 
 ###-- hello --###
-@bot.command()
 async def hello():
-    await bot.say(":laughing: Hello!")
+    me = """
+Hello, I am **Rawr** 
+I'm a simple discord bot born to help Tree of Savior's Discord community members find info about items, skills, maps and etc.
+I am created by the desire of my creator to obtain basic information regarding ToS items or skills without having to open the browser.
+
+If you have any feedback or suggestion to improve **Rawrr!**. 
+**Please touch,**  @Jiyuu#6312
+**Visit us,**  https://github.com/helloaldrian/Rawr
+""" 
+    await bot.say(me) 
 
 ###-- who --###
 @bot.command()
@@ -174,6 +246,16 @@ async def inv():
     invt = "https://discordapp.com/api/oauth2/authorize?client_id=336363921466195968&scope=bot&permissions=0"
     await bot.say("**Use this link to invite me to your server.**\n\n" + invt)
 
+###-- patch notes translation --###
+@bot.command()
+async def pnt():
+    patch = """
+```Ktest/Ktos - Patch Notes Translation:```
+**Greyhiem's**      : https://pastebin.com/u/Greyhiem
+**Gwenyth's**       : https://pastebin.com/u/sunhwapark
+    """
+    await bot.say(patch)
+
 
 ###-- get / item --###
 def get_choice(r):
@@ -207,8 +289,10 @@ async def get(ctx, *name):
 
         result_search += str(no + 1) + '. ' + columns[2].get_text() + ' - [' + columns[3].get_text() + ']' + '\n'
 
+
     # send search result - multiple choice #
-    await bot.say(content=ctx.message.author.mention + "\n**Please choose one by giving its number**,\n_type `next` or `>` to display more result._" + "```" + str(result_search) + "```" + "\n")
+    msg = await bot.say(content=ctx.message.author.mention + "\n**Please choose one by giving its number**,\n_type `next` or `>` to display more result._" + "```" + str(result_search) + "```" + "\n")
+
 
     # waiting for response from user #
     while True:
@@ -231,35 +315,24 @@ async def get(ctx, *name):
 
                         result_search += str(no + 1) + '. ' + columns[2].get_text() + ' - [' + columns[3].get_text() + ']' + '\n'
 
-                    await bot.say(content=ctx.message.author.mention + "\n**Please choose one by giving its number**,\n_type `next` or `>` to display more result._" + "```" + str(result_search) + "```" + "\n")
+                    await bot.delete_message(msg)
+
+                    msg = await bot.say(content=ctx.message.author.mention + "\n**Please choose one by giving its number**,\n_type `next` or `>` to display more result._" + "```" + str(result_search) + "```" + "\n")
+
 
     # send search result - embed #
         elif choice.content.isdigit() and int(choice.content) >= 1 and int(choice.content) <= len(result_search):
+            choice_number = int(choice.content)
+            embed = get_item('https://tos.neet.tv' + item_links[choice_number - 1])
 
-            choice = int(choice.content)
-            items = get_item('https://tos.neet.tv' + item_links[choice - 1])
-
-            embed = discord.Embed(colour=discord.Colour(0xF16F9B), description=items['description'], timestamp=datetime.datetime.utcfromtimestamp(1507360237))
-            embed.set_thumbnail(url=items['thumbnail'])
-            embed.set_author(name=items['title'], url='https://tos.neet.tv' + item_links[choice - 1], icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
-            embed.set_footer(text="tos.neet.tv", icon_url="https://tos.neet.tv/images/hairacc/hairacc_80_fez.png")
-            embed.add_field(name="Requirement", value=items['min_level'], inline=True)
-            embed.add_field(name="Grade", value=items['grade'], inline=True)
-            for name, value in items['stats'].items():
-                embed.add_field(name=name, value=value, inline=True)
-
-            addsts = '```' + '\n'.join(["{}: {}".format(*item) for item in items['additional'].items()]) + '```'
-            embed.add_field(name="Additional Stats", value=addsts, inline=False)
-            if len(items['bonus']) > 0:
-                embed.add_field(name="Bonus Stats", value='```' + '\n'.join(items['bonus']) + '```', inline=False)
-
-            setbns = '\n'.join(["{}: {}".format(*item) for item in items['setbonus'].items()])
-            if setbns != '':
-                embed.add_field(name="Set Bonus", value='```' + setbns + '```', inline=True)
+            # await bot.delete_message(choice)
+            await bot.delete_message(msg)
+            # await bot.delete_message(ctx.message)
 
             await bot.say(content=ctx.message.author.mention + "\n**This is your search result!**\n_Click the item name to see more info on your browser._", embed=embed)
             break
-#####
+
+##-- eol --##
 
 
 ### get skill ###
@@ -328,7 +401,7 @@ async def skill(ctx, *job):
             choice = int(choice.content)
             items = skill_info('https://tos.neet.tv' + skill_links[choice - 1])
 
-            embed = discord.Embed(colour=discord.Colour(0xD2EE8A), description=items['description'], timestamp=datetime.datetime.utcfromtimestamp(1507360237))
+            embed = discord.Embed(colour=discord.Colour(0xD2EE8A), description=items['description'], timestamp=datetime.datetime.now())
 
             # embed.set_image(url="https://tos.neet.tv/images/equip/icon_item_shirts_acolyte_silver.png")
             embed.set_thumbnail(url=items['thumbnail'])
@@ -369,7 +442,7 @@ async def news(ctx):
 
         news_list +=  "{}. [{}]({})\n".format(str(n), title, link)
 
-    embed = discord.Embed(colour=discord.Colour(0x1abc9c), description="[All](https://treeofsavior.com/page/news/?n=1) | [Event](https://treeofsavior.com/page/news/?c=33&n=1) | [Patch Notes](https://treeofsavior.com/page/news/?c=3&n=1) | [Dev's Blog](https://treeofsavior.com/page/news/?c=31&n=1) | [Known Issues](https://treeofsavior.com/page/news/?c=32&n=1)", timestamp=datetime.datetime.utcfromtimestamp(1509378412))
+    embed = discord.Embed(colour=discord.Colour(0x1abc9c), description="[All](https://treeofsavior.com/page/news/?n=1) | [Event](https://treeofsavior.com/page/news/?c=33&n=1) | [Patch Notes](https://treeofsavior.com/page/news/?c=3&n=1) | [Dev's Blog](https://treeofsavior.com/page/news/?c=31&n=1) | [Known Issues](https://treeofsavior.com/page/news/?c=32&n=1)", timestamp=datetime.datetime.now())
 
     embed.set_thumbnail(url="https://treeofsavior.com/img/common/logo.png")
     embed.set_author(name="Tree Of Savior News & Update", url="https://treeofsavior.com/page/news/", icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
@@ -402,7 +475,7 @@ async def pccu(ctx):
         player = req.find('strong').get_text()
         list1.append(player)
 
-    embed = discord.Embed(colour=discord.Colour(0x1abc9c), title="Tree of Savior (English Ver.)", description="Tree of Savior (abbreviated as TOS thereafter) is an MMORPG in which you embark on a journey to search for the goddesses in the world of chaos. Fairy-tale like colors accompanied with beautiful graphics in TOS will have you reminiscing about precious moments all throughout the game.\n\n[steamdb.info](https://steamdb.info/app/372000/graphs/)\n[steamspy.com](https://steamspy.com/app/372000)", timestamp=datetime.datetime.utcfromtimestamp(1509378412))
+    embed = discord.Embed(colour=discord.Colour(0x1abc9c), title="Tree of Savior (English Ver.)", description="Tree of Savior (abbreviated as TOS thereafter) is an MMORPG in which you embark on a journey to search for the goddesses in the world of chaos. Fairy-tale like colors accompanied with beautiful graphics in TOS will have you reminiscing about precious moments all throughout the game.\n\n[steamdb.info](https://steamdb.info/app/372000/graphs/)\n[steamspy.com](https://steamspy.com/app/372000)", timestamp=datetime.datetime.now())
 
     embed.set_image(url="https://steamdb.info/static/camo/apps/372000/header.jpg")
     embed.set_thumbnail(url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")

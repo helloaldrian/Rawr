@@ -60,26 +60,25 @@ def get_first_text_channel(server):
 ###-- prep --###
 @bot.event
 async def on_ready():
-    global db
+    # global db
 
-    __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    # __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-    if os.path.isfile(os.path.join(__location__, 'db.json')):
-        with open(os.path.join(__location__, 'db.json')) as f:
-            db = json.loads(f.read())
+    # if os.path.isfile(os.path.join(__location__, 'db.json')):
+    #     with open(os.path.join(__location__, 'db.json')) as f:
+    #         db = json.loads(f.read())
 
-    for server in bot.servers:
-        if server.id not in db['servers'].keys() or (server.id in db['servers'].keys() and db['servers'][server.id] != VERSION):
-            channel = get_first_text_channel(server)
+    # for server in bot.servers:
+    #     if server.id not in db['servers'].keys() or (server.id in db['servers'].keys() and db['servers'][server.id] != VERSION):
+    #         channel = get_first_text_channel(server)
 
-            if channel is not None:
-                pass
-                # await bot.send_message(channel, CHANGELOG)
+    #         if channel is not None:
+    #             await bot.send_message(channel, CHANGELOG)
 
-            db['servers'][server.id] = VERSION
+    #         db['servers'][server.id] = VERSION
 
-    with open(os.path.join(__location__, 'db.json'), 'w') as f:
-        json.dump(db, f, indent=4)
+    # with open(os.path.join(__location__, 'db.json'), 'w') as f:
+    #     json.dump(db, f, indent=4)
 
     await bot.change_presence(game=discord.Game(name="with Jiyuu's heart"), status=discord.Status("online"))
     print('=============================')

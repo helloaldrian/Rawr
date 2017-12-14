@@ -54,6 +54,7 @@ def get_first_text_channel(server):
     for channel in server.channels:
         if channel.type == discord.ChannelType.text:
             return channel
+    return None
 
 
 ###-- prep --###
@@ -69,18 +70,11 @@ async def on_ready():
 
     for server in bot.servers:
         if server.id not in db['servers'].keys() or (server.id in db['servers'].keys() and db['servers'][server.id] != VERSION):
+            channel = get_first_text_channel(server)
 
-            # channel = get_first_text_channel(server)
-            # await bot.send_message(channel, CHANGELOG)
-
-            for channel in server.channels:
-                if channel.type == discord.ChannelType.text:
-                    try:
-                        # await bot.send_message(channel, CHANGELOG)
-                        break
-                    except discord.errors.Forbidden:
-                        continue
-                        break
+            if channel is not None:
+                pass
+                # await bot.send_message(channel, CHANGELOG)
 
             db['servers'][server.id] = VERSION
 

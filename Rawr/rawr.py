@@ -76,7 +76,7 @@ async def on_ready():
             for channel in server.channels:
                 if channel.type == discord.ChannelType.text:
                     try:
-                        await bot.send_message(channel, CHANGELOG)
+                        # await bot.send_message(channel, CHANGELOG)
                         break
                     except discord.errors.Forbidden:
                         continue
@@ -86,9 +86,6 @@ async def on_ready():
 
     with open(os.path.join(__location__, 'db.json'), 'w') as f:
         json.dump(db, f, indent=4)
-
-    sys.exit()
-
 
     await bot.change_presence(game=discord.Game(name="with Jiyuu's heart"), status=discord.Status("online"))
     print('=============================')

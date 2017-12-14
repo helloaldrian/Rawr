@@ -59,17 +59,17 @@ def get_first_text_channel(server):
 ###-- prep --###
 @bot.event
 async def on_ready():
+    global db
 
     __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-    with open(os.path.join(__location__, 'db.json')) as f:
-
-    # with open('db.json') as f:
-        db = json.loads(f.read())
+    if os.path.isfile(os.path.join(__location__, 'db.json')):
+        with open(os.path.join(__location__, 'db.json')) as f:
+            db = json.loads(f.read())
 
     for server in bot.servers:
         if server.id not in db['servers'].keys() or (server.id in db['servers'].keys() and db['servers'][server.id] != VERSION):
-            
+
             # channel = get_first_text_channel(server)
             # await bot.send_message(channel, CHANGELOG)
 
@@ -84,8 +84,10 @@ async def on_ready():
 
             db['servers'][server.id] = VERSION
 
-    with open(os.path.join(__location__, 'db.json', 'w')) as f:
+    with open(os.path.join(__location__, 'db.json'), 'w') as f:
         json.dump(db, f, indent=4)
+
+    sys.exit()
 
 
     await bot.change_presence(game=discord.Game(name="with Jiyuu's heart"), status=discord.Status("online"))
@@ -108,7 +110,7 @@ async def on_ready():
 ###-- on server join --###
 @bot.event
 async def on_server_join(server):
-    
+
     ##-- send msg to the server owner --##
     owner = server.owner
 
@@ -129,14 +131,14 @@ Here, I am request permission to stay in your server.
     spawn = """
 ```css
 "When you meet someone for the first time, that's not the whole book. That's just the first page."
-``` 
+```
 :ghost: Hello Hooman! I'm **Rawr!**
 
 I am a simple bot that aims to help Tree of Savior players find information related to ToS.
 Use `!rawr help` to find out more commands.
 Alright Boys, Rawr at your service!! :sunglasses:
 ================================================================
-    """   
+    """
     for channel in server.channels:
         if channel.type == discord.ChannelType.text:
             try:
@@ -157,7 +159,7 @@ async def help(ctx):
 ```md
 <prefix : !rawr>
 <format : prefix command>
-    e.g : !rawr 
+    e.g : !rawr
 ```
 **List of commands:**
 ```md
@@ -167,7 +169,7 @@ async def help(ctx):
 # hello:
   greets the bot
 
-# news: 
+# news:
   get latest news/updates from Tree of Savior official website
 
 # ping:
@@ -214,15 +216,15 @@ async def help(ctx):
 @bot.command(pass_context=True)
 async def hello():
     me = """
-Hello, I am **Rawr** 
+Hello, I am **Rawr**
 I'm a simple discord bot born to help Tree of Savior's Discord community members find info about items, skills, maps and etc.
 I am created by the desire of my creator to obtain basic information regarding ToS items or skills without having to open the browser.
 
-If you have any feedback or suggestion to improve **Rawrr!**. 
+If you have any feedback or suggestion to improve **Rawrr!**.
 **Please touch,**  @Jiyuu#6312
 **Visit us,**  https://github.com/helloaldrian/Rawr
-""" 
-    await bot.say(me) 
+"""
+    await bot.say(me)
 
 ###-- who --###
 @bot.command()

@@ -207,7 +207,8 @@ async def help(ctx):
 @bot.command(pass_context=True)
 async def hello():
     me = """
-Hello, I am **Rawr**
+Hello, I am **Rawrr**
+
 I'm a simple discord bot born to help Tree of Savior's Discord community members find info about items, skills, maps and etc.
 I am created by the desire of my creator to obtain basic information regarding ToS items or skills without having to open the browser.
 
@@ -393,7 +394,7 @@ async def skill(ctx, *job):
         skill_res += str(no + 1) + '. ' + columns[2].string + '\n'
 
     # send search result - multiple choice #
-    await bot.say(content=ctx.message.author.mention + "\n**Please choose one by giving its number:**" + "```" + (skill_res) + "```" + "\n")
+    msg = await bot.say(content=ctx.message.author.mention + "\n**Please choose one by giving its number:**" + "```" + (skill_res) + "```" + "\n")
 
     # waiting for response from user #
     while True:
@@ -425,7 +426,10 @@ async def skill(ctx, *job):
                 sklatrb = '```' +'\n\n'.join(["{}\n{}".format(*item.values()) for item in items['attribs']]) + '```'
                 embed.add_field(name="Attributes", value=sklatrb, inline=False)
 
+            await bot.delete_message(msg)
+
             await bot.say(content=ctx.message.author.mention + "\n**This is your search result!**\n_Click the skill name to see more info on your browser._", embed=embed)
+            
             break
 
 #####

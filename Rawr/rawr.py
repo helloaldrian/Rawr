@@ -81,7 +81,7 @@ async def on_ready():
     #     json.dump(db, f, indent=4)
 
     await bot.change_presence(game=discord.Game(name="[!rawr help]"), status=discord.Status("online"))
-    
+
     print('=============================')
     print('     Are you ready Rawr?!'    )
     print('         '+ bot.user.name     )
@@ -429,7 +429,7 @@ async def skill(ctx, *job):
             await bot.delete_message(msg)
 
             await bot.say(content=ctx.message.author.mention + "\n**This is your search result!**\n_Click the skill name to see more info on your browser._", embed=embed)
-            
+
             break
 
 #####
@@ -470,7 +470,7 @@ async def pccu(ctx):
 
     await bot.type()
 
-    url = 'https://steamdb.info/app/372000/graphs/'
+    url = 'http://steamcharts.com/app/372000'
 
     user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'
     headers = { 'User-Agent' : user_agent }
@@ -479,14 +479,14 @@ async def pccu(ctx):
 
     r = urllib.request.urlopen(req).read()
     soup = BeautifulSoup(r, 'html.parser')
-    sta = soup.find('ul', {"class": 'steamspy-stats'}).find_all('li')
+    sta = soup.find_all('div', {"class": 'app-stat'})
 
     list1 = []
     for req in sta:
-        player = req.find('strong').get_text()
-        list1.append(player)
+        player = int(req.find('span', {"class": 'num'}).get_text())
+        list1.append('{:,}'.format(player))
 
-    embed = discord.Embed(colour=discord.Colour(0x1abc9c), title="Tree of Savior (English Ver.)", description="Tree of Savior (abbreviated as TOS thereafter) is an MMORPG in which you embark on a journey to search for the goddesses in the world of chaos. Fairy-tale like colors accompanied with beautiful graphics in TOS will have you reminiscing about precious moments all throughout the game.\n\n[steamdb.info](https://steamdb.info/app/372000/graphs/)\n[steamspy.com](https://steamspy.com/app/372000)", timestamp=datetime.datetime.now())
+    embed = discord.Embed(colour=discord.Colour(0x1abc9c), title="Tree of Savior (English Ver.)", description="Tree of Savior (abbreviated as TOS thereafter) is an MMORPG in which you embark on a journey to search for the goddesses in the world of chaos. Fairy-tale like colors accompanied with beautiful graphics in TOS will have you reminiscing about precious moments all throughout the game.\n\n[steamdb.info](https://steamdb.info/app/372000/graphs/)\n[steamspy.com](https://steamspy.com/app/372000)\n[steamcharts.com](http://steamcharts.com/app/372000)\n", timestamp=datetime.datetime.now())
 
     embed.set_image(url="https://steamdb.info/static/camo/apps/372000/header.jpg")
     embed.set_thumbnail(url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
@@ -500,13 +500,6 @@ async def pccu(ctx):
     embed.add_field(name="All The Time Peak (2 yrs ago)", value=list1[2], inline = False)
 
     await bot.say(embed=embed)
-
-
-
-
-
-
-
 
 
 bot.run(os.environ['BOT_TOKEN'])

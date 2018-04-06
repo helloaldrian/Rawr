@@ -15,36 +15,24 @@ from urllib.parse import urlencode
 ###-- Invitation Link --###
 #https://discordapp.com/api/oauth2/authorize?client_id=336363921466195968&scope=bot&permissions=0
 
-bot = commands.Bot(command_prefix='!rawr ', description='this is rawr test!', pm_help = True)
+bot = commands.Bot(command_prefix='!rawr ', description='just another silly tree of savior bot', pm_help = True)
 
 bot.remove_command("help")
 
 
-VERSION='0.1.7'
+VERSION='0.1.9'
 CHANGELOG="""
 ```md
-[Changelog](version: 0.1.7)
+[Changelog](version: 0.1.9)
 ```
 ```md
-# Added Features:
-* Changelog created
+# Added:
 * New commands:
-    - pccu, TOS stats.
-    - pnt, ktos/ktest patch notes translation from Greyhiem & Gwenyth.
-
-# Changes:
-* Rank reset event, Rawrr! change its build.
-    - Rawrr now can farming at tos.neet more efficiently.
-    - Rawrr farming equipments upgraded, search more items & information!
-* Contents of hello command changed, know Rawrr better!!
-* Auto delete choices dialog, i heard people hate spammy chats.
-
-# Incoming:
-* Beautification of help formatting.
-* Learn ability to farming at ktest & ktos, Rawrr is taking Korean Language Class now!
+    - Rank : Class Build Rank (based on IToS official website).
+* Nak Muay skills information.
 
 # Extra:
-* Blame @Jiyuu#6312 for broken grammar & commands.
+* Contact @Jiyuu#6312 for err... w/e(?)
 ```
 """
 
@@ -60,25 +48,25 @@ def get_first_text_channel(server):
 ###-- prep --###
 @bot.event
 async def on_ready():
-    # global db
+    global db
 
-    # __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-    # if os.path.isfile(os.path.join(__location__, 'db.json')):
-    #     with open(os.path.join(__location__, 'db.json')) as f:
-    #         db = json.loads(f.read())
+    if os.path.isfile(os.path.join(__location__, 'db.json')):
+        with open(os.path.join(__location__, 'db.json')) as f:
+            db = json.loads(f.read())
 
-    # for server in bot.servers:
-    #     if server.id not in db['servers'].keys() or (server.id in db['servers'].keys() and db['servers'][server.id] != VERSION):
-    #         channel = get_first_text_channel(server)
+    for server in bot.servers:
+        if server.id not in db['servers'].keys() or (server.id in db['servers'].keys() and db['servers'][server.id] != VERSION):
+            channel = get_first_text_channel(server)
 
-    #         if channel is not None:
-    #             await bot.send_message(channel, CHANGELOG)
+            if channel is not None:
+                await bot.send_message(channel, CHANGELOG)
 
-    #         db['servers'][server.id] = VERSION
+            db['servers'][server.id] = VERSION
 
-    # with open(os.path.join(__location__, 'db.json'), 'w') as f:
-    #     json.dump(db, f, indent=4)
+    with open(os.path.join(__location__, 'db.json'), 'w') as f:
+        json.dump(db, f, indent=4)
 
     await bot.change_presence(game=discord.Game(name="[!rawr help]"), status=discord.Status("online"))
     
@@ -181,6 +169,9 @@ async def help(ctx):
 # pccu:
   get tos's player statistics
 
+# rank
+  get class build rankings (based on itos official website)
+
 # pnt:
   get pastebin link for ktos/ktest patch notes translation from Greyhiem & Gwenyth.
 
@@ -253,6 +244,11 @@ async def planner():
 async def inv():
     invt = "https://discordapp.com/api/oauth2/authorize?client_id=336363921466195968&scope=bot&permissions=0"
     await bot.say("**Use this link to invite me to your server.**\n\n" + invt)
+
+###-- ranking --###
+@bot.command()
+async def rank():
+    await bot.say("The most popular TOS class builds of all time.\n_(Update periodically.)_\n  " + "https://treeofsavior.com/page/class/ranking.php")
 
 ###-- patch notes translation --###
 @bot.command()

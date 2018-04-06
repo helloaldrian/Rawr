@@ -373,5 +373,10 @@
 		"code": "Char4_19",
 		"name": "Zealot",
 		"regex": "Zeal?o?t?"
+	},
+	{
+		"code": "Char1_20",
+		"name": "Nak Muay",
+		"regex": "Nak ?(Muay)?"
 	}
 ]

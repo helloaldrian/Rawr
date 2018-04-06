@@ -20,10 +20,10 @@ bot = commands.Bot(command_prefix='!rawr ', description='just another silly tree
 bot.remove_command("help")
 
 
-VERSION='0.2.2'
+VERSION='0.2.7'
 CHANGELOG="""
 ```md
-[Changelog](version: 0.2.2)
+[Changelog](version: 0.2.7)
 ```
 ```md
 # Added:
@@ -58,10 +58,19 @@ async def on_ready():
 
     for server in bot.servers:
         if server.id not in db['servers'].keys() or (server.id in db['servers'].keys() and db['servers'][server.id] != VERSION):
-            channel = get_first_text_channel(server)
+            # channel = get_first_text_channel(server)
 
-            if channel is not None:
-                await bot.send_message(channel, CHANGELOG)
+            # if channel is not None:
+            #     await bot.send_message(channel, CHANGELOG)
+
+            for channel in server.channels:
+                if channel.type == discord.ChannelType.text:
+                    try:
+                        await bot.send_message(channel, CHANGELOG)
+                        break
+                    except discord.errors.Forbidden:
+                        continue
+                        break
 
             db['servers'][server.id] = VERSION
 

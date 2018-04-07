@@ -20,10 +20,10 @@ bot = commands.Bot(command_prefix='!rawr ', description='just another silly tree
 bot.remove_command("help")
 
 
-VERSION='0.2.8'
+VERSION='0.2.9'
 CHANGELOG="""
 ```md
-[Changelog](version: 0.2.)
+[Changelog](version: 0.2.9)
 ```
 ```md
 # Added:

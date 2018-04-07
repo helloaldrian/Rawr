@@ -20,16 +20,15 @@ bot = commands.Bot(command_prefix='!rawr ', description='just another silly tree
 bot.remove_command("help")
 
 
-VERSION='0.2.7'
+VERSION='0.2.8'
 CHANGELOG="""
 ```md
-[Changelog](version: 0.2.7)
+[Changelog](version: 0.2.)
 ```
 ```md
 # Added:
 * New commands:
-    - Rank : Class Build Rank (based on IToS official website).
-* Nak Muay skills information.
+    - explo : link for explorer's gimmick & new collections guide (made by TerminalEssence and friends)
 
 # Extra:
 * Contact @Jiyuu#6312 for err... w/e(?)
@@ -180,7 +179,9 @@ async def help(ctx):
 
 # rank
   get class build rankings (based on itos official website)
-
+  
+# explo
+  get link for explorer's gimmick & new collections guide (made by TerminalEssence and friends)
 # pnt:
   get pastebin link for ktos/ktest patch notes translation from Greyhiem & Gwenyth.
 
@@ -247,6 +248,11 @@ async def update():
 @bot.command()
 async def planner():
     await bot.say("Plan your character build!!  " + "https://tos.neet.tv/skill-planner")
+    
+###-- gimmick --###
+@bot.command()
+async def explo():
+     await bot.say("_*```Explorer's Gimmick & New Collections Guide```*_\n**credits : TerminalEssence & Friends**\n" + "https://docs.google.com/document/d/1ihOzgxe8SrV8aRwYq1xMUwiTvsTNHGibJ6yBXFATaTg/edit?usp=sharing") 
 
 ###-- invite --###
 @bot.command(aliases=['invite'])

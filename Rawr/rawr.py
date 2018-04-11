@@ -256,12 +256,12 @@ async def planner():
 ###-- gimmick --###
 @bot.command()
 async def explo():
-     await bot.say("**[Explorer's Gimmick & New Collections Guide]**\n[*credits : TerminalEssence & Friends*]\n" + "https://docs.google.com/document/d/1ihOzgxe8SrV8aRwYq1xMUwiTvsTNHGibJ6yBXFATaTg/edit?usp=sharing") 
+     await bot.say("**[Explorer's Gimmick & New Collections Guide]**\n[*credits : TerminalEssence & Friends*]\n\n" + "https://docs.google.com/document/d/1ihOzgxe8SrV8aRwYq1xMUwiTvsTNHGibJ6yBXFATaTg/edit?usp=sharing") 
 
 ###-- leveling --###
 @bot.command(aliases=['leveling'])
 async def lv():
-    await bot.say("**[Leveling Guide]**\n[based on shion@inven.co.kr]\n" + "https://www.reddit.com/r/treeofsavior/comments/8bg0mb/updated_levelling_guide/")
+    await bot.say("**[Leveling Guide]**\n[based on shion@inven.co.kr]\n\n" + "https://www.reddit.com/r/treeofsavior/comments/8bg0mb/updated_levelling_guide/")
         
 ###-- invite --###
 @bot.command(aliases=['invite'])
@@ -272,7 +272,7 @@ async def inv():
 ###-- ranking --###
 @bot.command(aliases=['rankings'])
 async def rank():
-    await bot.say("**[The most popular TOS class builds of all time]**\n[Update periodically]\n" + "https://treeofsavior.com/page/class/ranking.php")
+    await bot.say("**[The most popular TOS class builds of all time]**\n[Update periodically]\n\n" + "https://treeofsavior.com/page/class/ranking.php")
 
 ###-- patch notes translation --###
 @bot.command()

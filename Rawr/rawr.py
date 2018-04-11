@@ -20,15 +20,15 @@ bot = commands.Bot(command_prefix='!rawr ', description='just another silly tree
 bot.remove_command("help")
 
 
-VERSION='0.2.9'
+VERSION='0.3.0'
 CHANGELOG="""
 ```md
-[Changelog](version: 0.2.9)
+[Changelog](version: 0.3.0)
 ```
 ```md
 # Added:
 * New commands:
-    - explo : link for explorer's gimmick & new collections guide (made by TerminalEssence and friends)
+    - lv or leveling : leveling guide (reddit)
 
 # Extra:
 * Contact @Jiyuu#6312 for err... w/e(?)
@@ -177,11 +177,15 @@ async def help(ctx):
 # pccu:
   get tos's player statistics
 
+# lv / leveling
+  get link for leveling guide (reddit)
+  
 # rank
   get class build rankings (based on itos official website)
   
 # explo
   get link for explorer's gimmick & new collections guide (made by TerminalEssence and friends)
+  
 # pnt:
   get pastebin link for ktos/ktest patch notes translation from Greyhiem & Gwenyth.
 
@@ -254,6 +258,11 @@ async def planner():
 async def explo():
      await bot.say("_*```Explorer's Gimmick & New Collections Guide```*_\n**credits : TerminalEssence & Friends**\n" + "https://docs.google.com/document/d/1ihOzgxe8SrV8aRwYq1xMUwiTvsTNHGibJ6yBXFATaTg/edit?usp=sharing") 
 
+###-- leveling --###
+@bot.command(aliases=['leveling'])
+async def lv():
+    await bot.say("**[Leveling Guide] **\n_based off shion@inven.co.kr_\n\n " + "https://www.reddit.com/r/treeofsavior/comments/8bg0mb/updated_levelling_guide")
+        
 ###-- invite --###
 @bot.command(aliases=['invite'])
 async def inv():

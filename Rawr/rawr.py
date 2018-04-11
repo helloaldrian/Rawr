@@ -261,7 +261,7 @@ async def explo():
 ###-- leveling --###
 @bot.command(aliases=['leveling'])
 async def lv():
-    await bot.say("**[Leveling Guide] **\n_based off shion@inven.co.kr_\n\n " + "https://www.reddit.com/r/treeofsavior/comments/8bg0mb/updated_levelling_guide")
+    await bot.say("**[Leveling Guide] **\n_based off shion@inven.co.kr_\n\n " + "https://www.reddit.com/r/treeofsavior/comments/8bg0mb/updated_levelling_guide/")
         
 ###-- invite --###
 @bot.command(aliases=['invite'])

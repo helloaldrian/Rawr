@@ -20,15 +20,15 @@ bot = commands.Bot(command_prefix='!rawr ', description='just another silly tree
 bot.remove_command("help")
 
 
-VERSION='0.3.0'
+VERSION='0.3.1'
 CHANGELOG="""
 ```md
-[Changelog](version: 0.3.0)
+[Changelog](version: 0.3.1)
 ```
 ```md
-# Added:
-* New commands:
-    - lv or leveling : leveling guide (reddit)
+# Change:
+* Fix:
+    - Tidy up some stuff
 
 # Extra:
 * Contact @Jiyuu#6312 for err... w/e(?)
@@ -142,15 +142,15 @@ async def help(ctx):
 
     halpme = """
 
-**Rawr Help**
+**[Rawr Help]**
 ```md
 <prefix : !rawr>
 <format : prefix command>
-    e.g : !rawr
+    e.g : !rawr<space>commands
 ```
-**List of commands:**
+**[List of commands:]**
 ```md
-# help :
+# help /halp:
   this message
 
 # hello:
@@ -165,25 +165,25 @@ async def help(ctx):
 # ktest:
   get link for ktest version of tos.neet
 
-# update:
+# update / updates:
   get link for latest datamined file(s)
 
 # planner:
   get link for class/build planner
 
-# inv:
+# inv / invite:
   get my invitation link
 
 # pccu:
   get tos's player statistics
 
-# lv / leveling
+# lv / leveling:
   get link for leveling guide (reddit)
   
-# rank
+# rank:
   get class build rankings (based on itos official website)
   
-# explo
+# explo:
   get link for explorer's gimmick & new collections guide (made by TerminalEssence and friends)
   
 # pnt:
@@ -193,13 +193,13 @@ async def help(ctx):
   - get item info
   command: get "item name"
   < e.g. : !rawr get solmiki >
-  /* important: only use this command to find info for crafted item(s) and not cards, materials, recipes etc. *
+  /* important: now you can search any item(s) information *
 
 # skill:
   - get skill info
   command: skill "class name"
   < e.g. : !rawr skill diev >
-  /* you may use shorten class name (e.g. sr, pd, diev etc.) *
+  /* you may use class name abbreviation/alias (e.g. sr, pd, diev etc.) *
 ```
     """
 
@@ -241,47 +241,48 @@ async def die():
 ###-- ktest --###
 @bot.command()
 async def ktest():
-    await bot.say("Let's see the future!!  " + "https://tos-ktest.neet.tv/")
+    await bot.say("**[Let's see the future!!]**\n" + "https://tos-ktest.neet.tv/")
 
 ###-- update --###
 @bot.command(aliases=['updates'])
 async def update():
-    await bot.say("Check what is new!!  " + "https://tos.neet.tv/changes")
+    await bot.say("**[Check what is new!!]**\n" + "https://tos.neet.tv/changes")
 
 ###-- planner --###
 @bot.command()
 async def planner():
-    await bot.say("Plan your character build!!  " + "https://tos.neet.tv/skill-planner")
+    await bot.say("**[Plan your character build!!]**\n" + "https://tos.neet.tv/skill-planner")
     
 ###-- gimmick --###
 @bot.command()
 async def explo():
-     await bot.say("_*```Explorer's Gimmick & New Collections Guide```*_\n**credits : TerminalEssence & Friends**\n" + "https://docs.google.com/document/d/1ihOzgxe8SrV8aRwYq1xMUwiTvsTNHGibJ6yBXFATaTg/edit?usp=sharing") 
+     await bot.say("**[Explorer's Gimmick & New Collections Guide]**\n[*credits : TerminalEssence & Friends*]\n" + "https://docs.google.com/document/d/1ihOzgxe8SrV8aRwYq1xMUwiTvsTNHGibJ6yBXFATaTg/edit?usp=sharing") 
 
 ###-- leveling --###
 @bot.command(aliases=['leveling'])
 async def lv():
-    await bot.say("**[Leveling Guide] **\n_based off shion@inven.co.kr_\n\n " + "https://www.reddit.com/r/treeofsavior/comments/8bg0mb/updated_levelling_guide/")
+    await bot.say("**[Leveling Guide]**\n[based on shion@inven.co.kr]\n" + "https://www.reddit.com/r/treeofsavior/comments/8bg0mb/updated_levelling_guide/")
         
 ###-- invite --###
 @bot.command(aliases=['invite'])
 async def inv():
     invt = "https://discordapp.com/api/oauth2/authorize?client_id=336363921466195968&scope=bot&permissions=0"
-    await bot.say("**Use this link to invite me to your server.**\n\n" + invt)
+    await bot.say("**[Use this link to invite me to your server.]**\n\n" + invt)
 
 ###-- ranking --###
-@bot.command()
+@bot.command(aliases=['rankings'])
 async def rank():
-    await bot.say("The most popular TOS class builds of all time.\n_(Update periodically.)_\n  " + "https://treeofsavior.com/page/class/ranking.php")
+    await bot.say("**[The most popular TOS class builds of all time]**\n[Update periodically]\n" + "https://treeofsavior.com/page/class/ranking.php")
 
 ###-- patch notes translation --###
 @bot.command()
 async def pnt():
     patch = """
-```Ktest/Ktos - Patch Notes Translation:```
-**Greyhiem's**      : https://pastebin.com/u/Greyhiem
-**Gwenyth's**       : https://pastebin.com/u/sunhwapark
-    """
+**[Ktest/Ktos - Patch Notes Translation]**
+
+**Greyhiem's**  https://pastebin.com/u/Greyhiem
+**Gwenyth's**  https://pastebin.com/u/sunhwapark
+"""
     await bot.say(patch)
 
 

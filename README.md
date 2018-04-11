@@ -5,6 +5,6 @@
 
 Just a ToS discord bot
 
-### This project has been discontinued!
+### This project has been ~~dis~~continued!
 
 

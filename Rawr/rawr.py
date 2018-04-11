@@ -210,7 +210,7 @@ async def hello():
     me = """
 Hello, I am **Rawrr**
 
-I'm a simple discord bot born to help Tree of Savior's Discord community members find info about items, skills, maps and etc.
+I'm a simple discord bot born to help Tree of Savior's Discord community members find info about items, skills, ~~maps~~ and etc.
 I am created by the desire of my creator to obtain basic information regarding ToS items or skills without having to open the browser.
 
 If you have any feedback or suggestion to improve **Rawrr!**.

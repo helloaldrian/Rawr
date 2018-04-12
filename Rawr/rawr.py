@@ -11,6 +11,7 @@ from urlbreak import get_item, skill_info
 import urllib.request
 import urllib.parse
 from urllib.parse import urlencode
+from paginator import Pages
 
 ###-- Invitation Link --###
 #https://discordapp.com/api/oauth2/authorize?client_id=336363921466195968&scope=bot&permissions=0
@@ -259,10 +260,26 @@ async def explo():
      await bot.say("**[Explorer's Gimmick & New Collections Guide]**\n[*credits : TerminalEssence & Friends*]\n\n" + "https://docs.google.com/document/d/1ihOzgxe8SrV8aRwYq1xMUwiTvsTNHGibJ6yBXFATaTg/edit?usp=sharing") 
 
 ###-- leveling --###
-@bot.command(aliases=['leveling'])
-async def lv():
-    await bot.say("**[Leveling Guide]**\n[based on shion@inven.co.kr]\n\n" + "https://www.reddit.com/r/treeofsavior/comments/8bg0mb/updated_levelling_guide/")
-        
+# @bot.command(aliases=['leveling'])
+# async def lv():
+#     await bot.say("**[Leveling Guide]**\n[based on shion@inven.co.kr]\n\n" + "https://www.reddit.com/r/treeofsavior/comments/8bg0mb/updated_levelling_guide/")
+
+##-- leveling (2) --###
+@bot.command(pass_context=True, aliases=['leveling'])
+async def lv(ctx):
+    pages = [
+"***Lvl 1 ~ 50:***\n\nKill **Hanamings** and other mobs at **East Siauliai Woods** and **West Siauliai Woods** for abit until you have enough silver to get Blessing and Sacrament buffs from pardoners in Klaipeda (usually about 2000 silver is enough). Get the buffs then run all the way to **Tenet Garden** and kill the mobs above the goddess statue there, they are plentiful and have fast respawn times. You can also choose to go inside **Tenet Church B1** and kill stuff there if you wish.",
+"***Lvl 50 ~ 114:***\n\nGo to **Feretory Hills** and kill the **Hallowventers** there along with other mobs. The current state of game makes it so that it is difficult to find matches in lower level dungeon queues unless you shout or are in a guild. therefore grinding here is more effective than waiting in town for a queue pop. You can also continue to grind here if you have already ran out of dungeon runs if you were able to get a match. Once you get closer to lvl 100ish, you may also choose to go grind at Sicarius 1f.",
+"***Lvl 114 ~ 202:***\n\nMake your way to **Demon Prison District 2** and kill the mobs there, they are plentiful and respawn quickly. You will be able to grind here for quite a while due to the sheer number of mobs and the fast respawn rate. If you find that there are too many people at Demon Prison District 2, around level 130ish you can make your way to **2nd Demon Prison** and grind the mobs there instead.",
+"***Lvl 202 ~ 230:***\n\nFrom lvl 202, you can start to level up using the Challenge mode feature, it is best to go with a party around your level when attempting Challenge mode. Grind around **Cranto Coast** and do the Challenge mode there. If you still need abit more exp to reach 230 then consider doing some quests too.", 
+"***Lvl 230 ~ 270:***\n\nGo to **Kalejimas Visiting Room** and grind the various mobs there for exp. Remember to keep up with your daily dungeon runs and Challenge mode entries. If you still need exp in this stage, then consider doing a few quests around that area or 100 percent explore the maps for exp cards which you can redeem at the Wings of Viboria NPC at Klaipeda.",
+"***Lvl 270 ~ 315:***\n\nKeep up with Daily dungeons around your level and make your way to **Timerys Temple**. This will be your new home for grinding and Challenge modes until lvl 315. Make sure to use up to date equipment for your level because the mobs will hurt. Timerys Temple also happens to be a great map for gem farming and silver farming.",
+"***Lvl 315 ~ 360:***\n\nYou can now start to level at **Sausys Room 9**, this is a great place to grind and do your daily challenge modes until you are max level and even at max level, you can continue to do Challenge modes here for silver and loot. Remember to keep up to date with your equipment and work towards better equips. If you are around lvl 340ish and you are getting bored of Sausys Room 9, you can go to **Narvas Temple** for a change of scenery and do the Challenge mode or grind there."
+    ]
+
+    pages = Pages(bot, message=ctx.message, entries=pages, per_page=1, with_number=False)
+    await pages.paginate()
+
 ###-- invite --###
 @bot.command(aliases=['invite'])
 async def inv():
@@ -284,7 +301,6 @@ async def pnt():
 **Gwenyth's**  https://pastebin.com/u/sunhwapark
 """
     await bot.say(patch)
-
 
 ###-- get / item --###
 def get_choice(r):

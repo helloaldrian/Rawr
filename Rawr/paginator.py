@@ -52,7 +52,7 @@ class Pages:
     async def show_page(self, page, *, first=False):
         self.current_page = page
         entries = self.get_page(page)
-        p = ['click title for reddit post\n']
+        p = []
 
         if self.with_number:
             for t in enumerate(entries, 1 + ((page - 1) * self.per_page)):
@@ -202,4 +202,3 @@ class Pages:
                 pass # can't remove it so don't bother doing so
 
             await self.match()
-            

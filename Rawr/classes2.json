@@ -287,12 +287,12 @@
 	{
 		"code": "Char3_5",
 		"name": "Sapper",
-		"regex": "Sappe?r?"
+		"regex": "Sapp?e?r?"
 	},
 	{
 		"code": "Char3_10",
 		"name": "Schwarzer Reiter",
-		"regex": "SR|(Schwarzer)? ?(Reiter)?"
+		"regex": "SR|(Schwarzer ?(Reiter)?)"
 	},
 	{
 		"code": "Char3_8",

@@ -292,7 +292,7 @@
 	{
 		"code": "Char3_10",
 		"name": "Schwarzer Reiter",
-		"regex": "S?(chwarzer)? ?R?(eiter)?"
+		"regex": "SR|(Schwarzer)? ?(Reiter)?"
 	},
 	{
 		"code": "Char3_8",
@@ -389,4 +389,5 @@
 		"name": "Retiarius",
 		"regex": "Reti?a?r?i?u?s?"
 	}
+	
 ]

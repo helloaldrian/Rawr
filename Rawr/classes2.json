@@ -227,7 +227,7 @@
 	{
 		"code": "Char3_12",
 		"name": "Pied Piper",
-		"regex": "Pied Piper"
+		"regex": "PiedPiper|Pied? Piper"
 	},
 	{
 		"code": "Char4_14",
@@ -292,7 +292,7 @@
 	{
 		"code": "Char3_10",
 		"name": "Schwarzer Reiter",
-		"regex": "S?(chwarzer)? ?R(eiter)?"
+		"regex": "S?(chwarzer)? ?R?(eiter)?"
 	},
 	{
 		"code": "Char3_8",
@@ -378,5 +378,15 @@
 		"code": "Char1_20",
 		"name": "Nak Muay",
 		"regex": "Nak ?(Muay)?"
+	},
+	{
+		"code": "Char2_20",
+		"name": "Onmyoji",
+		"regex": "Onmy?o??j?i?"
+	},
+	{
+		"code": "Char1_18",
+		"name": "Retiarius",
+		"regex": "Reti?a?r?i?u?s?"
 	}
 ]

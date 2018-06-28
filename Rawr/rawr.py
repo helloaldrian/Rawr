@@ -250,7 +250,7 @@ async def ktest():
 ###-- build --###
 @bot.command()
 async def build ():
-    await bot.say("**Compilation of Practical Class Build Guide!!]**\n" + "https://docs.google.com/document/d/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing")    
+    await bot.say("**[Compilation of Practical Class Build Guide!!]**\n" + "https://docs.google.com/document/d/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing")    
     
 ###-- update --###
 @bot.command(aliases=['updates'])

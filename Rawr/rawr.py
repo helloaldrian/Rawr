@@ -186,6 +186,9 @@ async def help(ctx):
 
 # explo:
   get link for explorer's gimmick & new collections guide (made by TerminalEssence and friends)
+  
+# build
+  get builds compilation docs made by Palemoon. 
 
 # pnt:
   get pastebin link for ktos/ktest patch notes translation from Greyhiem & Gwenyth.
@@ -244,6 +247,11 @@ async def die():
 async def ktest():
     await bot.say("**[Let's see the future!!]**\n" + "https://tos-ktest.neet.tv/")
 
+###-- build --###
+@bot.command()
+async def build ():
+    await bot.say("**Compilation of Practical Class Build Guide!!]**\n" + "https://docs.google.com/document/d/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing")    
+    
 ###-- update --###
 @bot.command(aliases=['updates'])
 async def update():

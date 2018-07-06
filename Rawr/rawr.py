@@ -279,7 +279,7 @@ async def newbie():
 ###-- holy guides --###
 @bot.command()
 async def guide():
-    await bot.say("**Guide blog based on ktos/ktest!!]**\n" + "https://wizardguidetreeofsavior.blogspot.com")
+    await bot.say("**[Guide blog based on ktos/ktest!!]**\n" + "https://wizardguidetreeofsavior.blogspot.com")
 
 ###-- planner --###
 @bot.command()

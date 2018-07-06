@@ -189,6 +189,15 @@ async def help(ctx):
   
 # build
   get builds compilation docs made by Palemoon. 
+  
+# faq
+  get reddit link for newbie/returning player discussion
+  
+# addon
+  get link to download latest addon manager, by MizukiBelhi. 
+  
+# guide
+  get link for guide and class breakdown, by Mr pudding lover. 
 
 # pnt:
   get pastebin link for ktos/ktest patch notes translation from Greyhiem & Gwenyth.
@@ -249,13 +258,28 @@ async def ktest():
 
 ###-- build --###
 @bot.command()
-async def build ():
+async def build():
     await bot.say("**[Compilation of Practical Class Build Guide!!]**\n" + "https://docs.google.com/document/d/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing")    
     
 ###-- update --###
 @bot.command(aliases=['updates'])
 async def update():
     await bot.say("**[Check what is new!!]**\n" + "https://tos.neet.tv/changes")
+    
+###-- addon manager --###
+@bot.command()
+async def addon():
+    await bot.say("**[Grab your Tree of Savior addons manager!!]**\n_- by MizukiBelhi_\n" + "https://github.com/MizukiBelhi/Tree-of-Savior-Addon-Manager/releases/tag/v0.3.1-alpha.2")
+
+###-- faq --###
+@bot.command(aliases=['faq', 'return'])
+async def newbie():
+    await bot.say("**[FAQ for newbie and returning player!!]**\n" + "https://reddit.com/r/treeofsavior/comments/8g78qr/read_first_new_or_returning_players_info_inside/") 
+
+###-- holy guides --###
+@bot.command()
+async def guide():
+    await bot.say("**Guide blog based on ktos/ktest!!]**\n" + "https://wizardguidetreeofsavior.blogspot.com")
 
 ###-- planner --###
 @bot.command()
@@ -273,7 +297,7 @@ async def explo():
 #     await bot.say("**[Leveling Guide]**\n[based on shion@inven.co.kr]\n\n" + "https://www.reddit.com/r/treeofsavior/comments/8bg0mb/updated_levelling_guide/")
 
 ##-- leveling (2) --###
-@bot.command(pass_context=True, aliases=['leveling'])
+@bot.command(pass_context=True, aliases=['leveling', 'lvl', 'level'])
 async def lv(ctx):
     pages = [
 "***Lvl 1 ~ 50:***\n\nKill **Hanamings** and other mobs at **East Siauliai Woods** and **West Siauliai Woods** for abit until you have enough silver to get Blessing and Sacrament buffs from pardoners in Klaipeda (usually about 2000 silver is enough). Get the buffs then run all the way to **Tenet Garden** and kill the mobs above the goddess statue there, they are plentiful and have fast respawn times. You can also choose to go inside **Tenet Church B1** and kill stuff there if you wish.",

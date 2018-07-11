@@ -188,7 +188,10 @@ async def help(ctx):
   get link for explorer's gimmick & new collections guide (made by TerminalEssence and friends)
   
 # build
-  get builds compilation docs made by Palemoon. 
+  get builds compilation docs made by Palemoon.
+  
+# unlock / hidden
+  Get hidden class/rank 8 class unlock guides doc made by Awoomoon.
   
 # faq
   get reddit link for newbie/returning player discussion
@@ -280,6 +283,11 @@ async def newbie():
 @bot.command()
 async def guide():
     await bot.say("**[Guide blog based on ktos/ktest!!]**\n" + "https://wizardguidetreeofsavior.blogspot.com")
+    
+###-- unlock guide --###
+@bot.command(aliases=['hidden'])
+async def unlock():
+    await bot.say("**[Hidden class/rank 8 class unlock guides!!]**\n" + "https://docs.google.com/document/d/1aEOF-WjTiKr1WE-bYHNIyl0_JnVX8_rUzCoclFDVQrY/edit?usp=sharing")
 
 ###-- planner --###
 @bot.command()

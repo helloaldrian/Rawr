@@ -250,9 +250,9 @@ async def ping(*args):
     await bot.say(":ping_pong: Pong!")
 
 ###-- die --###
-@bot.command(hidden=True, no_pm=True)
-async def die():
-    sys.exit(0)
+#@bot.command(hidden=True, no_pm=True)
+#async def die():
+    #sys.exit(0)
 
 ###-- ktest --###
 @bot.command()
@@ -262,7 +262,7 @@ async def ktest():
 ###-- build --###
 @bot.command()
 async def build():
-    await bot.say("**[Compilation of Practical Class Build Guide!!]**\n" + "https://docs.google.com/document/d/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing")    
+    await bot.say("**[Compilation of Practical Class Build Guide!!]**\n_- by Palemoon_\n" + "https://docs.google.com/document/d/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing")    
     
 ###-- update --###
 @bot.command(aliases=['updates'])
@@ -277,7 +277,7 @@ async def addon():
 ###-- faq --###
 @bot.command(aliases=['faq', 'return'])
 async def newbie():
-    await bot.say("**[FAQ for newbie and returning player!!]**\n" + "https://reddit.com/r/treeofsavior/comments/8g78qr/read_first_new_or_returning_players_info_inside/") 
+    await bot.say("**[FAQ for newbie and returning player!!]**\n_- by Palemoon_\n" + "https://reddit.com/r/treeofsavior/comments/8g78qr/read_first_new_or_returning_players_info_inside/") 
 
 ###-- holy guides --###
 @bot.command()
@@ -287,7 +287,7 @@ async def guide():
 ###-- unlock guide --###
 @bot.command(aliases=['hidden'])
 async def unlock():
-    await bot.say("**[Hidden class/rank 8 class unlock guides!!]**\n" + "https://docs.google.com/document/d/1aEOF-WjTiKr1WE-bYHNIyl0_JnVX8_rUzCoclFDVQrY/edit?usp=sharing")
+    await bot.say("**[Hidden class/rank 8 class unlock guides!!]**\n_- by Palemoon_\n" + "https://docs.google.com/document/d/1aEOF-WjTiKr1WE-bYHNIyl0_JnVX8_rUzCoclFDVQrY/edit?usp=sharing")
 
 ###-- planner --###
 @bot.command()

@@ -261,7 +261,7 @@ async def ktest():
 
 ###-- build --###
 @bot.command()
-async def build():
+async def build(aliases=['builds']:
     await bot.say("**[Compilation of Practical Class Build Guide!!]**\n_- by Palemoon_\n" + "https://docs.google.com/document/d/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing")    
     
 ###-- update --###

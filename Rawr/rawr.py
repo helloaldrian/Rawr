@@ -260,8 +260,8 @@ async def ktest():
     await bot.say("**[Let's see the future!!]**\n" + "https://tos-ktest.neet.tv/")
 
 ###-- build --###
-@bot.command()
-async def build(aliases=['builds']):
+@bot.command(aliases=['builds'])
+async def build():
     await bot.say("**[Compilation of Practical Class Build Guide!!]**\n_- by Palemoon_\n" + "https://docs.google.com/document/d/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing")    
     
 ###-- update --###

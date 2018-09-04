@@ -278,7 +278,7 @@ async def addon():
 ###-- faq --###
 @bot.command(aliases=['faq', 'return'])
 async def newbie():
-    await bot.say("**[FAQ for newbie and returning player!!]**\n_- by Palemoon_\n" + "https://reddit.com/r/treeofsavior/comments/8g78qr/read_first_new_or_returning_players_info_inside/"  + "**\n\n[Official Newbie & Returning Player Guide!!]\n**" + "https://treeofsavior.com/page/news/view.php?n=1450" + "\nhttps://treeofsavior.com/page/news/view.php?n=1454") 
+    await bot.say("**[FAQ for newbie and returning player!!]**\n_- by Palemoon_\n" + "https://reddit.com/r/treeofsavior/comments/8g78qr/read_first_new_or_returning_players_info_inside/"  + "\n\n**[Official Newbie & Returning Player Guide!!]**\n" + "https://treeofsavior.com/page/news/view.php?n=1450" + "\nhttps://treeofsavior.com/page/news/view.php?n=1454") 
 
 ###-- holy guides --###
 @bot.command()

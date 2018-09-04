@@ -288,7 +288,7 @@ async def guide():
 ###-- unlock guide --###
 @bot.command(aliases=['hidden'])
 async def unlock():
-    await bot.say("**[Hidden class/rank 8 class unlock guides!!]**\n_- by Palemoon_\n" + "https://docs.google.com/document/d/1aEOF-WjTiKr1WE-bYHNIyl0_JnVX8_rUzCoclFDVQrY/edit?usp=sharing")
+    await bot.say("**[Hidden class/rank 8 class unlock guides!!]**\n_- by Palemoon_\n" + "https://docs.google.com/document/d/1aEOF-WjTiKr1WE-bYHNIyl0_JnVX8_rUzCoclFDVQrY/edit?usp=sharing" + "/n/n**[Tree of Savior Hidden Secrets & Lores!!]**\n_- by Ximi_\n" + "http://toshidden.blog.fc2.com/")
 
 ###-- planner --###
 @bot.command()

@@ -278,12 +278,12 @@ async def addon():
 ###-- faq --###
 @bot.command(aliases=['faq', 'return'])
 async def newbie():
-    await bot.say("**[FAQ for newbie and returning player!!]**\n_- by Palemoon_\n" + "https://reddit.com/r/treeofsavior/comments/8g78qr/read_first_new_or_returning_players_info_inside/") 
+    await bot.say("**[FAQ for newbie and returning player!!]**\n_- by Palemoon_\n" + "https://reddit.com/r/treeofsavior/comments/8g78qr/read_first_new_or_returning_players_info_inside/"  + "**\n\n[Official Newbie & Returning Player Guide!!]\n**" + "https://treeofsavior.com/page/news/view.php?n=1450" + "\nhttps://treeofsavior.com/page/news/view.php?n=1454") 
 
 ###-- holy guides --###
 @bot.command()
 async def guide():
-    await bot.say("**[Guide blog based on ktos/ktest!!]**\n" + "https://wizardguidetreeofsavior.blogspot.com" + "\n**[Various class overview by Ritsu!!]**\n" + "http://kiyoshiro-ritsu.tumblr.com/")
+    await bot.say("**[Guide blog based on ktos/ktest!!]**\n" + "https://wizardguidetreeofsavior.blogspot.com" + "\n\n**[Various class overview by Ritsu!!]**\n" + "http://kiyoshiro-ritsu.tumblr.com/")
     
 ###-- unlock guide --###
 @bot.command(aliases=['hidden'])
@@ -309,7 +309,7 @@ async def explo():
 @bot.command(pass_context=True, aliases=['leveling', 'lvl', 'level'])
 async def lv(ctx):
     pages = [
-"**Read :** FAQ for newbie and returning player!! \n**Command :** !rawr faq \n\n_Navigation buttons/reactions can only be used by individual who input the **!rawr lv** command._\n_Guide start from page 2._\n_Navigate using the reaction emotes._\n_Press_ \N{INFORMATION SOURCE} _if you're confused._",
+"**Read :** FAQ for newbie and returning player!! \n**Command :** !rawr faq \n\n_- Navigate using the reaction emotes._\n_- Navigation buttons/reactions can only be used by individual who input the **!rawr lv** command._\n_- Guide start from page 2._\n_- Press_ \N{INFORMATION SOURCE} _if you're confused._",
 "***Lvl 1 ~ 50:***\n\nKill **Hanamings** and other mobs at **East Siauliai Woods** and **West Siauliai Woods** for abit until you have enough silver to get Blessing and Sacrament buffs from pardoners in Klaipeda (usually about 3000 silver is enough). Get the buffs then run all the way to **Tenet Garden** and kill the mobs above the goddess statue there, they are plentiful and have fast respawn times. You can also choose to go inside **Tenet Church B1** and kill stuff there if you wish.",
 "***Lvl 50 ~ 114:***\n\nGo to **Feretory Hills** and kill the **Hallowventers** there along with other mobs. The current state of game makes it so that it is difficult to find matches in lower level dungeon queues unless you shout or are in a guild. therefore grinding here is more effective than waiting in town for a queue pop. You can also continue to grind here if you have already ran out of dungeon runs if you were able to get a match. Once you get closer to lvl 100ish, you may also choose to go grind at **Sicarius 1f**. From **level 100**, you can start to level up using the Challenge mode feature, it is best to go with a party around your level when attempting Challenge mode.",
 "***Lvl 114 ~ 202:***\n\nMake your way to **Demon Prison District 2** and kill the mobs there, they are plentiful and respawn quickly. You will be able to grind here for quite a while due to the sheer number of mobs and the fast respawn rate. If you find that there are too many people at Demon Prison District 2, around level 130ish you can make your way to **2nd Demon Prison** and grind the mobs there instead. **(The maps 2nd Demon Prison and Demon Prison District 2 are different maps, do not confuse them as the same map)**, An alternate path is to try the Challenge Mode feature around maps of your level.",

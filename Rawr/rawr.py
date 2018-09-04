@@ -147,7 +147,8 @@ async def help(ctx):
 ```md
 <prefix : !rawr>
 <format : prefix command>
-    e.g : !rawr<space>commands
+    e.g : !rawr news
+          !rawr get masinios
 ```
 **[List of commands:]**
 ```md
@@ -163,10 +164,10 @@ async def help(ctx):
 # ping:
   ping the bot
 
-# ktest:
+# ktest: (404)
   get link for ktest version of tos.neet
 
-# update / updates:
+# update / updates: (404)
   get link for latest datamined file(s)
 
 # planner:
@@ -255,19 +256,19 @@ async def ping(*args):
     #sys.exit(0)
 
 ###-- ktest --###
-@bot.command()
-async def ktest():
-    await bot.say("**[Let's see the future!!]**\n" + "https://tos-ktest.neet.tv/")
+#@bot.command()
+#async def ktest():
+    #await bot.say("**[Let's see the future!!]**\n" + "https://tos-ktest.neet.tv/")
 
 ###-- build --###
 @bot.command(aliases=['builds'])
 async def build():
-    await bot.say("**[Compilation of Practical Class Build Guide!!]**\n_- by Palemoon_\n" + "https://docs.google.com/document/d/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing")    
+    await bot.say("**[Compilation of Practical Class Build Guide!!]**\n_- builds made by reddit community & compiled by Palemoon_\n" + "https://docs.google.com/document/d/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing")    
     
 ###-- update --###
-@bot.command(aliases=['updates'])
-async def update():
-    await bot.say("**[Check what is new!!]**\n" + "https://tos.neet.tv/changes")
+#@bot.command(aliases=['updates'])
+#async def update():
+    #await bot.say("**[Check what is new!!]**\n" + "https://tos.neet.tv/changes")
     
 ###-- addon manager --###
 @bot.command()
@@ -282,7 +283,7 @@ async def newbie():
 ###-- holy guides --###
 @bot.command()
 async def guide():
-    await bot.say("**[Guide blog based on ktos/ktest!!]**\n" + "https://wizardguidetreeofsavior.blogspot.com")
+    await bot.say("**[Guide blog based on ktos/ktest!!]**\n" + "https://wizardguidetreeofsavior.blogspot.com" + "\n**[Various class overview by Ritsu]**" + "http://kiyoshiro-ritsu.tumblr.com/")
     
 ###-- unlock guide --###
 @bot.command(aliases=['hidden'])
@@ -292,7 +293,7 @@ async def unlock():
 ###-- planner --###
 @bot.command()
 async def planner():
-    await bot.say("**[Plan your character build!!]**\n" + "https://tos.neet.tv/skill-planner")
+    await bot.say("**[Plan your character build!!]**\n" + "https://tos.neet.tv/skill-planner" + "\nhttp://toscamp.com/tos/ranksimul/" + "\nhttp://tos-th.com/skill-simulator.html")
 
 ###-- gimmick --###
 @bot.command()
@@ -308,6 +309,7 @@ async def explo():
 @bot.command(pass_context=True, aliases=['leveling', 'lvl', 'level'])
 async def lv(ctx):
     pages = [
+"**Read : [FAQ for newbie and returning player!!]** \ncommand: **!rawr faq**",
 "***Lvl 1 ~ 50:***\n\nKill **Hanamings** and other mobs at **East Siauliai Woods** and **West Siauliai Woods** for abit until you have enough silver to get Blessing and Sacrament buffs from pardoners in Klaipeda (usually about 3000 silver is enough). Get the buffs then run all the way to **Tenet Garden** and kill the mobs above the goddess statue there, they are plentiful and have fast respawn times. You can also choose to go inside **Tenet Church B1** and kill stuff there if you wish.",
 "***Lvl 50 ~ 114:***\n\nGo to **Feretory Hills** and kill the **Hallowventers** there along with other mobs. The current state of game makes it so that it is difficult to find matches in lower level dungeon queues unless you shout or are in a guild. therefore grinding here is more effective than waiting in town for a queue pop. You can also continue to grind here if you have already ran out of dungeon runs if you were able to get a match. Once you get closer to lvl 100ish, you may also choose to go grind at **Sicarius 1f**.",
 "***Lvl 114 ~ 202:***\n\nMake your way to **Demon Prison District 2** and kill the mobs there, they are plentiful and respawn quickly. You will be able to grind here for quite a while due to the sheer number of mobs and the fast respawn rate. If you find that there are too many people at Demon Prison District 2, around level 130ish you can make your way to **2nd Demon Prison** and grind the mobs there instead. **(The maps 2nd Demon Prison and Demon Prison District 2 are different maps, do not confuse them as the same map)**, An alternate path is to try the Challenge Mode feature around maps of your level.",

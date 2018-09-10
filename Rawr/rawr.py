@@ -541,7 +541,7 @@ async def news(ctx):
 
     embed.set_thumbnail(url="https://treeofsavior.com/img/common/logo.png")
     embed.set_author(name="Tree Of Savior News & Update", url="https://treeofsavior.com/page/news/", icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
-    embed.set_footer(text="tree of savior - a buggy mmorpg")
+    embed.set_footer(text="Rawr | Tree of Savior | IMC Games Co.,Ltd")
 
     nlist = "".join(news_list)# for item in news_list
     embed.add_field(name="Patch Notes & News", value=nlist, inline = False)
@@ -575,13 +575,13 @@ async def pccu(ctx):
     embed.set_image(url="http://cdn.akamai.steamstatic.com/steam/apps/372000/header.jpg")
     embed.set_thumbnail(url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
     embed.set_author(name="Online Player Tracker", url="https://treeofsavior.com", icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
-    embed.set_footer(text="tree of savior - a buggy mmorpg")
+    embed.set_footer(text="Rawr | Tree of Savior | IMC Games Co.,Ltd")
 
     # nlist = "".join(news_list)# for item in news_list
     # embed.add_field(name="Right Now", value=sta[0].find('strong').get_text(), inline = False)
     embed.add_field(name="Right Now", value=list1[0], inline = True)
     embed.add_field(name="24 Hour Peak", value=list1[1], inline = False)
-    embed.add_field(name="All The Time Peak (2 yrs ago)", value=list1[2], inline = False)
+    embed.add_field(name="All The Time Peak", value=list1[2], inline = False)
 
     await bot.say(embed=embed)
 

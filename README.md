@@ -5,6 +5,8 @@
 
 Just a ToS discord bot
 
-### This project has been ~~dis~~continued!
+### This project has been continued!
+
+[Bot's invitation link.](https://discordapp.com/api/oauth2/authorize?client_id=336363921466195968&scope=bot&permissions=0)
 
 

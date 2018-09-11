@@ -24,15 +24,16 @@ bot.remove_command("help")
 VERSION='0.3.1'
 CHANGELOG="""
 ```md
-[Changelog](version: 0.3.1)
+[Changelog](version: 0.4.9)
 ```
 ```md
-# Change:
-* Fix:
-    - Tidy up some stuff
+# Added:
+* New command
+    - database
+      - usage : !rawr db or !rawr wiki or !rawr database
 
 # Extra:
-* Contact @Jiyuu#6312 for err... w/e(?)
+* Contact @Jiyuu#6312
 ```
 """
 
@@ -48,34 +49,34 @@ def get_first_text_channel(server):
 ###-- prep --###
 @bot.event
 async def on_ready():
-    # global db
+    global db
 
-    # __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-    # if os.path.isfile(os.path.join(__location__, 'db.json')):
-    #     with open(os.path.join(__location__, 'db.json')) as f:
-    #         db = json.loads(f.read())
+    if os.path.isfile(os.path.join(__location__, 'db.json')):
+        with open(os.path.join(__location__, 'db.json')) as f:
+            db = json.loads(f.read())
 
-    # for server in bot.servers:
-    #     if server.id not in db['servers'].keys() or (server.id in db['servers'].keys() and db['servers'][server.id] != VERSION):
-    #         # channel = get_first_text_channel(server)
+    for server in bot.servers:
+        if server.id not in db['servers'].keys() or (server.id in db['servers'].keys() and db['servers'][server.id] != VERSION):
+            # channel = get_first_text_channel(server)
 
-    #         # if channel is not None:
-    #         #     await bot.send_message(channel, CHANGELOG)
+            # if channel is not None:
+            #     await bot.send_message(channel, CHANGELOG)
 
-    #         for channel in server.channels:
-    #             if channel.type == discord.ChannelType.text:
-    #                 try:
-    #                     await bot.send_message(channel, CHANGELOG)
-    #                     break
-    #                 except discord.errors.Forbidden:
-    #                     continue
-    #                     break
+            for channel in server.channels:
+                if channel.type == discord.ChannelType.text:
+                    try:
+                        await bot.send_message(channel, CHANGELOG)
+                        break
+                    except discord.errors.Forbidden:
+                        continue
+                        break
 
-    #         db['servers'][server.id] = VERSION
+            db['servers'][server.id] = VERSION
 
-    # with open(os.path.join(__location__, 'db.json'), 'w') as f:
-    #     json.dump(db, f, indent=4)
+    with open(os.path.join(__location__, 'db.json'), 'w') as f:
+        json.dump(db, f, indent=4)
 
     await bot.change_presence(game=discord.Game(name="MONSTER HUNTER: WORLD"), status=discord.Status("online"))
 
@@ -175,6 +176,9 @@ async def help(ctx):
 
 # inv / invite:
   get my invitation link
+
+# db / wiki / database
+  get ToS database link
 
 # pccu:
   get tos's player statistics
@@ -582,6 +586,29 @@ async def pccu(ctx):
     embed.add_field(name="Right Now", value=list1[0], inline = True)
     embed.add_field(name="24 Hour Peak", value=list1[1], inline = False)
     embed.add_field(name="All The Time Peak", value=list1[2], inline = False)
+
+    await bot.say(embed=embed)
+
+###-- wiki --###
+@bot.command(pass_context=True, no_pm=True, aliases=['wiki', 'database'])
+async def db(ctx):
+
+    await bot.type()
+
+    embed = discord.Embed(colour=discord.Colour(0x1abc9c), description="[Home](https://rjgtav.github.io/tos-database/) | [Equipment](https://rjgtav.github.io/tos-database/database/equipment) | [rjgtav's](https://www.twitch.tv/rjgtav) | [Rawrr](https://github.com/helloaldrian/Rawr) | [Soon](https://rjgtav.github.io/tos-database/)\n\nWelcome to Tree of Savior Database.\nThe Database's goal is to provide you with the most complete, accurate and up-to-date information about the game.\n\n", timestamp=datetime.datetime.now())
+
+    embed.set_image(url="http://cdn.akamai.steamstatic.com/steam/apps/372000/header.jpg")
+    embed.set_thumbnail(url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
+    embed.set_author(name="Tree Of Savior Database", url="https://rjgtav.github.io/tos-database/", icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
+    embed.set_footer(text="Tree of Savior | rjgtav | Rawrr")
+
+    embed.add_field(name="Features", value="""
+    [Items](https://rjgtav.github.io/tos-database/)
+    [Anvil & Transcendence Calculator](https://rjgtav.github.io/tos-database/)
+    [Build Simulator](https://rjgtav.github.io/tos-database/)
+    [Misc.](https://rjgtav.github.io/tos-database/)
+    [Maps](https://rjgtav.github.io/tos-database/)
+        """, inline = False)
 
     await bot.say(embed=embed)
 

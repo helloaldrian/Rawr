@@ -21,7 +21,7 @@ bot = commands.Bot(command_prefix='!rawr ', description='just another silly tree
 bot.remove_command("help")
 
 
-VERSION='0.3.1'
+VERSION='0.4.9'
 CHANGELOG="""
 ```md
 [Changelog](version: 0.4.9)

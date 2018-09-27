@@ -599,7 +599,7 @@ async def db(ctx):
 
     embed.set_image(url="http://cdn.akamai.steamstatic.com/steam/apps/372000/header.jpg")
     embed.set_thumbnail(url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
-    embed.set_author(name="Tree Of Savior Database **[WIP]**", url="https://rjgtav.github.io/tos-database/", icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
+    embed.set_author(name="Tree Of Savior Database [WIP]", url="https://rjgtav.github.io/tos-database/", icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
     embed.set_footer(text="Tree of Savior | rjgtav | Rawrr")
 
     embed.add_field(name="Features", value="""

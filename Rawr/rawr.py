@@ -602,9 +602,8 @@ async def db(ctx):
     embed.set_author(name="Tree Of Savior Database [WIP]", url="https://rjgtav.github.io/tos-database/", icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
     embed.set_footer(text="Tree of Savior | rjgtav | Rawrr")
 
-    embed.add_field(name="Placeholder", value="placeholder")
-    embed.add_field(name="Features", value="""
-    [Maps](https://rjgtav.github.io/tos-database/)
+    #embed.add_field(name="Placeholder", value="placeholder")
+    embed.add_field(name="Features", value="""[Maps](https://rjgtav.github.io/tos-database/)
     [Misc.](https://rjgtav.github.io/tos-database/)
     [Items](https://rjgtav.github.io/tos-database/)
     [Build Simulator](https://rjgtav.github.io/tos-database/simulator)

@@ -296,6 +296,38 @@ type in chat: //ping
 ```
     """
     await bot.say(pong)
+    
+###-- pong --###
+@bot.command()
+async def pong(*args):
+    arghh = """
+    H
+
+　 O
+
+　　　 O
+
+　　　　 o
+
+　　　　　o
+
+　　　　　 o
+
+　　　　　o
+
+　　　　 。
+
+　　　 。
+
+　　　.
+
+　　　.
+
+　　　 .
+
+　　　　LY SHIT (╯°□°）╯︵ ┻━┻
+    """
+    await bot.say(arghh)
 
 ###-- die --###
 #@bot.command(hidden=True, no_pm=True)

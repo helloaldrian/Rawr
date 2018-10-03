@@ -256,43 +256,29 @@ async def ping(*args):
     **__Server Pin__g**
 
 **How to perform the ping test:**
-
 ```md
-
 1. Open a Command Prompt window
-
-   Press the (Windows key + R) and type cmd,
-
-   Press Enter.
+   - Press the (Windows key + R) and type cmd,
+   - Press Enter.
 
 2. Type: ping <server_address> -t
-
+   - Press Enter
 ```
 
 **Server address:**
-
 ```diff
-
 + For [NA]  Klaipeda, type: s3.us-east-1.amazonaws.com
-
 + For [EU]  Fedimian, type: s3.eu-central-1.amazonaws.com
-
 + For [SEA] Telsiai,  type: s3.ap-southeast-1.amazonaws.com
-
 + For [SA]  Silute,   type: s3.sa-east-1.amazonaws.com
 
 - to stop, press: Ctrl+C on the CMD. 
-
 ```
 
 **Alternative:**
-
 ```cpp
-
 #in-game ping (not reliable)
-
 type in chat: //ping
-
 ```
     """
     await bot.say(pong)
@@ -301,30 +287,18 @@ type in chat: //ping
 @bot.command()
 async def pong(*args):
     arghh = """
-    H
-
+ H
 　 O
-
-　　　 O
-
-　　　　 o
-
+　　 O
+　　　 o
+　　 　　o
+　　　 　 o
 　　　　　o
-
-　　　　　 o
-
-　　　　　o
-
 　　　　 。
-
 　　　 。
-
 　　　.
-
 　　　.
-
 　　　 .
-
 　　　　LY SHIT (╯°□°）╯︵ ┻━┻
     """
     await bot.say(arghh)

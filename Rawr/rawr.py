@@ -264,7 +264,6 @@ async def ping(*args):
 2. Type: ping <server_address> -t
    - Press Enter
 ```
-
 **Server address:**
 ```diff
 + For [NA]  Klaipeda, type: s3.us-east-1.amazonaws.com
@@ -274,7 +273,6 @@ async def ping(*args):
 
 - to stop, press: Ctrl+C on the CMD. 
 ```
-
 **Alternative:**
 ```cpp
 #in-game ping (not reliable)

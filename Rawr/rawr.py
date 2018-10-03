@@ -292,7 +292,7 @@ async def pong(*args):
 　　 O
 　　　 o
 　　 　　o
-　　　 　 o
+　　　 　    o
 　　　　　o
 　　　　 。
 　　　 。

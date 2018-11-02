@@ -78,7 +78,7 @@ async def on_ready():
     # with open(os.path.join(__location__, 'db.json'), 'w') as f:
     #     json.dump(db, f, indent=4)
 
-    await bot.change_presence(game=discord.Game(name="!rawr help | Tree of Savior"), status=discord.Status("online"))
+    await bot.change_presence(game=discord.Game(name="Tree of Savior 2.0 - Rebirth"), status=discord.Status("online"))
 
     print('=============================')
     print('     Are you ready Rawr?!'    )

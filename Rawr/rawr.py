@@ -642,11 +642,11 @@ async def db(ctx):
 
     await bot.type()
 
-    embed = discord.Embed(colour=discord.Colour(0x1abc9c), description="[Home](https://tos.guru/) | [rjgtav's](https://www.twitch.tv/rjgtav) | [Rawrr](https://github.com/helloaldrian/Rawr) | [Guide](https://wizardguidetreeofsavior.blogspot.com) | [Feedback](https://feedback.userreport.com/e23e275c-deb8-4560-9434-070fc22b6208/)\n\nWelcome to tos.guru (Tree of Savior Database).\nThe Database's goal is to provide you with the most complete, accurate and up-to-date information about the game.\n\n", timestamp=datetime.datetime.now())
+    embed = discord.Embed(colour=discord.Colour(0x1abc9c), description="[Home](https://tos.guru/) | [rjgtav's](https://www.twitch.tv/rjgtav) | [Rawrr](https://github.com/helloaldrian/Rawr) | [Guide](https://wizardguidetreeofsavior.blogspot.com) | [Feedback](https://feedback.userreport.com/e23e275c-deb8-4560-9434-070fc22b6208/)\n\nWelcome to Tree of Savior Database.\nThe Database's goal is to provide you with the most complete, accurate and up-to-date information about the game.\n\n", timestamp=datetime.datetime.now())
 
     embed.set_image(url="http://cdn.akamai.steamstatic.com/steam/apps/372000/header.jpg")
     embed.set_thumbnail(url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
-    embed.set_author(name="Tree Of Savior Database", url="https://tos.guru/", icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
+    embed.set_author(name="tos.guru", url="https://tos.guru/", icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
     embed.set_footer(text="Tree of Savior | rjgtav | Rawrr")
 
     #embed.add_field(name="Placeholder", value="placeholder")

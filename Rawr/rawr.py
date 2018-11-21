@@ -410,7 +410,7 @@ async def get(ctx, *name):
     await bot.type()
     
     getout = """
-:warning: **__502 BAD GATEWAY__** :warning
+:warning: **__502 BAD GATEWAY__** :warning:
 **ReadMe**
 ```css
 [ Hi there, this is Rawr! ]
@@ -504,7 +504,7 @@ async def skill(ctx, *job):
     await bot.type()
     
     getout = """
-:warning: **__502 BAD GATEWAY__** :warning
+:warning: **__502 BAD GATEWAY__** :warning:
 **ReadMe**
 ```css
 [ Hi there, this is Rawr! ]

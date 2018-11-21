@@ -411,6 +411,7 @@ async def get(ctx, *name):
     
     getout = """
 :warning: **__502 BAD GATEWAY__** :warning:
+
 **ReadMe**
 ```css
 [ Hi there, this is Rawr! ]
@@ -505,6 +506,7 @@ async def skill(ctx, *job):
     
     getout = """
 :warning: **__502 BAD GATEWAY__** :warning:
+
 **ReadMe**
 ```css
 [ Hi there, this is Rawr! ]

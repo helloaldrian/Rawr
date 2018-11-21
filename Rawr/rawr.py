@@ -410,15 +410,15 @@ async def get(ctx, *name):
     await bot.type()
     
     getout = """
-**__502 BAD GATEWAY__**
-
+:warning: **__502 BAD GATEWAY__** :warning
 **ReadMe**
-```diff
-- Hi there, this is Rawr!
-+ Since tos.neet.tv are no longer maintained and/or accessible by Rawr, I can no longer provide a quick search & dispaly both items and skills information for you. 
-+ This feature will be disabled for the time being.
+```css
+[ Hi there, this is Rawr! ]
 
-- I am sorry for the inconvenience!
+Since #tos.neet.tv are no longer maintained and/or accessible by Rawr, I can no longer provide a quick search & dispaly both #items and #skills information for you.
+This feature will be disabled for the time being.
+
+[ I am sorry for the inconvenience! ]
 ```
 **Alternative:**
 ```cpp
@@ -504,15 +504,15 @@ async def skill(ctx, *job):
     await bot.type()
     
     getout = """
-**__502 BAD GATEWAY__**
-
+:warning: **__502 BAD GATEWAY__** :warning
 **ReadMe**
-```diff
-- Hi there, this is Rawr!
-+ Since tos.neet.tv are no longer maintained and/or accessible by Rawr, I can no longer provide a quick search & dispaly both items and skills information for you. 
-+ This feature will be disabled for the time being.
+```css
+[ Hi there, this is Rawr! ]
 
-- I am sorry for the inconvenience!
+Since #tos.neet.tv are no longer maintained and/or accessible by Rawr, I can no longer provide a quick search & dispaly both #items and #skills information for you.
+This feature will be disabled for the time being.
+
+[ I am sorry for the inconvenience! ]
 ```
 **Alternative:**
 ```cpp

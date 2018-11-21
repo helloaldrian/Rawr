@@ -401,15 +401,27 @@ _(no longer maintained)_
     await bot.say(patch)
 
 ###-- get / item --###
-def get_choice(r):
-    return (r.content.isdigit() and int(r.content) >= 1 and int(r.content) <= len(result_search))
+# def get_choice(r):
+    # return (r.content.isdigit() and int(r.content) >= 1 and int(r.content) <= len(result_search))
 
 @bot.command(pass_context=True, aliases=['item'], no_pm=True)
 async def get(ctx, *name):
 
     await bot.type()
-
+    
+    getout = """
+    ```diff
+    + Hi there, this is Rawr!
+    
+    + Since tos.neet.tv are no longer maintained and/or accessible by Rawr, I can no longer provide a quick search & dispaly items information for you. 
+    + This feature will be disabled for the time being.
+    - I am sorry for the inconvenience! 
+    ```
+    """
+    await bot.say(getout)
+    
     # get keyword #
+    Deprecated = """
     name = '+'.join(name)
 
     r = urllib.request.urlopen('https://tos.neet.tv/items?name=' + name + '&f=1').read()
@@ -474,7 +486,7 @@ async def get(ctx, *name):
 
             await bot.say(content=ctx.message.author.mention + "\n**This is your search result!**\n_Click the item name to see more info on your browser._", embed=embed)
             break
-
+    """
 ##-- eol --##
 
 

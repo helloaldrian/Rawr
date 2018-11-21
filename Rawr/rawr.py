@@ -410,13 +410,20 @@ async def get(ctx, *name):
     await bot.type()
     
     getout = """
-    ```diff
-    + Hi there, this is Rawr!
-    
-    + Since tos.neet.tv are no longer maintained and/or accessible by Rawr, I can no longer provide a quick search & dispaly items information for you. 
-    + This feature will be disabled for the time being.
-    - I am sorry for the inconvenience! 
-    ```
+**__502 BAD GATEWAY__**
+
+**ReadMe**
+```diff
+- Hi there, this is Rawr!
++ Since tos.neet.tv are no longer maintained and/or accessible by Rawr, I can no longer provide a quick search & dispaly both items and skills information for you. 
++ This feature will be disabled for the time being.
+
+- I am sorry for the inconvenience!
+```
+**Alternative:**
+```cpp
+#use new cmd: !rawr db
+```
     """
     await bot.say(getout)
     
@@ -495,7 +502,27 @@ async def get(ctx, *name):
 async def skill(ctx, *job):
 
     await bot.type()
+    
+    getout = """
+**__502 BAD GATEWAY__**
 
+**ReadMe**
+```diff
+- Hi there, this is Rawr!
++ Since tos.neet.tv are no longer maintained and/or accessible by Rawr, I can no longer provide a quick search & dispaly both items and skills information for you. 
++ This feature will be disabled for the time being.
+
+- I am sorry for the inconvenience!
+```
+**Alternative:**
+```cpp
+#use new cmd: !rawr db
+```
+    """
+    await bot.say(getout)
+    
+    # get keyword #
+    noskill = """
     # get keyword #
     __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
@@ -578,6 +605,7 @@ async def skill(ctx, *job):
             await bot.say(content=ctx.message.author.mention + "\n**This is your search result!**\n_Click the skill name to see more info on your browser._", embed=embed)
 
             break
+            """
 
 #####
 

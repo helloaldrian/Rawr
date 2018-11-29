@@ -347,7 +347,7 @@ async def planner():
     await bot.say("**[Plan your character build!!]**\n" + "https://tos.neet.tv/skill-planner" + "\nhttp://toscamp.com/tos/ranksimul/" + "\nhttp://tos-th.com/skill-simulator.html")
 
 ###-- gimmick --###
-@bot.command()
+@bot.command(aliases=['exploration', 'gimmick'])
 async def explo():
      await bot.say("**[Explorer's Gimmick & New Collections Guide]**\n[*credits : TerminalEssence & Friends*]\n\n" + "https://docs.google.com/document/d/1ihOzgxe8SrV8aRwYq1xMUwiTvsTNHGibJ6yBXFATaTg/edit?usp=sharing")
 
@@ -367,7 +367,7 @@ async def lv(ctx):
 "***Lvl 202 ~ 230:***\n\nGrind around **Cranto Coast** and do the Challenge mode there. If you still need abit more exp to reach 230 then consider doing some quests too. **Neighport Church East Building** is a great place to grind too once your daily challenge modes are done.",
 "***Lvl 230 ~ 270:***\n\nGo to **Kalejimas Visiting Room** and grind the various mobs there for exp. Remember to keep up with your daily dungeon runs and Challenge mode entries. If you still need exp in this stage, then consider doing a few quests around that area or 100 percent explore the maps for exp cards which you can redeem at the **Wings of Viboria NPC at Klaipeda**.",
 "***Lvl 270 ~ 315:***\n\nKeep up with Daily dungeons around your level and make your way to **Timerys Temple**. This will be your new home for grinding and Challenge modes until lvl 315. Make sure to use up to date equipment for your level because the mobs will hurt. Timerys Temple also happens to be a great map for gem farming and silver farming.",
-"***Lvl 315 ~ 360:***\n\nYou can now start to level at **Sausys Room 9**, this is a great place to grind and do your daily challenge modes until you are max level and even at max level, you can continue to do Challenge modes here for silver and loot. Remember to keep up to date with your equipment and work towards better equips. If you are around lvl 340ish and you are getting bored of Sausys Room 9, you can go to **Narvas Temple** for a change of scenery and do the Challenge mode or grind there.", 
+"***Lvl 315 ~ 350:***\n\nYou can now start to level at **Sausys Room 9**, this is a great place to grind and do your daily challenge modes. Remember to keep up to date with your equipment and work towards better equips. If you are around lvl 340ish and you are getting bored of Sausys Room 9, you can go to **Narvas Temple** for a change of scenery and do the Challenge mode or grind there.", 
 "***Lvl 350 ~ 390:***\n\nHead over to **Spell Tome Town** and do the Challenge modes there, it is a great place for this due to the narrow areas and high level monsters. Supplement your Challenge Mode grinds by questing around areas of **Astral Tower, Barynwell Waters, Spell Tome Town and Starry Town**. Monsters will be abit tough so it is reccomended to attempt the Challenge mode grinds and such with a party. It is also a great area to farm for high level loot."
     ]
 

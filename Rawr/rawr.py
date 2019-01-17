@@ -361,8 +361,8 @@ async def explo():
 async def time():
     fmt = "%Y-%m-%d %H:%M:%S %Z%z"
     # Current time in UTC
-    now_utc = datetime.now(timezone('UTC'))
-    await bot.say (now_utc.strftime(fmt) + " (UTC)")
+    now_utc = datetime.now()
+    await bot.say (now_utc.strftime(fmt) + " **(UTC)**")
 
     # Convert to Asia/Singapore time zone
     #now_sgt = now_utc.astimezone(timezone('Asia/Singapore'))

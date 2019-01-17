@@ -12,6 +12,9 @@ import urllib.request
 import urllib.parse
 from urllib.parse import urlencode
 from paginator import Pages
+from pytz import timezone
+
+
 
 ###-- Invitation Link --###
 #https://discordapp.com/api/oauth2/authorize?client_id=336363921466195968&scope=bot&permissions=0
@@ -351,6 +354,19 @@ async def planner():
 async def explo():
      await bot.say("**[Explorer's Gimmick & New Collections Guide]**\n[*credits : TerminalEssence & Friends*]\n\n" + "https://docs.google.com/document/d/1ihOzgxe8SrV8aRwYq1xMUwiTvsTNHGibJ6yBXFATaTg/edit?usp=sharing")
 
+###-- timezone --###
+@bot.command()
+async def time():
+    fmt = "%Y-%m-%d %H:%M:%S %Z%z"
+    # Current time in UTC
+    now_utc = datetime.now(timezone('UTC'))
+    await bot.say (now_utc.strftime(fmt) + " (UTC)")
+
+    # Convert to Asia/Singapore time zone
+    #now_sgt = now_utc.astimezone(timezone('Asia/Singapore'))
+    #await bot.say (now_sgt.strftime(fmt) + " (SGT)")
+
+        
 ###-- leveling --###
 # @bot.command(aliases=['leveling'])
 # async def lv():

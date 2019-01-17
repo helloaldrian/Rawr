@@ -4,6 +4,7 @@ import discord
 import re, json
 import html
 import datetime
+import pytz
 
 from discord.ext import commands
 from bs4 import BeautifulSoup
@@ -12,6 +13,7 @@ import urllib.request
 import urllib.parse
 from urllib.parse import urlencode
 from paginator import Pages
+from datetime import datetime
 from pytz import timezone
 
 

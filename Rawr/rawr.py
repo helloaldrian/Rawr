@@ -27,14 +27,14 @@ bot = commands.Bot(command_prefix='!rawr ', description='just another silly tree
 bot.remove_command("help")
 
 
-VERSION='0.4.10'
+VERSION='0.4.11'
 CHANGELOG="""
 ```md
-[Changelog](version: 0.4.10)
+[Changelog](version: 0.4.11)
 ```
 ```md
 # Added:
-* EST, BRST, CET, and SGT time in `!rawr time`
+* Reformated time in `!rawr time`
 
 * Contact @Jiyuu#6312
 ```
@@ -357,7 +357,7 @@ async def explo():
 ###-- timezone --###
 @bot.command()
 async def time():
-    fmt = "%Y-%m-%d %H:%M:%S"
+    fmt = "%H:%M:%S %Y-%m-%d"
 
     utc = timezone('UTC')
     est = timezone('EST')
@@ -370,11 +370,11 @@ async def time():
     # Current time in UTC
     await bot.say(
       '```cs\n' +
-      now.strftime(fmt) + " # UTC\n" +
-      now.astimezone(est).strftime(fmt) + " # EST\n" +
-      now.astimezone(brst).strftime(fmt) + " # BRST\n" +
-      now.astimezone(cet).strftime(fmt) + " # CET\n" +
-      now.astimezone(sgt).strftime(fmt) + " # SGT\n" +
+      "UTC : {}\n".format(now.strftime(fmt)) +
+      "EST : {}\n".format(now.astimezone(est).strftime(fmt)) +
+      "BRST: {}\n".format(now.astimezone(brst).strftime(fmt)) +
+      "CET : {}\n".format(now.astimezone(cet).strftime(fmt)) +
+      "SGT : {}\n".format(now.astimezone(sgt).strftime(fmt)) +
       '```'
     )
 

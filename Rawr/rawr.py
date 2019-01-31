@@ -13,6 +13,7 @@ import urllib.request
 import urllib.parse
 from urllib.parse import urlencode
 from paginator import Pages
+from pytz import timezone
 #from datetime import datetime
 #from pytz import timezone
 
@@ -26,18 +27,15 @@ bot = commands.Bot(command_prefix='!rawr ', description='just another silly tree
 bot.remove_command("help")
 
 
-VERSION='0.4.9'
+VERSION='0.4.10'
 CHANGELOG="""
 ```md
-[Changelog](version: 0.4.9)
+[Changelog](version: 0.4.10)
 ```
 ```md
 # Added:
-* New command
-    - database
-      - usage : !rawr db or !rawr wiki or !rawr database
+* EST, BRST, CET, and SGT time in `!rawr time`
 
-# Extra:
 * Contact @Jiyuu#6312
 ```
 """
@@ -196,21 +194,21 @@ async def help(ctx):
 
 # explo:
   get link for explorer's gimmick & new collections guide (made by TerminalEssence and friends)
-  
+
 # build
   get builds compilation docs made by Palemoon.
-  
+
 # unlock / hidden
   Get hidden class/rank 8 class unlock guides doc made by Awoomoon.
-  
+
 # faq
   get reddit link for newbie/returning player discussion
-  
+
 # addon
-  get link to download latest addon manager, by MizukiBelhi. 
-  
+  get link to download latest addon manager, by MizukiBelhi.
+
 # guide
-  get link for guide and class breakdown, by Mr pudding lover. 
+  get link for guide and class breakdown, by Mr pudding lover.
 
 # pnt:
   get pastebin link for ktos/ktest patch notes translation from Greyhiem & Gwenyth.
@@ -276,7 +274,7 @@ async def ping(*args):
 + For [SEA] Telsiai,  type: s3.ap-southeast-1.amazonaws.com
 + For [SA]  Silute,   type: s3.sa-east-1.amazonaws.com
 
-- to stop, press: Ctrl+C on the CMD. 
+- to stop, press: Ctrl+C on the CMD.
 ```
 **Alternative:**
 ```cpp
@@ -285,7 +283,7 @@ type in chat: //ping
 ```
     """
     await bot.say(pong)
-    
+
 ###-- pong --###
 @bot.command()
 async def pong(*args):
@@ -319,13 +317,13 @@ async def pong(*args):
 ###-- build --###
 @bot.command(aliases=['builds'])
 async def build():
-    await bot.say("**[Compilation of Practical Class Build Guide!!]**\n_- builds made by reddit community & compiled by Palemoon_\n" + "https://docs.google.com/document/d/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing")    
-    
+    await bot.say("**[Compilation of Practical Class Build Guide!!]**\n_- builds made by reddit community & compiled by Palemoon_\n" + "https://docs.google.com/document/d/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing")
+
 ###-- update --###
 #@bot.command(aliases=['updates'])
 #async def update():
     #await bot.say("**[Check what is new!!]**\n" + "https://tos.neet.tv/changes")
-    
+
 ###-- addon manager --###
 @bot.command()
 async def addon():
@@ -334,13 +332,13 @@ async def addon():
 ###-- faq --###
 @bot.command(aliases=['faq', 'return'])
 async def newbie():
-    await bot.say("**[FAQ for newbie and returning player!!]**\n_- by Palemoon_\n" + "https://www.reddit.com/r/treeofsavior/comments/af1evf/read_first_new_or_returning_players_version_20/"  + "\n\n**[The Re:Build Survival Guide, DevBlog & FAQ!!]**\n" + "https://treeofsavior.com/news/?n=1584" + "\nhttps://treeofsavior.com/page/news/view.php?n=1534") 
+    await bot.say("**[FAQ for newbie and returning player!!]**\n_- by Palemoon_\n" + "https://www.reddit.com/r/treeofsavior/comments/af1evf/read_first_new_or_returning_players_version_20/"  + "\n\n**[The Re:Build Survival Guide, DevBlog & FAQ!!]**\n" + "https://treeofsavior.com/news/?n=1584" + "\nhttps://treeofsavior.com/page/news/view.php?n=1534")
 
 ###-- holy guides --###
 @bot.command()
 async def guide():
     await bot.say("**[Guide blog based on ktos/ktest!!]**\n" + "https://wizardguidetreeofsavior.blogspot.com" + "\n\n**[Various class overview by Ritsu!!]**\n" + "http://kiyoshiro-ritsu.tumblr.com/")
-    
+
 ###-- unlock guide --###
 @bot.command(aliases=['hidden'])
 async def unlock():
@@ -359,16 +357,32 @@ async def explo():
 ###-- timezone --###
 @bot.command()
 async def time():
-    fmt = "%Y-%m-%d %H:%M:%S %Z%z"
+    fmt = "%Y-%m-%d %H:%M:%S"
+
+    utc = timezone('UTC')
+    est = timezone('EST')
+    brst = timezone('America/Noronha')
+    cet = timezone('CET')
+    sgt = timezone('Asia/Singapore')
+
+    now = datetime.datetime.now(tz=utc)
+
     # Current time in UTC
-    now_utc = datetime.now()
-    await bot.say (now_utc.strftime(fmt) + " **(UTC)**")
+    await bot.say(
+      '```cs\n' +
+      now.strftime(fmt) + " # UTC\n" +
+      now.astimezone(est).strftime(fmt) + " # EST\n" +
+      now.astimezone(brst).strftime(fmt) + " # BRST\n" +
+      now.astimezone(cet).strftime(fmt) + " # CET\n" +
+      now.astimezone(sgt).strftime(fmt) + " # SGT\n" +
+      '```'
+    )
 
     # Convert to Asia/Singapore time zone
     #now_sgt = now_utc.astimezone(timezone('Asia/Singapore'))
     #await bot.say (now_sgt.strftime(fmt) + " (SGT)")
 
-        
+
 ###-- leveling --###
 # @bot.command(aliases=['leveling'])
 # async def lv():
@@ -425,7 +439,7 @@ _(no longer maintained)_
 async def get(ctx, *name):
 
     await bot.type()
-    
+
     getout = """
 :warning: **__502 BAD GATEWAY__** :warning:
 **ReadMe**
@@ -441,7 +455,7 @@ This feature will be disabled for the time being.
 ```
     """
     await bot.say(getout)
-    
+
     # get keyword #
     Deprecated = """
     name = '+'.join(name)
@@ -499,7 +513,7 @@ This feature will be disabled for the time being.
 async def skill(ctx, *job):
 
     await bot.type()
-    
+
     getout = """
 :warning: **__502 BAD GATEWAY__** :warning:
 **ReadMe**
@@ -515,7 +529,7 @@ This feature will be disabled for the time being.
 ```
     """
     await bot.say(getout)
-    
+
     # get keyword #
     noskill = """
     # get keyword #

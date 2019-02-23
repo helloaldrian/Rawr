@@ -310,9 +310,9 @@ async def pong(*args):
     #sys.exit(0)
 
 ###-- ktest --###
-#@bot.command()
-#async def ktest():
-    #await bot.say("**[Let's see the future!!]**\n" + "https://tos-ktest.neet.tv/")
+@bot.command()
+async def ktest():
+    await bot.say("**[Let's see the future!!]**\n" + "https://tos-ktest.neet.tv/")
 
 ###-- build --###
 @bot.command(aliases=['builds'])
@@ -320,9 +320,9 @@ async def build():
     await bot.say("**[Compilation of Practical Class Build Guide!!]**\n_- builds made by reddit community & compiled by Palemoon_\n" + "https://docs.google.com/document/d/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing")
 
 ###-- update --###
-#@bot.command(aliases=['updates'])
-#async def update():
-    #await bot.say("**[Check what is new!!]**\n" + "https://tos.neet.tv/changes")
+@bot.command(aliases=['updates', 'change', 'changes'])
+async def update():
+    await bot.say("**[Check what is new!!]**\n" + "https://tos.neet.tv/changes")
 
 ###-- addon manager --###
 @bot.command()

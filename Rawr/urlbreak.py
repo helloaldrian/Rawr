@@ -219,7 +219,8 @@ def skill_info(skill_id):
     values = tables[1].find_all('td')
 
     for name, value in zip(names, values):
-        data['addsinfo'][(name.get_text())] = value.get_text()
+        if not value.find(class_='cat-toggle'):
+            data['addsinfo'][(name.get_text())] = value.get_text()
 
     data['adin'] = dict(list(data['info'].items()) + list(data['addsinfo'].items()))
 
@@ -241,7 +242,7 @@ def skill_info(skill_id):
         for row in rows:
             names = row.find('a').get_text()
             values = row.find(class_='item-desc').get_text()
-            mod = row.find(class_='cell-center').get_text()
+            mod = '\n'.join(('* ' + tooltip.get_text()) for tooltip in row.find_all('span', {'data-tip': True}))
 
             data['attribs'].append({'name': names, 'value': values, 'mod': mod})
     ## ----- ##

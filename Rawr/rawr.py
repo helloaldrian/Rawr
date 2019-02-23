@@ -583,8 +583,17 @@ This feature will be disabled for the time being.
             embed.set_footer(text="tos.neet.tv", icon_url="https://tos.neet.tv/images/hairacc/hairacc_80_fez.png")
             sklinfo = '```' + '\n'.join(["{:<15}: {}".format(*item) for item in items['adin'].items()]) + '```'
             embed.add_field(name="Skill Info", value=sklinfo, inline=True)
-            if len(items['attribs']) > 0:
-                sklatrb = '```' +'\n\n'.join(["{}\n{}".format(*item.values()) for item in items['attribs']]) + '```'
+            sklatrb = ''
+            try:
+                for attrib in items['attribs']:
+                    sklatrb += attrib['name'] + '\n'
+                    sklatrb += attrib['value'] + '\n'
+                    sklatrb += attrib['mod'] + '\n'
+                    sklatrb += '\n'
+            except Exception as e:
+                pass
+            if sklatrb:
+                sklatrb = '```\n{}```'.format(sklatrb)
                 embed.add_field(name="Attributes", value=sklatrb, inline=False)
             await bot.delete_message(msg)
             await bot.say(content=ctx.message.author.mention + "\n**This is your search result!**\n_Click the skill name to see more info on your browser._", embed=embed)

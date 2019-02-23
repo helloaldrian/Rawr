@@ -15,14 +15,24 @@
 		"regex": "Arc?h?e?r?"
 	},
 	{
+		"code": "Char5_2",
+		"name": "Assassin",
+		"regex": "Ass?(ass)?(sin)?"
+	},
+	{
 		"code": "Char1_6",
 		"name": "Barbarian",
 		"regex": "Barba?r?i?a?n?"
 	},
 	{
-		"code": "Char4_4",
+		"code": "Char2_22",
 		"name": "Bokor",
 		"regex": "Boko?r?"
+	},
+	{
+		"code": "Char5_12",
+		"name": "Bullet Marker",
+		"regex": "B(ullet)? ?M(arker)?"
 	},
 	{
 		"code": "Char3_15",
@@ -50,17 +60,12 @@
 		"regex": "Chron?o?m?a?n?c?e?r?"
 	},
 	{
-		"code": "Char2_13",
-		"name": "Citydummy",
-		"regex": "Citydummy"
-	},
-	{
 		"code": "Char4_1",
 		"name": "Cleric",
 		"regex": "Cler?i?c?"
 	},
 	{
-		"code": "Char1_8",
+		"code": "Char5_5",
 		"name": "Corsair",
 		"regex": "Cors?a?i?r?"
 	},
@@ -95,9 +100,14 @@
 		"regex": "Elem?e?n?t?a?l?i?s?t?"
 	},
 	{
-		"code": "Char2_18",
+		"code": "Char5_8",
 		"name": "Enchanter",
 		"regex": "Encha?n?t?e?r?"
+	},
+	{
+		"code": "Char4_20",
+		"name": "Exorcist",
+		"regex": "Exor?(cist)?"
 	},
 	{
 		"code": "Char3_14",
@@ -132,7 +142,7 @@
 	{
 		"code": "Char1_2",
 		"name": "Highlander",
-		"regex": "hl|Highlander"
+		"regex": "hl|High(lander)?"
 	},
 	{
 		"code": "Char1_4",
@@ -165,9 +175,14 @@
 		"regex": "Lanc?e?r?"
 	},
 	{
-		"code": "Char2_7",
+		"code": "Char5_9",
 		"name": "Linker",
 		"regex": "Linke?r?"
+	},
+	{
+		"code": "Char1_19",
+		"name": "Matador",
+		"regex": "Matad?o?r?"
 	},
 	{
 		"code": "Char3_17",
@@ -200,14 +215,29 @@
 		"regex": "Muske?t?e?e?r?"
 	},
 	{
+		"code": "Char1_20",
+		"name": "Nak Muay",
+		"regex": "Nak ?(Muay)?"
+	},
+	{
 		"code": "Char2_9",
 		"name": "Necromancer",
 		"regex": "Necrom?a?n?c?e?r?"
 	},
 	{
+		"code": "Char2_20",
+		"name": "Onmyoji",
+		"regex": "Onmy?o??j?i?"
+	},
+	{
 		"code": "Char4_8",
 		"name": "Oracle",
 		"regex": "Orac?l?e?"
+	},
+	{
+		"code": "Char5_3",
+		"name": "Outlaw",
+		"regex": "Out(law)?"
 	},
 	{
 		"code": "Char4_11",
@@ -260,12 +290,17 @@
 		"regex": "Range?r?"
 	},
 	{
+		"code": "Char1_18",
+		"name": "Retiarius",
+		"regex": "Reti?a?r?i?u?s?"
+	},
+	{
 		"code": "Char1_10",
 		"name": "Rodelero",
 		"regex": "Rodel?e?r?o?"
 	},
 	{
-		"code": "Char3_9",
+		"code": "Char5_10",
 		"name": "Rogue",
 		"regex": "Rog?u?e?"
 	},
@@ -290,14 +325,19 @@
 		"regex": "Sapp?e?r?"
 	},
 	{
-		"code": "Char3_10",
+		"code": "Char5_11",
 		"name": "Schwarzer Reiter",
 		"regex": "SR|(Schwarzer ?(Reiter)?)"
 	},
 	{
-		"code": "Char3_8",
+		"code": "Char5_1",
 		"name": "Scout",
 		"regex": "Sco?u?t?"
+	},
+	{
+		"code": "Char2_19",
+		"name": "Shadowmancer",
+		"regex": "sm|Shado?w?m?a?n?c?e?r?"
 	},
 	{
 		"code": "Char4_13",
@@ -305,7 +345,7 @@
 		"regex": "Shepherd"
 	},
 	{
-		"code": "Char1_13",
+		"code": "Char5_6",
 		"name": "Shinobi",
 		"regex": "(Shi)?nobi"
 	},
@@ -315,7 +355,7 @@
 		"regex": "Sorce?r?e?r?"
 	},
 	{
-		"code": "Char1_11",
+		"code": "Char5_4",
 		"name": "Squire",
 		"regex": "Squ?i?r?e?"
 	},
@@ -325,7 +365,7 @@
 		"regex": "Sw(ordsman)?"
 	},
 	{
-		"code": "Char4_17",
+		"code": "Char2_21",
 		"name": "Taoist",
 		"regex": "Taoi?s?t?"
 	},
@@ -335,7 +375,7 @@
 		"regex": "Templar"
 	},
 	{
-		"code": "Char2_10",
+		"code": "Char5_7",
 		"name": "Thaumaturge",
 		"regex": "Thaum?(aturge)?"
 	},
@@ -355,39 +395,8 @@
 		"regex": "Wugu(shi)?"
 	},
 	{
-		"code": "Char3_18",
-		"name": "Bullet Marker",
-		"regex": "B(ullet)? ?M(arker)?"
-	},
-	{
-		"code": "Char2_19",
-		"name": "Shadowmancer",
-		"regex": "sm|Shado?w?m?a?n?c?e?r?"
-	},
-	{
-		"code": "Char1_19",
-		"name": "Matador",
-		"regex": "Matad?o?r?"
-	},
-	{
 		"code": "Char4_19",
 		"name": "Zealot",
 		"regex": "Zeal?o?t?"
-	},
-	{
-		"code": "Char1_20",
-		"name": "Nak Muay",
-		"regex": "Nak ?(Muay)?"
-	},
-	{
-		"code": "Char2_20",
-		"name": "Onmyoji",
-		"regex": "Onmy?o??j?i?"
-	},
-	{
-		"code": "Char1_18",
-		"name": "Retiarius",
-		"regex": "Reti?a?r?i?u?s?"
 	}
-	
 ]

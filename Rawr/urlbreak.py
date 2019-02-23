@@ -23,7 +23,7 @@ def find_tables_after_header(soup, h2_text):
         return tables
     else:
         return None
-    
+
 
 ##--------- Item Info ---------##
 def get_item(item_links):
@@ -37,13 +37,13 @@ def get_item(item_links):
         item_type = item_type.get_text()
     else:
         item_type = ''
-        
+
 
     #-- description --#
     description = 'No Description'
     if soup.find(class_='item-desc') != None:
         description = soup.find(class_='item-desc').get_text()
-    
+
     embed = discord.Embed(colour=discord.Colour(0xF16F9B), description=description, timestamp=datetime.datetime.now())
 
 
@@ -135,7 +135,7 @@ def get_item(item_links):
     if set_tables is not None:
         setbonus = {}
         rows = set_tables[0].find_all('tr')
-        
+
         for row in rows[2:]:
             name = row.find('th').get_text()
             values = row.find('td').find_all('li')
@@ -178,9 +178,9 @@ def get_item(item_links):
         rows = mats_tables[0].find_all('tr')
         materials = {}
 
-        for row in rows:   
+        for row in rows:
             name = row.find('a').get_text()
-            value = row.find_all('td')[2].get_text()   
+            value = row.find_all('td')[2].get_text()
 
             materials[name] = value
 
@@ -189,7 +189,7 @@ def get_item(item_links):
             embed.add_field(name="Materials", value=mats, inline=False)
 
     return embed
-    
+
 
 ##--------- Skill Info ---------##
 def skill_info(skill_id):
@@ -219,7 +219,7 @@ def skill_info(skill_id):
     values = tables[1].find_all('td')
 
     for name, value in zip(names, values):
-       data['addsinfo'][(name.get_text())] = value.get_text()
+        data['addsinfo'][(name.get_text())] = value.get_text()
 
     data['adin'] = dict(list(data['info'].items()) + list(data['addsinfo'].items()))
 
@@ -237,12 +237,12 @@ def skill_info(skill_id):
     if attribHeader is not None:
         table = attribHeader.find_next_sibling('table')
         rows = table.find_all('tr')
-        
-        for row in rows:   
+
+        for row in rows:
             names = row.find('a').get_text()
-            values = row.find(class_='cell-500 item-desc').get_text()
+            values = row.find(class_='item-desc').get_text()
             mod = row.find(class_='cell-center').get_text()
-           
+
             data['attribs'].append({'name': names, 'value': values, 'mod': mod})
     ## ----- ##
 

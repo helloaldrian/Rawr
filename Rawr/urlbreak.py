@@ -93,7 +93,7 @@ def get_item(item_links):
 
 
     #-- stats --#
-    stats_tables = find_tables_after_header(soup, 'Stats')
+    stats_tables = find_tables_after_header(soup, 'Stats\n')
     if stats_tables is not None:
         stats = {}
 

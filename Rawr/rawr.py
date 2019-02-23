@@ -454,10 +454,10 @@ This feature will be disabled for the time being.
 #use new cmd: !rawr db
 ```
     """
-    await bot.say(getout)
+    #await bot.say(getout)
 
     # get keyword #
-    Deprecated = """
+    #Deprecated = """
     name = '+'.join(name)
     r = urllib.request.urlopen('https://tos.neet.tv/items?name=' + name + '&f=1').read()
     soup = BeautifulSoup(r, 'html.parser')
@@ -504,7 +504,7 @@ This feature will be disabled for the time being.
             # await bot.delete_message(ctx.message)
             await bot.say(content=ctx.message.author.mention + "\n**This is your search result!**\n_Click the item name to see more info on your browser._", embed=embed)
             break
-    """
+    #"""
 ##-- eol --##
 
 
@@ -528,10 +528,10 @@ This feature will be disabled for the time being.
 #use new cmd: !rawr db
 ```
     """
-    await bot.say(getout)
+    #await bot.say(getout)
 
     # get keyword #
-    noskill = """
+    #noskill = """
     # get keyword #
     __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
     with open(os.path.join(__location__, 'classes2.json')) as f:
@@ -589,7 +589,7 @@ This feature will be disabled for the time being.
             await bot.delete_message(msg)
             await bot.say(content=ctx.message.author.mention + "\n**This is your search result!**\n_Click the skill name to see more info on your browser._", embed=embed)
             break
-            """
+            #"""
 
 #####
 

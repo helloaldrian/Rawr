@@ -696,7 +696,7 @@ async def db(ctx):
 
 @bot.command(pass_context=True, no_pm=True)
 async def rss(ctx):
-    NewsFeed = feedparser.parse("https://feedity.com/jaiminisbox-com/UlJXU1NXUQ.rss")
+    NewsFeed = feedparser.parse("https://jaiminisbox.com/reader/feeds/rss")
 
     entry = NewsFeed.entries[1]
 
@@ -704,7 +704,7 @@ async def rss(ctx):
         entry.published +
         "\n******\n" +
         entry.summary +
-        "\n------News Link--------\n" +
+        "\n------Link--------\n" +
         entry.link
     )
 

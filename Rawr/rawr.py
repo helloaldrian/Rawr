@@ -696,7 +696,7 @@ async def db(ctx):
 
 @bot.command(pass_context=True, no_pm=True)
 async def rss(ctx):
-    NewsFeed = feedparser.parse("https://timesofindia.indiatimes.com/rssfeedstopstories.cms")
+    NewsFeed = feedparser.parse("https://feedity.com/jaiminisbox-com/UlJXU1NXUQ.rss")
 
     entry = NewsFeed.entries[1]
 

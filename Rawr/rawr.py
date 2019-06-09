@@ -4,6 +4,7 @@ import discord
 import re, json
 import html
 import datetime
+import feedparser
 #import pytz
 
 from discord.ext import commands
@@ -692,5 +693,19 @@ async def db(ctx):
 
     await bot.say(embed=embed)
 
+
+@bot.command(pass_context=True, no_pm=True)
+async def rss(ctx):
+    NewsFeed = feedparser.parse("https://timesofindia.indiatimes.com/rssfeedstopstories.cms")
+
+    entry = NewsFeed.entries[1]
+
+    await bot.say(
+        entry.published +
+        "\n******\n" +
+        entry.summary +
+        "\n------News Link--------\n" +
+        entry.link
+    )
 
 bot.run(os.environ['BOT_TOKEN'])

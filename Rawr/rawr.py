@@ -327,7 +327,7 @@ async def update():
 ###-- addon manager --###
 @bot.command()
 async def addon():
-    await bot.say("**[Grab your Tree of Savior addons manager!!]**\n_- by MizukiBelhi_\n" + "https://github.com/MizukiBelhi/Tree-of-Savior-Addon-Manager/releases/tag/v0.3.1-alpha.2")
+    await bot.say("**[Grab your Tree of Savior addons manager!!]**\n_- by MizukiBelhi_\n" + "https://github.com/MizukiBelhi/Tree-of-Savior-Addon-Manager/releases \n" + "https://github.com/JToSAddon/Tree-of-Savior-Addon-Manager/releases/latest")
 
 ###-- faq --###
 @bot.command(aliases=['faq', 'return'])

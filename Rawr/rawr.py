@@ -698,7 +698,7 @@ async def db(ctx):
 async def rss(ctx):
     NewsFeed = feedparser.parse("https://dark-nova.me/tos/feed.xml")
 
-    entry = NewsFeed.entries[1]
+    entry = NewsFeed.entries[0]
 
     await bot.say(
         entry.published +

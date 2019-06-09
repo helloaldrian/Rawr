@@ -696,7 +696,7 @@ async def db(ctx):
 
 @bot.command(pass_context=True, no_pm=True)
 async def rss(ctx):
-    NewsFeed = feedparser.parse("https://jaiminisbox.com/reader/feeds/rss")
+    NewsFeed = feedparser.parse("https://dark-nova.me/tos/feed.xml")
 
     entry = NewsFeed.entries[1]
 

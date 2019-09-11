@@ -272,7 +272,11 @@ class GuildOnlyCog(commands.Cog):
     @commands.command()
     async def skill(self, ctx, *job):
         #await bot.type()
-        code, name = await get_class(' '.join(job))
+        try:
+            code, name = await get_class(' '.join(job))
+        except TypeError: # None
+            await ctx.send('You entered an invalid class!')
+            return
 
         async with aiohttp.ClientSession() as cs:
             url = f'https://tos.neet.tv/skills?cls={code}&f=1'

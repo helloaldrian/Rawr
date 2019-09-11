@@ -23,8 +23,7 @@ async def format_embed_description(records: dict, format_str: str):
         str: the formatted description
 
     """
-    return (
-        '```'
+    return '```{}```'.format(
         '\n'.join(
             [
                 format_str.format(*record)
@@ -32,7 +31,6 @@ async def format_embed_description(records: dict, format_str: str):
                 in records.items()
                 ]
             )
-        '```'
         )
 
 
@@ -104,11 +102,7 @@ async def get_item(link):
 
         embed.add_field(
             name = "Info",
-            value = (
-                '```'
-                '\n'.join(info)
-                '```'
-                ),
+            value = '```{}```'.format('\n'.join(info)),
             inline = True
             )
 
@@ -180,11 +174,7 @@ async def get_item(link):
             if bonus:
                 embed.add_field(
                     name = "Bonus Stats",
-                    value = (
-                        '```'
-                        '\n'.join(bonus)
-                        '```'
-                        ),
+                    value = '```{}```'.format(bonus),
                     inline = False
                     )
 
@@ -205,7 +195,7 @@ async def get_item(link):
         if set_bonus:
             embed.add_field(
                 name = "Set Bonus",
-                value = await format_embed_description(set_bonus, "{}: {}")
+                value = await format_embed_description(set_bonus, "{}: {}"),
                 inline = True
                 )
 

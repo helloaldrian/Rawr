@@ -1,35 +1,37 @@
-import os
-import sys
-import discord
-import re, json
-import html
 import datetime
-import feedparser
-#import pytz
-
-from discord.ext import commands
-from bs4 import BeautifulSoup
-from urlbreak import get_item, skill_info
+import html
+import json
+import os
+import re
+import sys
 import urllib.request
 import urllib.parse
-from urllib.parse import urlencode
-from paginator import Pages
 from pytz import timezone
-#from datetime import datetime
-#from pytz import timezone
+from urllib.parse import urlencode
 
+import discord
+import feedparser
+from discord.ext import commands
+from bs4 import BeautifulSoup
 
+from urlbreak import get_item, skill_info
+from paginator import Pages
 
 ###-- Invitation Link --###
 #https://discordapp.com/api/oauth2/authorize?client_id=336363921466195968&scope=bot&permissions=0
 
-bot = commands.Bot(command_prefix='!rawr ', description='just another silly tree of savior bot', pm_help = True)
+bot = commands.Bot(
+    command_prefix = '!rawr ',
+    description = 'just another silly tree of savior bot',
+    pm_help = True
+    )
 
 bot.remove_command("help")
 
+# Rawr-specific
 
-VERSION='0.4.11'
-CHANGELOG="""
+VERSION = '0.4.11'
+CHANGELOG = """
 ```md
 [Changelog](version: 0.4.11)
 ```
@@ -41,73 +43,7 @@ CHANGELOG="""
 ```
 """
 
-db = {'servers': {}}
-
-def get_first_text_channel(server):
-    for channel in server.channels:
-        if channel.type == discord.ChannelType.text:
-            return channel
-    return None
-
-
-###-- prep --###
-@bot.event
-async def on_ready():
-    # global db
-
-    # __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
-
-    # if os.path.isfile(os.path.join(__location__, 'db.json')):
-    #     with open(os.path.join(__location__, 'db.json')) as f:
-    #         db = json.loads(f.read())
-
-    # for server in bot.servers:
-    #     if server.id not in db['servers'].keys() or (server.id in db['servers'].keys() and db['servers'][server.id] != VERSION):
-    #         # channel = get_first_text_channel(server)
-
-    #         # if channel is not None:
-    #         #     await bot.send_message(channel, CHANGELOG)
-
-    #         for channel in server.channels:
-    #             if channel.type == discord.ChannelType.text:
-    #                 try:
-    #                     await bot.send_message(channel, CHANGELOG)
-    #                     break
-    #                 except discord.errors.Forbidden:
-    #                     continue
-    #                     break
-
-    #         db['servers'][server.id] = VERSION
-
-    # with open(os.path.join(__location__, 'db.json'), 'w') as f:
-    #     json.dump(db, f, indent=4)
-
-    await bot.change_presence(game=discord.Game(name="Tree of Savior 2.0 - Re:Build"), status=discord.Status("online"))
-
-    print('=============================')
-    print('     Are you ready Rawr?!'    )
-    print('         '+ bot.user.name     )
-    print('-----------------------------')
-    print('        Let\'s Rawr!!        ')
-    print('-----------------------------')
-    print("  _____                      ")
-    print(" |  __ \                     ")
-    print(" | |__) |__ ___      ___ __  ")
-    print(" |  _  // _` \ \ /\ / / '__| ")
-    print(" | | \ \ (_| |\ V  V /| |    ")
-    print(" |_|  \_\__,_| \_/\_/ |_|    ")
-    print('                             ')
-    print('=============================')
-
-
-###-- on server join --###
-@bot.event
-async def on_server_join(server):
-
-    ##-- send msg to the server owner --##
-    owner = server.owner
-
-    welcome = """
+WELCOME = """
 _`Hello there!`_
 
 Nice to meet you, I am Rawr!!
@@ -115,13 +51,9 @@ I'm a simple Tree of Savior Discord bot that can help you and your community fin
 
 Here, I am request permission to stay in your server.
 - Rawr
-    """
-    await bot.send_message(owner, welcome)
+"""
 
-    ##-- send msg to the 1st text channel on the server --##
-    chch = server.channels
-
-    spawn = """
+SPAWN = """
 ```css
 "When you meet someone for the first time, that's not the whole book. That's just the first page."
 ```
@@ -131,23 +63,9 @@ I am a simple bot that aims to help Tree of Savior players find information rela
 Use `!rawr help` to find out more commands.
 Alright Boys, Rawr at your service!! :sunglasses:
 ================================================================
-    """
-    for channel in server.channels:
-        if channel.type == discord.ChannelType.text:
-            try:
-                await bot.send_message(channel, spawn)
-                break
-            except discord.errors.Forbidden:
-                continue
-                break
+"""
 
-
-###-- help --###
-@bot.command(pass_context=True, aliases=['halp'])
-async def help(ctx):
-
-    halpme = """
-
+HELP = """
 **[Rawr Help]**
 ```md
 <prefix : !rawr>
@@ -194,7 +112,7 @@ async def help(ctx):
   get class build rankings (based on itos official website)
 
 # explo:
-  get link for explorer's gimmick & new collections guide (made by TerminalEssence and friends)
+  get link for Explorer Gimmicks & New Collections Guide (made by TerminalEssence and friends)
 
 # build
   get builds compilation docs made by Palemoon.
@@ -226,17 +144,9 @@ async def help(ctx):
   < e.g. : !rawr skill diev >
   /* you may use class name abbreviation/alias (e.g. sr, pd, diev etc.) *
 ```
-    """
+"""
 
-    await bot.whisper(halpme)
-    # await bot.send_message(ctx.message.author, halpme)
-    # await bot.send_message(ctx.message.author, content=halpme)
-
-
-###-- hello --###
-@bot.command(pass_context=True)
-async def hello():
-    me = """
+HELLO = """
 Hello, I am **Rawrr**
 
 I'm a simple discord bot born to help Tree of Savior's Discord community members find info about items, skills, ~~maps~~ and etc.
@@ -246,18 +156,16 @@ If you have any feedback or suggestion to improve **Rawrr!**.
 **Please touch,**  @Jiyuu#6312
 **Visit us,**  https://github.com/helloaldrian/Rawr
 """
-    await bot.say(me)
 
-###-- who --###
-@bot.command()
-async def who():
-    await bot.say("Full-fledged Hero!!")
+INVITE = (
+    "https://discordapp.com/api/oauth2/authorize"
+    "?client_id=336363921466195968&scope=bot&permissions=0"
+    )
 
-###-- ping --###
-@bot.command()
-async def ping(*args):
-    pong = """
-    **__Server Pin__g**
+FOOTER = "Rawr | Tree of Savior | IMC Games Co.,Ltd"
+
+PING = """
+**__Server Ping__**
 
 **How to perform the ping test:**
 ```md
@@ -282,19 +190,15 @@ async def ping(*args):
 #in-game ping (not reliable)
 type in chat: //ping
 ```
-    """
-    await bot.say(pong)
+"""
 
-###-- pong --###
-@bot.command()
-async def pong(*args):
-    arghh = """
+PONG = """
  H
 　 O
 　　 O
 　　　 o
 　　 　　o
-　　　 　    o
+　　　    o
 　　　　　o
 　　　　 。
 　　　 。
@@ -302,8 +206,466 @@ async def pong(*args):
 　　　.
 　　　 .
 　　　　LY SHIT (╯°□°）╯︵ ┻━┻
-    """
-    await bot.say(arghh)
+"""
+
+# Resources - guides
+
+GUIDE = (
+    "https://wizardguidetreeofsavior.blogspot.com"
+    )
+
+GUIDE_RITSU = (
+    "http://kiyoshiro-ritsu.tumblr.com/"
+    )
+
+GUIDE_LEVELING = [
+    (
+        """click title for reddit post
+
+        """
+        "**Read :** FAQ for newbie and returning player!!\n"
+        "**Command :** !rawr faq\n\n"
+
+        "_- Navigate using the reaction emotes._\n"
+        "_- Navigation buttons/reactions can only be used by individual who input the **!rawr lv** command._\n"
+        "_- Guide start from page 2._\n"
+        "_- Press_ \N{INFORMATION SOURCE} _if you're confused._\n"
+        ),
+
+    (
+        """click title for reddit post
+
+        """
+        """***Lvl 1 ~ 50:***
+
+        """
+        "Start off by completing all the main(yellow/gold) quests from **East "
+        "Siauliai Woods** all the way to **West Siauliai Woods**. You can "
+        "then complete the main quest chains from **Miner's Village > Crystal "
+        "Mines > Strautas Gorge > Gele Plateau > Nefritas Cliff > Tenet "
+        "Garden**. Once you have enough silver to get Blessing and Sacrament "
+        "buffs from pardoners in Klaipeda town (usually about 1600 silver is "
+        "enough), you will want to get the buffs whenever you want to level. "
+        "Make sure you refresh your buffs if they run out by purchasing them "
+        "again in town. Once you arrive at **Tenet Garden**, you can kill the "
+        "mobs above the goddess statue there; they are plentiful and have fast "
+        "respawn times. You will also need to go inside **Tenet Church B1** "
+        "and complete the entire main questline there until **Tenet Church "
+        "2F** in order to acquire the **Seal of Space** quest item."
+        ),
+
+    (
+        """click title for reddit post
+
+        """
+        """***Lvl 50 ~ 114:***
+
+        """
+        "Once you are lvl 50, you will be able to attempt the **lvl 50 "
+        "dungeon in Klaipeda** town. Be sure to use your megaphones brought "
+        "from the TP store using free daily tp to shout for people to queue up "
+        "for it or join a guild so that it is easier to find parties. Go to "
+        "**Feretory Hills** and kill the **Hallowventers** there along with "
+        "other mobs. Be sure to complete the quests in **Feretory Hills**, "
+        "**Mochia Forest**, and **Sutatis Trade Route** for some easy exp. "
+        "You can continue to return to **Feretory Hills** and grind the mobs "
+        "if you've already run out of dungeon runs for the day and have "
+        "completed the previous quests. Once you get closer to lvl 90ish, "
+        "you may also start to grind at **Sicarius 1F**."
+        ),
+
+    (
+        """click title for reddit post
+
+        """
+        """***Lvl 114 ~ 202:***
+
+        """
+        "Make your way to **Aqueduct Bridge Area** and start the main quest "
+        "chain there. It will bring you into the **Demon Prison** maps in "
+        "which you can follow the entire quest chain until **Demon Prison "
+        "District 5**. Once you have done so, you may choose to return to "
+        "**Demon Prison District 2** and kill the mobs there. They are "
+        "plentiful and respawn quickly. You will be able to grind here for "
+        "quite a while due to the sheer number of mobs and the fast respawn "
+        "rate. you will also want to try the Challenge Mode feature (lvl 100+) "
+        "around maps of your level. An alternate path is to go to **Dina Bee "
+        "Farm** and kill the bees in the **Akasya Field** and **Rododun "
+        "Apiary** areas when you are around lvl 140+. (You can also do the "
+        "quests in this map too!)"
+        ),
+
+    (
+        """click title for reddit post
+
+        """
+        """***Lvl 202 ~ 230:***
+
+        """
+        "Make your way to **Alemeth Forest** and complete the quests there. "
+        "Continue on and complete the quests in **Barha Forest**, **Nahash "
+        "Forest**, **Cranto Coast**, and **Igti Coast**. **Cranto Coast** is "
+        "also an excellent map to do Challenge modes in; be sure to attempt "
+        "challenge modes in a party from now on. (You can get party members "
+        "from shouting a party link via megaphone.) If you still need a bit "
+        "more exp to reach 230 then consider visiting **Neighport Church East "
+        "Building**. It is a great place to grind once your daily challenge "
+        "modes and previous quests are done."
+        ),
+
+    (
+        """click title for reddit post
+
+        """
+        """***Lvl 230 ~ 270:***
+
+        """
+        "Go to **Kalejimas Visiting Room** and start to complete the main "
+        "quests in that area. You can actually follow the entire quest route "
+        "from **Kalejimas Visiting Room > Storage > Solitary Cells > Workshop "
+        "> Investigation Room** killing all the monsters you encounter on the "
+        "way. Remember to keep up with your daily dungeon runs of appropriate "
+        "level and Challenge mode entries. If you still require additional "
+        "exp to reach lvl 270 you can consider returning to **Workshop** and "
+        "grinding the monsters there, it features a relatively small map along "
+        "with a decent amount of monster spawns."
+        ),
+
+    (
+        """click title for reddit post
+
+        """
+        """***Lvl 270 ~ 315:***
+
+        """
+        "Keep up with Daily dungeons around your level and make your way to "
+        "**Timerys Temple.** This will be your new home for grinding and "
+        "Challenge modes until lvl 315. Make sure to use up to date equipment "
+        "for your level because the mobs will start to hurt a lot. **Timerys "
+        "Temple** also happens to be a great map for gem farming and silver "
+        "farming. An alternative path to this would be to go to **Inner Wall "
+        "District 8** and complete the main quests there. You can continue to "
+        "follow the questchain around **City Wall 8**, **Jeromel Commemorative "
+        "Park**, and **Jonael Commemoratie Orb**. If you feel like you require "
+        "some addition exp, you can consider returning to **Jeromel "
+        "Commemorative Park** to grind the plentiful mobs there."
+        ),
+
+    (
+        """click title for reddit post
+
+        """
+        """***Lvl 315 ~ 357:***
+
+        """
+        "You can now start to level at **Sausys Room 9,** this is a great "
+        "place to grind and do your daily challenge modes for silver, loot "
+        "and exp. Remember to keep up to date with your equipment and work "
+        "towards better equips. Complete all the quests from **Sausys Room 9** "
+        "all the way to **Valandis Room 91**. When you are around lvl 340ish "
+        "and you are getting bored of grinding at **Sausys Room 9,** you can "
+        "go to **Narvas Temple** for a change of scenery and do the Challenge "
+        "modes, quests and grind there."
+        ),
+
+    (
+        """click title for reddit post
+
+        """
+        """***Lvl 357 ~ 390:***
+
+        """
+        "You will want to complete most of the higher level quests in this "
+        "bracket range for their great exp amounts. Start from "
+        "**Lanko 26 Waters** and complete all the quests from there until "
+        "**Barynwell 87 Waters**, then head into **Astral Tower 1F**. "
+        "**Astral Tower 1F** happens to be a great place for challenge modes "
+        "with its narrow corridors forcing mobs to spawn in close proximity "
+        "running towards you. Complete all the quests within "
+        "**Astral Tower 1F** until **Astral tower 21F** then make your way to "
+        "**Starry Town.** You will want to follow the quest chain here and "
+        "complete all the quests in **Starry Town, Feline Post Town** and "
+        "finally **Spell Tome Town**. **Spell Tome Town** is also an excellent "
+        "place to do challenge modes due to specific narrow areas and high "
+        "level monsters. Remember to keep up with your dungeon runs of "
+        "appropriate levels. If you still require additional exp, you may "
+        "choose to grind around any of the higher level maps in this bracket "
+        "range or spam challenge mode runs with reset vouchers from events "
+        "and from purchasing them off other players in the market. (The profit "
+        "from a single CM run is usually greater than the cost of purchasing a "
+        "reset voucher.)"
+        ),
+
+    ]
+
+# Resources - addon managers
+
+ADDON_MIZUKIBELHI = (
+    "https://github.com/MizukiBelhi/Tree-of-Savior-Addon-Manager/releases"
+    )
+
+ADDON_JTOS = (
+    "https://github.com/JToSAddon/Tree-of-Savior-Addon-Manager/releases/latest"
+    )
+
+# Resources - documents
+
+G_DOC = "https://docs.google.com/document/d"
+
+DOC_BUILD = (
+    f"{G_DOC}/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing"
+    )
+
+DOC_GIMMICKS = (
+    f"{G_DOC}/1ihOzgxe8SrV8aRwYq1xMUwiTvsTNHGibJ6yBXFATaTg/edit?usp=sharing"
+    )
+
+DOC_UNLOCK = (
+    f"{G_DOC}/1aEOF-WjTiKr1WE-bYHNIyl0_JnVX8_rUzCoclFDVQrY/edit?usp=sharing"
+    )
+
+# Resources - miscellaneous posts
+
+POST_PATCH = """
+**[Ktest/Ktos - Patch Notes Translation]**
+_(no longer maintained)_
+**Greyhiem's**  https://pastebin.com/u/Greyhiem
+**Gwenyth's**  https://pastebin.com/u/sunhwapark
+"""
+
+POST_LORE = (
+    "http://toshidden.blog.fc2.com/"
+    )
+
+NEW_OR_RETURN = (
+    "https://www.reddit.com/r/treeofsavior/comments/af1evf"
+    "/read_first_NEW_OR_RETURNing_players_version_20/"
+    )
+
+# Resources - latest news message for Rawr
+
+LATEST = (
+    "**[The Re:Build Survival Guide, DevBlog & FAQ!!]**\n"
+    "https://treeofsavior.com/news/?n=1584\n"
+    "https://treeofsavior.com/page/news/view.php?n=1534"
+    )
+
+# Resources - skill planners
+
+PLANNER_TOSG = (
+    "https://tos.neet.tv/skill-planner"
+    )
+
+PLANNER_TOSCAMP = (
+    "http://toscamp.com/tos/ranksimul/"
+    )
+
+CLASS_RANKING = (
+    "https://treeofsavior.com/page/class/ranking.php"
+    )
+
+# Game - images
+
+TOS_THUMBNAIL = (
+    "http://bestonlinegamesreview.com/wp-content/uploads/2016/04"
+    "/p1_2006411_5eae6fd9.png"
+    )
+
+EMBED_THUMBNAIL = (
+    "https://tos.neet.tv/images/hairacc/hairacc_80_fez.png"
+    )
+
+TOS_STEAM_IMG = (
+    "http://cdn.akamai.steamstatic.com/steam/apps/372000/header.jpg"
+    )
+
+# Game - news
+
+TOS_NEWS = "https://treeofsavior.com/page/news/"
+
+NEWS_ALL = " | ".join(
+    [
+        f"[All]({TOS_NEWS}?n=1)",
+        f"[Event]({TOS_NEWS}?c=33&n=1)",
+        f"[Patch Notes]({TOS_NEWS}?c=3&n=1)",
+        f"[Dev's Blog]({TOS_NEWS}?c=31&n=1)",
+        f"[Known Issues]({TOS_NEWS}?c=32&n=1)"
+        ]
+    )
+
+TOS_DESC = "\n".join(
+    [
+        (
+            "Tree of Savior (abbreviated as TOS thereafter) is an MMORPG in "
+            "which you embark on a journey to search for the goddesses in the "
+            "world of chaos. Fairy-tale like colors accompanied with "
+            "beautiful graphics in TOS will have you reminiscing about "
+            "precious moments all throughout the game.\n"
+            ),
+        "[steamdb.info](https://steamdb.info/app/372000/graphs/)",
+        "[steamspy.com](https://steamspy.com/app/372000)",
+        f"[steamcharts.com]({STEAM_CHARTS})",
+        ]
+    )
+
+# Game - external
+
+STEAM_CHARTS = 'http://steamcharts.com/app/372000'
+
+# Game - external - tos.guru
+
+TOSGURU_FEEDBACK = (
+    "https://feedback.userreport.com/e23e275c-deb8-4560-9434-070fc22b6208/"
+    )
+
+TOSGURU_DESC = " | ".join(
+    [
+        "[Home](https://tos.guru/)",
+        "[rjgtav's](https://www.twitch.tv/rjgtav)",
+        "[Rawrr](https://github.com/helloaldrian/Rawr)",
+        "[Guide](https://wizardguidetreeofsavior.blogspot.com)",
+        f"[Feedback]({TOSGURU_FEEDBACK})\n",
+        "Welcome to Tree of Savior Database.",
+        (
+            "The Database's goal is to provide you with the most complete, "
+            "accurate and up-to-date information about the game.\n"
+            ),
+        ]
+    )
+
+TOSGURU_LINKS = """
+[Maps - WIP](https://tos.guru/)
+[kTest](https://tos.guru/ktest/database/equipment)
+[Items](https://tos.guru/itos/database/items)
+[Build Simulator](https://tos.guru/itos/simulator)
+[Anvil & Transcendence Calculator](https://tos.guru/itos/database/equipment)
+"""
+
+# Etc
+
+WARNING_502 = """
+:warning: **__502 BAD GATEWAY__** :warning:
+**ReadMe**
+```css
+[ Hi there, this is Rawr! ]
+Since #tos.neet.tv are no longer maintained and/or accessible by Rawr, I can no longer provide a quick search & dispaly both #items and #skills information for you.
+This feature will be disabled for the time being.
+[ I am sorry for the inconvenience! ]
+```
+**Alternative:**
+```cpp
+#use new cmd: !rawr db
+```
+"""
+
+
+def get_first_text_channel(server):
+    for channel in server.channels:
+        if channel.type == discord.ChannelType.text:
+            return channel
+    return None
+
+
+###-- prep --###
+@bot.event
+async def on_ready():
+    # global db
+
+    # __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
+    # if os.path.isfile(os.path.join(__location__, 'db.json')):
+    #     with open(os.path.join(__location__, 'db.json')) as f:
+    #         db = json.loads(f.read())
+
+    # for server in bot.servers:
+    #     if server.id not in db['servers'].keys() or (server.id in db['servers'].keys() and db['servers'][server.id] != VERSION):
+    #         # channel = get_first_text_channel(server)
+
+    #         # if channel is not None:
+    #         #     await bot.send_message(channel, CHANGELOG)
+
+    #         for channel in server.channels:
+    #             if channel.type == discord.ChannelType.text:
+    #                 try:
+    #                     await bot.send_message(channel, CHANGELOG)
+    #                     break
+    #                 except discord.errors.Forbidden:
+    #                     continue
+    #                     break
+
+    #         db['servers'][server.id] = VERSION
+
+    # with open(os.path.join(__location__, 'db.json'), 'w') as f:
+    #     json.dump(db, f, indent=4)
+
+    await bot.change_presence(
+        game = discord.Game(
+            name = "Tree of Savior 2.0 - Re:Build"
+            ),
+        status = discord.Status("online")
+        )
+
+    print('=============================')
+    print('     Are you ready Rawr?!'    )
+    print('         '+ bot.user.name     )
+    print('-----------------------------')
+    print('        Let\'s Rawr!!        ')
+    print('-----------------------------')
+    print("  _____                      ")
+    print(" |  __ \                     ")
+    print(" | |__) |__ ___      ___ __  ")
+    print(" |  _  // _` \ \ /\ / / '__| ")
+    print(" | | \ \ (_| |\ V  V /| |    ")
+    print(" |_|  \_\__,_| \_/\_/ |_|    ")
+    print('                             ')
+    print('=============================')
+
+
+###-- on server join --###
+@bot.event
+async def on_server_join(server):
+
+    ##-- send msg to the server owner --##
+    await bot.send_message(server.owner, WELCOME)
+
+    ##-- send msg to the 1st text channel on the server --##
+    for channel in server.channels:
+        if channel.type == discord.ChannelType.text:
+            try:
+                await bot.send_message(channel, SPAWN)
+                return
+            except discord.errors.Forbidden:
+                continue
+
+
+###-- help --###
+@bot.command(pass_context = True, aliases = ['halp'])
+async def help(ctx):
+
+    await bot.whisper(HELP)
+    # await bot.send_message(ctx.message.author, HELP)
+    # await bot.send_message(ctx.message.author, content=HELP)
+
+
+###-- hello --###
+@bot.command(pass_context = True)
+async def hello():
+    await bot.say(HELLO)
+
+###-- who --###
+@bot.command()
+async def who():
+    await bot.say("Full-fledged Hero!!")
+
+###-- ping --###
+@bot.command()
+async def ping(*args):
+    await bot.say(PING)
+
+###-- pong --###
+@bot.command()
+async def pong(*args):
+    await bot.say(PONG)
 
 ###-- die --###
 #@bot.command(hidden=True, no_pm=True)
@@ -313,47 +675,87 @@ async def pong(*args):
 ###-- ktest --###
 @bot.command()
 async def ktest():
-    await bot.say("**[Let's see the future!!]**\n" + "https://tos-ktest.neet.tv/")
+    await bot.say("**[Let's see the future!!]**\nhttps://tos-ktest.neet.tv/")
 
 ###-- build --###
-@bot.command(aliases=['builds'])
+@bot.command(aliases = ['builds'])
 async def build():
-    await bot.say("**[Compilation of Practical Class Build Guide!!]**\n_- builds made by reddit community & compiled by Palemoon_\n" + "https://docs.google.com/document/d/1SF3CeTi9umcI9tFmZmRCNUHEJQwtgSMmVKqq9sCjnPY/edit?usp=sharing")
+    await bot.say(
+        "**[Compilation of Practical Class Build Guide!!]**\n"
+        "_- builds made by reddit community & compiled by Palemoon_\n"
+        DOC_BUILD
+        )
 
 ###-- update --###
-@bot.command(aliases=['updates', 'change', 'changes'])
+@bot.command(aliases = ['updates', 'change', 'changes'])
 async def update():
-    await bot.say("**[Check what is new!!]**\n" + "https://tos.neet.tv/changes")
+    await bot.say("**[Check what is new!!]**\nhttps://tos.neet.tv/changes")
 
 ###-- addon manager --###
 @bot.command()
 async def addon():
-    await bot.say("**[Grab your Tree of Savior addons manager!!]**\n_- by MizukiBelhi_\n" + "https://github.com/MizukiBelhi/Tree-of-Savior-Addon-Manager/releases \n" + "https://github.com/JToSAddon/Tree-of-Savior-Addon-Manager/releases/latest")
+    await bot.say(
+        "**[Grab your Tree of Savior addons manager!!]**\n"
+        "_- by MizukiBelhi_\n"
+        ADDON_MIZUKIBELHI
+        "\n"
+        ADDON_JTOS
+        )
 
 ###-- faq --###
-@bot.command(aliases=['faq', 'return'])
+@bot.command(aliases = ['faq', 'return'])
 async def newbie():
-    await bot.say("**[FAQ for newbie and returning player!!]**\n_- by Palemoon_\n" + "https://www.reddit.com/r/treeofsavior/comments/af1evf/read_first_new_or_returning_players_version_20/"  + "\n\n**[The Re:Build Survival Guide, DevBlog & FAQ!!]**\n" + "https://treeofsavior.com/news/?n=1584" + "\nhttps://treeofsavior.com/page/news/view.php?n=1534")
+    await bot.say(
+        "**[FAQ for newbie and returning player!!]**\n"
+        "_- by Palemoon_\n"
+        NEW_OR_RETURN
+        "\n\n"
+        LATEST
+        )
 
 ###-- holy guides --###
 @bot.command()
 async def guide():
-    await bot.say("**[Guide blog based on ktos/ktest!!]**\n" + "https://wizardguidetreeofsavior.blogspot.com" + "\n\n**[Various class overview by Ritsu!!]**\n" + "http://kiyoshiro-ritsu.tumblr.com/")
+    await bot.say(
+        "**[Guide blog based on ktos/ktest!!]**\n"
+        GUIDE
+        "\n\n"
+        "**[Various class overview by Ritsu!!]**\n"
+        GUIDE_RITSU
+        )
 
 ###-- unlock guide --###
-@bot.command(aliases=['hidden'])
+@bot.command(aliases = ['hidden'])
 async def unlock():
-    await bot.say("**[Hidden class/rank 8 class unlock guides!!]**\n_- by Palemoon_\n" + "https://docs.google.com/document/d/1aEOF-WjTiKr1WE-bYHNIyl0_JnVX8_rUzCoclFDVQrY/edit?usp=sharing" + "\n\n**[Tree of Savior Hidden Secrets & Lores!!]**\n_- by Ximi_\n" + "http://toshidden.blog.fc2.com/")
+    await bot.say(
+        "**[Hidden class/rank 8 class unlock guides!!]**\n"
+        "_- by Palemoon_\n"
+        DOC_UNLOCK
+        "\n\n"
+        "**[Tree of Savior Hidden Secrets & Lore!!]**\n"
+        "_- by Ximi_\n"
+        POST_LORE
+        )
 
 ###-- planner --###
 @bot.command()
 async def planner():
-    await bot.say("**[Plan your character build!!]**\n" + "https://tos.neet.tv/skill-planner" + "\nhttp://toscamp.com/tos/ranksimul/" + "\nhttp://tos-th.com/skill-simulator.html")
+    await bot.say(
+        "**[Plan your character build!!]**\n"
+        PLANNER_TOSG
+        "\n"
+        PLANNER_TOSCAMP
+        )
+    # tos-th.com is no longer available.
 
 ###-- gimmick --###
-@bot.command(aliases=['exploration', 'gimmick'])
+@bot.command(aliases = ['exploration', 'gimmick'])
 async def explo():
-     await bot.say("**[Explorer's Gimmick & New Collections Guide]**\n[*credits : TerminalEssence & Friends*]\n\n" + "https://docs.google.com/document/d/1ihOzgxe8SrV8aRwYq1xMUwiTvsTNHGibJ6yBXFATaTg/edit?usp=sharing")
+     await bot.say(
+        "**[Explorer Gimmicks & New Collections Guide]**\n"
+        "[*credits : TerminalEssence & Friends*]\n\n"
+        DOC_GIMMICKS
+        )
 
 ###-- timezone --###
 @bot.command()
@@ -366,18 +768,18 @@ async def time():
     cet = timezone('CET')
     sgt = timezone('Asia/Singapore')
 
-    now = datetime.datetime.now(tz=utc)
+    now = datetime.datetime.now(tz = utc)
 
     # Current time in UTC
     await bot.say(
-      '```cs\n' +
-      "UTC : {}\n".format(now.strftime(fmt)) +
-      "EST : {}\n".format(now.astimezone(est).strftime(fmt)) +
-      "BRST: {}\n".format(now.astimezone(brst).strftime(fmt)) +
-      "CET : {}\n".format(now.astimezone(cet).strftime(fmt)) +
-      "SGT : {}\n".format(now.astimezone(sgt).strftime(fmt)) +
-      '```'
-    )
+        '```cs\n'
+        f"UTC : {now.strftime(fmt)}\n"
+        f"EST : {now.astimezone(est).strftime(fmt)}\n"
+        f"BRST: {now.astimezone(brst).strftime(fmt)}\n"
+        f"CET : {now.astimezone(cet).strftime(fmt)}\n"
+        f"SGT : {now.astimezone(sgt).strftime(fmt)}\n"
+        '```'
+        )
 
     # Convert to Asia/Singapore time zone
     #now_sgt = now_utc.astimezone(timezone('Asia/Singapore'))
@@ -390,151 +792,152 @@ async def time():
 #     await bot.say("**[Leveling Guide]**\n[based on shion@inven.co.kr]\n\n" + "https://www.reddit.com/r/treeofsavior/comments/8bg0mb/updated_levelling_guide/")
 
 ##-- leveling (2) --###
-@bot.command(pass_context=True, aliases=['leveling', 'lvl', 'level'])
+@bot.command(pass_context = True, aliases = ['leveling', 'lvl', 'level'])
 async def lv(ctx):
-    pages = [
-"**Read :** FAQ for newbie and returning player!! \n**Command :** !rawr faq \n\n_- Navigate using the reaction emotes._\n_- Navigation buttons/reactions can only be used by individual who input the **!rawr lv** command._\n_- Guide start from page 2._\n_- Press_ \N{INFORMATION SOURCE} _if you're confused._",
-"***Lvl 1 ~ 50:***\n\nStart off by completing all the main(yellow/gold) quests from **East Siauliai Woods** all the way to **West Siauliai Woods.** You can then complete the main quest chains from **Miner's Village > Crystal Mines > Strautas Gorge > Gele Plateau > Nefritas Cliff > Tenet Garden.** Once you have enough silver to get Blessing and Sacrament buffs from pardoners in Klaipeda town(usually about 1600 silver is enough), you will want to get the buffs whenever you want to level. Make sure you refresh your buffs if they run out by purchasing them again in town. Once you arrive at **Tenet Garden **you can kill the mobs above the goddess statue there, they are plentiful and have fast respawn times. You will also need to go inside **Tenet Church B1** and complete the entire main questline there until **Tenet Church 2f** in order to acquire the **Seal of Space** quest item.",
-"***Lvl 50 ~ 114:***\n\nOnce you are lvl 50, you will be able to attempt the **lvl 50 dungeon in Klaipeda** town, be sure to use your megaphones brought from the tp store using free daily tp to shout for people to queue up for it or join a guild so that it is easier to find parties. Go to **Feretory Hills** and kill the **Hallowventers** there along with other mobs. Be sure to complete the quests in **Feretory Hills, Mochia Forest** and **Sutatis Trade Route** for some easy exp. You can continue to return to **Feretory Hills** and grind the mobs if you've already ran out of dungeon runs for the day and have completed the previous quests. Once you get closer to lvl 90ish, you may also start to grind at **Sicarius 1f.**",
-"***Lvl 114 ~ 202:***\n\nMake your way to **Aqueduct Bridge Area** and start the main quest chain there. It will bring you into the **Demon Prison** maps in which you can follow the entire questchain until **Demon Prison District 5.** Once you have done so, you may choose to return to **Demon Prison District 2** and kill the mobs there, they are plentiful and respawn quickly. You will be able to grind here for quite a while due to the sheer number of mobs and the fast respawn rate. you will also want to try the Challenge Mode feature(lvl 100+) around maps of your level. An alternate path is to go to **Dina Bee Farm** and kill the bees in **Akasya Field** and **Rododun Apiary** areas when you are around lvl 140+(you can also do the quests in this map too!)",
-"***Lvl 202 ~ 230:***\n\nMake your way to **Alemeth Forest** and complete the quests there. Continue on and complete the quests in **Barha Forest, Nahash Forest, Cranto Coast** and **Igti Coast.** **Cranto Coast** is also an excellent map to do Challenge modes in, be sure to attempt challenge modes in a party from now on(you can get party members from shouting a party link via megaphone). If you still need abit more exp to reach 230 then consider visiting **Neighport Church East Building,** it is a great place to grind once your daily challenge modes and previous quests are done.",
-"***Lvl 230 ~ 270:***\n\nGo to **Kalejimas Visiting Room** and start to complete the main quests in that area. You can actually follow the entire quest route from **Kalejimas Visiting Room > Storage > Solitary Cells > Workshop > Investigation Room** killing all the monsters you encounter on the way. Remember to keep up with your daily dungeon runs of appropriate level and Challenge mode entries. If you still require additional exp to reach lvl 270 you can consider returning to **Workshop** and grinding the monsters there, it features a relatively small map along with a decent amount of monster spawns.",
-"***Lvl 270 ~ 315:***\n\nKeep up with Daily dungeons around your level and make your way to **Timerys Temple.** This will be your new home for grinding and Challenge modes until lvl 315. Make sure to use up to date equipment for your level because the mobs will start to hurt alot. **Timerys Temple** also happens to be a great map for gem farming and silver farming. An alternative path to this would be to go to **Inner Wall District 8** and complete the main quests there. You can continue to follow the questchain around **City Wall 8, Jeromel Commemorative Park** and **Jonael Commemoratie Orb**. If you feel like you require some addition exp, you can consider returning to **Jeromel Commemorative Park** to grind the plentiful mobs there.",
-"***Lvl 315 ~ 357:***\n\nYou can now start to level at **Sausys Room 9,** this is a great place to grind and do your daily challenge modes for silver, loot and exp. Remember to keep up to date with your equipment and work towards better equips. Complete all the quests from **Sausys Room 9** all the way to **Valandis Room 91.** When you are around lvl 340ish and you are getting bored of grinding at **Sausys Room 9,** you can go to **Narvas Temple** for a change of scenery and do the Challenge modes, quests and grind there.",
-"***Lvl 357 ~ 390:***\n\nYou will want to complete most of the higher level quests in this bracket range for their great exp amounts. Start from **Lanko 26 Waters** and complete all the quests from there until **Barynwell 87 Waters,** then head into **Astral Tower 1f. Astral Tower 1F** happens to be a great place for challenge modes with its narrow corridors forcing mobs to spawn in close proximity running towards you. Complete all the quests within **Astral Tower 1f** until **Astral tower 21f** then make your way to **Starry Town.** You will want to follow the quest chain here and complete all the quests in **Starry Town, Feline Post Town** and finally **Spell Tome Town. Spell Tome Town** is also an excellent place to do challenge modes due to specific narrow areas and high level monsters. Remember to keep up with your dungeon runs of appropriate levels. If you still require additional exp, you may choose to grind around any of the higher level maps in this bracket range or spam challenge mode runs with reset vouchers from events and from purchasing them off other players in the market(the profit from a single cm run is usually greater than the cost of purchasing a reset voucher)"
-    ]
-
-    for index, page in enumerate(pages):
-        pages[index] = 'click title for reddit post\n \n' + page
-
-    pages = Pages(bot, message=ctx.message, entries=pages, per_page=1, with_number=False)
+    pages = Pages(
+        bot,
+        message = ctx.message,
+        entries = GUIDE_LEVELING,
+        per_page = 1,
+        with_number = False
+        )
     await pages.paginate()
 
 ###-- invite --###
-@bot.command(aliases=['invite'])
+@bot.command(aliases = ['invite'])
 async def inv():
-    invt = "https://discordapp.com/api/oauth2/authorize?client_id=336363921466195968&scope=bot&permissions=0"
-    await bot.say("**[Use this link to invite me to your server.]**\n\n" + invt)
+    await bot.say(
+        f"**[Use this link to invite me to your server.]**\n\n{INVITE}"
+        )
 
 ###-- ranking --###
-@bot.command(aliases=['rankings'])
+@bot.command(aliases = ['rankings'])
 async def rank():
-    await bot.say("**[The most popular TOS class builds of all time]**\n[Update periodically]\n\n" + "https://treeofsavior.com/page/class/ranking.php")
+    await bot.say(
+        "**[The most popular TOS class builds of all time]**\n"
+        "[Update periodically]\n\n"
+        CLASS_RANKING
+        )
 
 ###-- patch notes translation --###
 @bot.command()
 async def pnt():
-    patch = """
-**[Ktest/Ktos - Patch Notes Translation]**
-_(no longer maintained)_
-**Greyhiem's**  https://pastebin.com/u/Greyhiem
-**Gwenyth's**  https://pastebin.com/u/sunhwapark
-"""
-    await bot.say(patch)
+    await bot.say(POST_PATCH)
 
 ###-- get / item --###
 # def get_choice(r):
-    # return (r.content.isdigit() and int(r.content) >= 1 and int(r.content) <= len(result_search))
+    # return (r.content.isdigit() and int(r.content) >= 1 and int(r.content) <= len(results))
 
-@bot.command(pass_context=True, aliases=['item'], no_pm=True)
+@bot.command(pass_context = True, aliases = ['item'], no_pm = True)
 async def get(ctx, *name):
-
     await bot.type()
-
-    getout = """
-:warning: **__502 BAD GATEWAY__** :warning:
-**ReadMe**
-```css
-[ Hi there, this is Rawr! ]
-Since #tos.neet.tv are no longer maintained and/or accessible by Rawr, I can no longer provide a quick search & dispaly both #items and #skills information for you.
-This feature will be disabled for the time being.
-[ I am sorry for the inconvenience! ]
-```
-**Alternative:**
-```cpp
-#use new cmd: !rawr db
-```
-    """
-    #await bot.say(getout)
+    #await bot.say(WARNING_502)
 
     # get keyword #
     #Deprecated = """
     name = '+'.join(name)
-    r = urllib.request.urlopen('https://tos.neet.tv/items?name=' + name + '&f=1').read()
+    r = urllib.request.urlopen(
+        f'https://tos.neet.tv/items?name={name}&f=1'
+        ).read()
     soup = BeautifulSoup(r, 'html.parser')
-    result_table = soup.find('table', {"class": 'results-table'}).find('tbody').find_all('tr')
+    result_table = soup.find(
+        'table',
+        {"class": 'results-table'}
+        ).find('tbody').find_all('tr')
     item_names = []
     item_types = []
     item_links = []
-    result_search = ''
+    results = []
     res_len = len(result_table)
     start = 0
     end = 7
-    for no, row in enumerate(result_table[start:end], start=0):
+    for no, row in enumerate(result_table[start:end], start = 0):
         columns = row.find_all('td')
         item_links.append(columns[1].find('a').get('href'))
-        item_names.append(columns[2].string)
-        item_types.append(columns[3].string)
-        result_search += str(no + 1) + '. ' + columns[2].get_text() + ' - [' + columns[3].get_text() + ']' + '\n'
+        item_name = columns[2].get_text()
+        item_names.append(item_name)
+        item_type = columns[3].get_text()
+        item_types.append(item_type)
+        results.append(
+            f'{no + 1}. {item_name} - [{item_type}]'
+            )
     # send search result - multiple choice #
-    msg = await bot.say(content=ctx.message.author.mention + "\n**Please choose one by giving its number**,\n_type `next` or `>` to display more result._" + "```" + str(result_search) + "```" + "\n")
+    msg = await bot.say(
+        f"{ctx.message.author.mention}\n"
+        "**Please choose one by giving its number**,\n"
+        "_type `next` or `>` to display more result._"
+        "```"
+        '\n'.join(results)
+        "```"
+        )
     # waiting for response from user #
     while True:
-        choice = await bot.wait_for_message(timeout=30.0, author=ctx.message.author)
+        results = []
+        choice = await bot.wait_for_message(
+            timeout = 30.0,
+            author = ctx.message.author
+            )
         if choice is None:
             await bot.say('_**too slow...**_   **(╯°□°）╯︵ ┻━┻**')
-            break
+            return
         elif choice.content == 'next' or choice.content == '>':
-                    start += 7
-                    end += 7
-                    result_search = ""
-                    for no, row in enumerate(result_table[start:end], start=start):
-                        columns = row.find_all('td')
-                        item_links.append(columns[1].find('a').get('href'))
-                        item_names.append(columns[2].string)
-                        item_types.append(columns[3].string)
-                        result_search += str(no + 1) + '. ' + columns[2].get_text() + ' - [' + columns[3].get_text() + ']' + '\n'
-                    await bot.delete_message(msg)
-                    msg = await bot.say(content=ctx.message.author.mention + "\n**Please choose one by giving its number**,\n_type `next` or `>` to display more result._" + "```" + str(result_search) + "```" + "\n")
+            start += 7
+            end += 7
+            for no, row in enumerate(result_table[start:end], start = start):
+                columns = row.find_all('td')
+                item_links.append(columns[1].find('a').get('href'))
+                item_name = columns[2].get_text()
+                item_names.append(item_name)
+                item_type = columns[3].get_text()
+                item_types.append(item_type)
+                results.append(
+                    f'{no + 1}. {item_name} - [{item_type}]'
+                    )
+            await bot.delete_message(msg)
+            msg = await bot.say(
+                f"{ctx.message.author.mention}\n"
+                "**Please choose one by giving its number**,\n"
+                "_type `next` or `>` to display more result._"
+                "```"
+                '\n'.join(results)
+                "```"
+                )
     # send search result - embed #
-        elif choice.content.isdigit() and int(choice.content) >= 1 and int(choice.content) <= len(result_search):
+        elif (
+            choice.content.isdigit()
+            and int(choice.content) in range(1, len(results) + 1)
+            ):
             choice_number = int(choice.content)
-            embed = get_item('https://tos.neet.tv' + item_links[choice_number - 1])
+            embed = get_item(
+                f'https://tos.neet.tv{item_links[choice_number - 1]}'
+                )
             # await bot.delete_message(choice)
             await bot.delete_message(msg)
             # await bot.delete_message(ctx.message)
-            await bot.say(content=ctx.message.author.mention + "\n**This is your search result!**\n_Click the item name to see more info on your browser._", embed=embed)
-            break
+            await bot.say(
+                f"{ctx.message.author.mention}\n"
+                "**This is your search result!**\n"
+                "_Click the item name to see more info on your browser._",
+                embed = embed
+                )
+            return
     #"""
 ##-- eol --##
 
 
 ### get skill ###
-@bot.command(pass_context=True, no_pm=True)
+@bot.command(pass_context = True, no_pm = True)
 async def skill(ctx, *job):
 
     await bot.type()
-
-    getout = """
-:warning: **__502 BAD GATEWAY__** :warning:
-**ReadMe**
-```css
-[ Hi there, this is Rawr! ]
-Since #tos.neet.tv are no longer maintained and/or accessible by Rawr, I can no longer provide a quick search & dispaly both #items and #skills information for you.
-This feature will be disabled for the time being.
-[ I am sorry for the inconvenience! ]
-```
-**Alternative:**
-```cpp
-#use new cmd: !rawr db
-```
-    """
     #await bot.say(getout)
 
     # get keyword #
     #noskill = """
     # get keyword #
-    __location__ = os.path.realpath( os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    __location__ = os.path.realpath(
+        os.path.join(os.getcwd(), os.path.dirname(__file__))
+        )
     with open(os.path.join(__location__, 'classes2.json')) as f:
     # with open('classes2.json') as f:
         content = f.read()
@@ -549,55 +952,115 @@ This feature will be disabled for the time being.
             # print('Founded?: ' + name + " :" + code)
             break
     jobs = code
-    r = urllib.request.urlopen('https://tos.neet.tv/skills?cls=' + jobs + '&f=1').read()
+    r = urllib.request.urlopen(
+        f'https://tos.neet.tv/skills?cls={jobs}&f=1'
+        ).read()
     soup = BeautifulSoup(r, 'html.parser')
-    result_table = soup.find('table', {"class": 'results-table'}).find('tbody').find_all('tr')
+    result_table = soup.find(
+        'table',
+        {"class": 'results-table'}
+        ).find('tbody').find_all('tr')
     skill_names = []
     skill_types = []
     skill_links = []
-    result_search = ''
-    skill_res = ''
+    # results = []
+    skill_res = []
     res_len = len(result_table)
     for no, row in enumerate(result_table):
         columns = row.find_all('td')
-        skill_links.append(columns[1].find('a').get('href'))
-        skill_names.append(columns[2].string)
-        skill_types.append(columns[3].string)
-        result_search += str(no + 1) + '. ' + columns[2].get_text() + ' - [' + columns[3].get_text() + ']' + ' ------ ' + columns[1].find('a').get('href') + '\n'
-        skill_res += str(no + 1) + '. ' + columns[2].string + '\n'
+        skill_link = columns[1].find('a').get('href')
+        skill_links.append(skill_link)
+        skill_name = column[2].get_text()
+        skill_names.append(skill_name)
+        skill_type = column[3].get_text()
+        skill_types.append(skill_type)
+        # results.append(
+        #     f"{no + 1}. {skill_name} - [{skill_type}] ------ {skill_link}"
+        #     )
+        skill_res.append(
+            f"{no + 1}. {skill_name}"
+            )
     # send search result - multiple choice #
-    msg = await bot.say(content=ctx.message.author.mention + "\n**Please choose one by giving its number:**" + "```" + (skill_res) + "```" + "\n")
+    msg = await bot.say(
+        f"{ctx.message.author.mention}\n"
+        "**Please choose one by giving its number:**\n"
+        "```"
+        '\n'.join(skill_res)
+        "```"
+        )
     # waiting for response from user #
     while True:
-        choice = await bot.wait_for_message(timeout=30.0, author=ctx.message.author)
+        choice = await bot.wait_for_message(
+            timeout = 30.0,
+            author = ctx.message.author
+            )
         if choice is None:
             await bot.say('_**too slow...**_   **(╯°□°）╯︵ ┻━┻**')
             break
     # send search result - embed #
-        elif choice.content.isdigit() and int(choice.content) >= 1 and int(choice.content) <= len(result_search):
+        elif (
+            choice.content.isdigit()
+            and int(choice.content) in range(1, len(skill_res) + 1)
+            ):
             choice = int(choice.content)
-            items = skill_info('https://tos.neet.tv' + skill_links[choice - 1])
-            embed = discord.Embed(colour=discord.Colour(0xD2EE8A), description=items['description'], timestamp=datetime.datetime.now())
+            current_url = f'https://tos.neet.tv{skill_links[choice - 1]}'
+            items = skill_info(current_url)
+            embed = discord.Embed(
+                colour = discord.Colour(0xD2EE8A),
+                description = items['description'],
+                timestamp = datetime.datetime.now()
+                )
             # embed.set_image(url="https://tos.neet.tv/images/equip/icon_item_shirts_acolyte_silver.png")
-            embed.set_thumbnail(url=items['thumbnail'])
-            embed.set_author(name=items['title'], url='https://tos.neet.tv' + skill_links[choice - 1], icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
-            embed.set_footer(text="tos.neet.tv", icon_url="https://tos.neet.tv/images/hairacc/hairacc_80_fez.png")
-            sklinfo = '```' + '\n'.join(["{:<15}: {}".format(*item) for item in items['adin'].items()]) + '```'
-            embed.add_field(name="Skill Info", value=sklinfo, inline=True)
-            sklatrb = ''
+            embed.set_thumbnail(url = items['thumbnail'])
+            embed.set_author(
+                name = items['title'],
+                url = current_url,
+                icon_url = TOS_THUMBNAIL
+                )
+            embed.set_footer(
+                text = "tos.neet.tv",
+                icon_url = EMBED_THUMBNAIL
+                )
+            sklinfo = (
+                '```'
+                '\n'.join(
+                    [
+                        "{:<15}: {}".format(*item)
+                        for item in items['adin'].items()
+                        ]
+                    )
+                '```'
+                )
+            embed.add_field(
+                name = "Skill Info",
+                value = sklinfo,
+                inline = True
+                )
+            sklatrb = []
             try:
                 for attrib in items['attribs']:
-                    sklatrb += attrib['name'] + '\n'
-                    sklatrb += attrib['value'] + '\n'
-                    sklatrb += attrib['mod'] + '\n'
-                    sklatrb += '\n'
+                    sklatrb.append(attrib['name'])
+                    sklatrb.append(attrib['value'])
+                    sklatrb.append(attrib['mod'])
             except Exception as e:
                 pass
             if sklatrb:
-                sklatrb = '```\n{}```'.format(sklatrb)
-                embed.add_field(name="Attributes", value=sklatrb, inline=False)
+                embed.add_field(
+                    name = "Attributes",
+                    value = (
+                        "```"
+                        I'\n'.join(sklatrb)
+                        "```"
+                        ),
+                    inline = False
+                    )
             await bot.delete_message(msg)
-            await bot.say(content=ctx.message.author.mention + "\n**This is your search result!**\n_Click the skill name to see more info on your browser._", embed=embed)
+            await bot.say(
+                f"{ctx.message.author.mention}\n"
+                "**This is your search result!**\n"
+                "_Click the skill name to see more info on your browser._",
+                embed = embed
+                )
             break
             #"""
 
@@ -605,96 +1068,154 @@ This feature will be disabled for the time being.
 
 
 ### get news - official website ###
-@bot.command(pass_context=True, no_pm=True)
+@bot.command(pass_context = True, no_pm = True)
 async def news(ctx):
 
     await bot.type()
 
-    r = urllib.request.urlopen('https://treeofsavior.com/page/news/').read()
+    r = urllib.request.urlopen(TOS_NEWS).read()
     soup = BeautifulSoup(r, 'html.parser')
-    resnews = soup.find(id= 'news_box_wrap').find_all('div', {"class": 'news_box'}, limit = 7)
+    resnews = soup.find(id= 'news_box_wrap').find_all(
+        'div',
+        {"class": 'news_box'},
+        limit = 7
+        )
 
-
-    news_list = ""
-    for n, news in enumerate(resnews, start=1):
+    news_list = []
+    for n, news in enumerate(resnews, start = 1):
         title = news.find('h3').get_text()
         link = 'https://treeofsavior.com' + news.find('a').get('href')
 
-        news_list +=  "{}. [{}]({})\n".format(str(n), title, link)
+        news_list.append(f"{n}. [{title}]({link})")
 
-    embed = discord.Embed(colour=discord.Colour(0x1abc9c), description="[All](https://treeofsavior.com/page/news/?n=1) | [Event](https://treeofsavior.com/page/news/?c=33&n=1) | [Patch Notes](https://treeofsavior.com/page/news/?c=3&n=1) | [Dev's Blog](https://treeofsavior.com/page/news/?c=31&n=1) | [Known Issues](https://treeofsavior.com/page/news/?c=32&n=1)", timestamp=datetime.datetime.now())
+    embed = discord.Embed(
+        colour = discord.Colour(0x1abc9c),
+        description = NEWS_ALL,
+        timestamp = datetime.datetime.now()
+        )
 
-    embed.set_thumbnail(url="https://treeofsavior.com/img/common/logo.png")
-    embed.set_author(name="Tree Of Savior News & Update", url="https://treeofsavior.com/page/news/", icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
-    embed.set_footer(text="Rawr | Tree of Savior | IMC Games Co.,Ltd")
+    embed.set_thumbnail(
+        url = "https://treeofsavior.com/img/common/logo.png"
+        )
+    embed.set_author(
+        name= "Tree of Savior News & Update",
+        url = TOS_NEWS,
+        icon_url = TOS_THUMBNAIL
+        )
+    embed.set_footer(
+        text = FOOTER
+        )
 
-    nlist = "".join(news_list)# for item in news_list
-    embed.add_field(name="Patch Notes & News", value=nlist, inline = False)
+    #nlist = "\n".join(news_list)# for item in news_list
+    embed.add_field(
+        name = "Patch Notes & News",
+        value = "\n".join(news_list),
+        inline = False
+        )
 
-    await bot.say(embed=embed)
+    await bot.say(embed = embed)
 
 ### get PCCU from steamspy ###
-@bot.command(pass_context=True, no_pm=True)
+@bot.command(pass_context = True, no_pm = True)
 async def pccu(ctx):
 
     await bot.type()
 
-    url = 'http://steamcharts.com/app/372000'
-
     user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'
     headers = { 'User-Agent' : user_agent }
 
-    req = urllib.request.Request(url, headers=headers)
+    req = urllib.request.Request(STEAM_CHARTS, headers = headers)
 
     r = urllib.request.urlopen(req).read()
     soup = BeautifulSoup(r, 'html.parser')
     sta = soup.find_all('div', {"class": 'app-stat'})
 
-    list1 = []
+    fields = []
     for req in sta:
-        player = int(req.find('span', {"class": 'num'}).get_text())
-        list1.append('{:,}'.format(player))
+        nplayers = int(req.find('span', {"class": 'num'}).get_text())
+        fields.append(f'{nplayers:,}')
 
-    embed = discord.Embed(colour=discord.Colour(0x1abc9c), title="Tree of Savior (English Ver.)", description="Tree of Savior (abbreviated as TOS thereafter) is an MMORPG in which you embark on a journey to search for the goddesses in the world of chaos. Fairy-tale like colors accompanied with beautiful graphics in TOS will have you reminiscing about precious moments all throughout the game.\n\n[steamdb.info](https://steamdb.info/app/372000/graphs/)\n[steamspy.com](https://steamspy.com/app/372000)\n[steamcharts.com](http://steamcharts.com/app/372000)\n", timestamp=datetime.datetime.now())
+    players_now, players_day, players_all = fields
 
-    embed.set_image(url="http://cdn.akamai.steamstatic.com/steam/apps/372000/header.jpg")
-    embed.set_thumbnail(url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
-    embed.set_author(name="Online Player Tracker", url="https://treeofsavior.com", icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
-    embed.set_footer(text="Rawr | Tree of Savior | IMC Games Co.,Ltd")
+    embed = discord.Embed(
+        colour = discord.Colour(0x1abc9c),
+        title = "Tree of Savior (English Ver.)",
+        description = TOS_DESC,
+        timestamp = datetime.datetime.now()
+        )
+
+    embed.set_image(
+        url = TOS_STEAM_IMG
+        )
+    embed.set_thumbnail(
+        url = TOS_THUMBNAIL
+        )
+    embed.set_author(
+        name = "Online Player Tracker",
+        url = "https://treeofsavior.com",
+        icon_url = TOS_THUMBNAIL)
+    embed.set_footer(
+        text = FOOTER
+        )
 
     # nlist = "".join(news_list)# for item in news_list
     # embed.add_field(name="Right Now", value=sta[0].find('strong').get_text(), inline = False)
-    embed.add_field(name="Right Now", value=list1[0], inline = True)
-    embed.add_field(name="24 Hour Peak", value=list1[1], inline = False)
-    embed.add_field(name="All The Time Peak", value=list1[2], inline = False)
+    embed.add_field(
+        name = "Right Now",
+        value = players_now,
+        inline = True
+        )
+    embed.add_field(
+        name = "24 Hour Peak",
+        value = players_day,
+        inline = False
+        )
+    embed.add_field(
+        name = "All The Time Peak",
+        value = players_all,
+        inline = False
+        )
 
-    await bot.say(embed=embed)
+    await bot.say(embed = embed)
 
 ###-- wiki --###
-@bot.command(pass_context=True, no_pm=True, aliases=['wiki', 'database'])
+@bot.command(pass_context = True, no_pm = True, aliases = ['wiki', 'database'])
 async def db(ctx):
 
     await bot.type()
 
-    embed = discord.Embed(colour=discord.Colour(0x1abc9c), description="[Home](https://tos.guru/) | [rjgtav's](https://www.twitch.tv/rjgtav) | [Rawrr](https://github.com/helloaldrian/Rawr) | [Guide](https://wizardguidetreeofsavior.blogspot.com) | [Feedback](https://feedback.userreport.com/e23e275c-deb8-4560-9434-070fc22b6208/)\n\nWelcome to Tree of Savior Database.\nThe Database's goal is to provide you with the most complete, accurate and up-to-date information about the game.\n\n", timestamp=datetime.datetime.now())
+    embed = discord.Embed(
+        colour = discord.Colour(0x1abc9c),
+        description = TOSGURU_DESC,
+        timestamp = datetime.datetime.now()
+        )
 
-    embed.set_image(url="http://cdn.akamai.steamstatic.com/steam/apps/372000/header.jpg")
-    embed.set_thumbnail(url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
-    embed.set_author(name="tos.guru", url="https://tos.guru/", icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
-    embed.set_footer(text="Tree of Savior | rjgtav | Rawrr")
+    embed.set_image(
+        url = TOS_STEAM_IMG
+        )
+    embed.set_thumbnail(
+        url = TOS_THUMBNAIL
+        )
+    embed.set_author(
+        name = "tos.guru",
+        url = "https://tos.guru/",
+        icon_url = TOS_THUMBNAIL
+        )
+    embed.set_footer(
+        text = "Tree of Savior | rjgtav | Rawrr"
+        )
 
     #embed.add_field(name="Placeholder", value="placeholder")
-    embed.add_field(name="Features", value="""[Maps - WIP](https://tos.guru/)
-    [kTest](https://tos.guru/ktest/database/equipment)
-    [Items](https://tos.guru/itos/database/items)
-    [Build Simulator](https://tos.guru/itos/simulator)
-    [Anvil & Transcendence Calculator](https://tos.guru/itos/database/equipment)
-    """, inline = False)
+    embed.add_field(
+        name = "Features",
+        value = TOSGURU_LINKS,
+        inline = False
+        )
 
-    await bot.say(embed=embed)
+    await bot.say(embed = embed)
 
 
-@bot.command(pass_context=True, no_pm=True)
+@bot.command(pass_context = True, no_pm = True)
 async def rss(ctx):
     NewsFeed = feedparser.parse("https://dark-nova.me/tos/feed.xml")
 
@@ -706,6 +1227,6 @@ async def rss(ctx):
         entry.summary +
         "\n------Link--------\n" +
         entry.link
-    )
+        )
 
 bot.run(os.environ['BOT_TOKEN'])

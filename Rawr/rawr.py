@@ -1,9 +1,9 @@
 import datetime
 import html
 import json
+import os
 import re
 import sys
-from pathlib import Path
 
 import aiohttp
 import discord
@@ -36,7 +36,10 @@ if __name__ == '__main__':
         try:
             bot.load_extension(extension)
         except Exception as e:
-            print(f'Failed to load extension {extension}.', file = sys.stderr)
+            print(
+                f'Failed to load extension {extension}: {e}',
+                file = sys.stderr
+                )
 
 
 # Rawr-specific
@@ -110,10 +113,10 @@ async def on_ready():
     #     json.dump(db, f, indent=4)
 
     await bot.change_presence(
-        game = discord.Game(
-            name = "Tree of Savior 2.0 - Re:Build"
+        activity = discord.Game(
+            name = "Tree of Savior 2.0 - Re:Build",
             ),
-        status = discord.Status("online")
+            status = discord.Status.online,
         )
 
     print('=============================')

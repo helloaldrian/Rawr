@@ -1,3 +1,5 @@
+import json
+import re
 from inspect import cleandoc
 from pathlib import Path
 
@@ -109,7 +111,7 @@ WARNING_502 = """
     ```
     """
 
-file  = Path(__file__).resolve().parent / 'classes2.json'
+file  = Path('Rawr').resolve() / 'classes2.json'
 with file.open() as f:
     content = f.read()
 all_classes = json.loads(content)

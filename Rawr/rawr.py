@@ -1,8 +1,6 @@
 import datetime
 import html
-import json
 import os
-import re
 import sys
 
 import aiohttp

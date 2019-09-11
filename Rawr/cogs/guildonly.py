@@ -1,3 +1,4 @@
+import aiohttp
 import discord
 from discord.ext import commands
 
@@ -23,6 +24,10 @@ EMBED_THUMBNAIL = (
 TOS_STEAM_IMG = (
     "http://cdn.akamai.steamstatic.com/steam/apps/372000/header.jpg"
     )
+
+# Game - external
+
+STEAM_CHARTS = 'http://steamcharts.com/app/372000'
 
 # Game - news
 
@@ -52,10 +57,6 @@ TOS_DESC = "\n".join(
         f"[steamcharts.com]({STEAM_CHARTS})",
         ]
     )
-
-# Game - external
-
-STEAM_CHARTS = 'http://steamcharts.com/app/372000'
 
 # Game - external - tos.guru
 
@@ -103,6 +104,29 @@ This feature will be disabled for the time being.
 ```
 """
 
+file  = Path(__file__).resolve().parent / 'classes2.json'
+with file.open() as f:
+    content = f.read()
+all_classes = json.loads(content)
+for tos_class in all_classes:
+    tos_class['regex'] = re.compile(tos_class['regex'], re.IGNORECASE)
+
+async def get_class(job: str):
+    """Gets a class given `job`.
+
+    Args:
+        job (str): the user-supplied job to retrieve
+
+    Returns:
+        tuple (code, name): if successful
+        None: otherwise
+
+    """
+    for tos_class in all_classes:
+        if tos_class['regex'].match(keyword):
+            return (tos_class['code'], tos_class['name'])
+    return
+
 
 class GuildOnlyCog(commands.Cog):
     """All of Rawr's guild-only commands."""
@@ -118,11 +142,11 @@ class GuildOnlyCog(commands.Cog):
         # get keyword #
         #Deprecated = """
         name = '+'.join(name)
-        async with 
-        r = urllib.request.urlopen(
-            f'https://tos.neet.tv/items?name={name}&f=1'
-            ).read()
-        soup = BeautifulSoup(r, 'html.parser')
+        async with aiohttp.ClientSession() as cs:
+            url = f'https://tos.neet.tv/items?name={name}&f=1'
+            async with cs.get(url) as r:
+                soup = BeautifulSoup(await r.text(), 'html.parser')
+
         result_table = soup.find(
             'table',
             {"class": 'results-table'}
@@ -217,31 +241,14 @@ class GuildOnlyCog(commands.Cog):
     ### get skill ###
     @commands.command()
     async def skill(self, ctx, *job):
-
         #await bot.type()
-        #await ctx.send(getout)
+        code, name = await get_class(' '.join(job))
 
-        # get keyword #
-        #noskill = """
-        # get keyword #
-        file  = Path(__file__).resolve().parent / 'classes2.json'
-        with file.open() as f:
-            content = f.read()
-        tos_classes2 = json.loads(content)
-        for tos_class in tos_classes2:
-            tos_class['regex'] = re.compile(tos_class['regex'], re.IGNORECASE)
-        response = "\nNot Found\n"
-        keyword = ' '.join(job)
-        for tos_class in tos_classes2:
-            if tos_class['regex'].match(keyword):
-                code, name = tos_class['code'], tos_class['name']
-                # print('Founded?: ' + name + " :" + code)
-                break
-        jobs = code
-        r = urllib.request.urlopen(
-            f'https://tos.neet.tv/skills?cls={jobs}&f=1'
-            ).read()
-        soup = BeautifulSoup(r, 'html.parser')
+        async with aiohttp.ClientSession() as cs:
+            url = f'https://tos.neet.tv/skills?cls={code}&f=1'
+            async with cs.get(url) as r:
+                soup = BeautifulSoup(await r.text(), 'html.parser')
+
         result_table = soup.find(
             'table',
             {"class": 'results-table'}
@@ -288,8 +295,8 @@ class GuildOnlyCog(commands.Cog):
                     )
             except asyncio.TimeoutError:
                 await ctx.send('_**too slow...**_   **(╯°□°）╯︵ ┻━┻**')
-                break
-        # send search result - embed #
+                return
+            # send search result - embed #
             if (
                 choice.content.isdigit()
                 and int(choice.content) in range(1, len(skill_res) + 1)
@@ -326,16 +333,17 @@ class GuildOnlyCog(commands.Cog):
                         sklatrb.append(attrib['mod'])
                 except Exception as e:
                     pass
-                if sklatrb:
-                    embed.add_field(
-                        name = "Attributes",
-                        value = (
-                            "```"
-                            '\n'.join(sklatrb)
-                            "```"
-                            ),
-                        inline = False
-                        )
+                else:
+                    if sklatrb:
+                        embed.add_field(
+                            name = "Attributes",
+                            value = (
+                                "```"
+                                '\n'.join(sklatrb)
+                                "```"
+                                ),
+                            inline = False
+                            )
                 await msg.delete()
                 await ctx.send(
                     f"{ctx.message.author.mention}\n"
@@ -343,19 +351,18 @@ class GuildOnlyCog(commands.Cog):
                     "_Click the skill name to see more info on your browser._",
                     embed = embed
                     )
-                break
-                #"""
-
-    #####
-
+                return
+            else:
+                continue
 
     ### get news - official website ###
     @commands.command()
     async def news(self, ctx):
         #await bot.type()
+        async with aiohttp.ClientSession(headers = headers) as cs:
+            async with cs.get(TOS_NEWS) as r:
+                soup = BeautifulSoup(await r.text(), 'html.parser')
 
-        r = urllib.request.urlopen(TOS_NEWS).read()
-        soup = BeautifulSoup(r, 'html.parser')
         resnews = soup.find(id= 'news_box_wrap').find_all(
             'div',
             {"class": 'news_box'},
@@ -404,10 +411,10 @@ class GuildOnlyCog(commands.Cog):
         user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'
         headers = { 'User-Agent' : user_agent }
 
-        req = urllib.request.Request(STEAM_CHARTS, headers = headers)
+        async with aiohttp.ClientSession(headers = headers) as cs:
+            async with cs.get(STEAM_CHARTS) as r:
+                soup = BeautifulSoup(await r.text(), 'html.parser')
 
-        r = urllib.request.urlopen(req).read()
-        soup = BeautifulSoup(r, 'html.parser')
         sta = soup.find_all('div', {"class": 'app-stat'})
 
         fields = []
@@ -438,8 +445,6 @@ class GuildOnlyCog(commands.Cog):
             text = FOOTER
             )
 
-        # nlist = "".join(news_list)# for item in news_list
-        # embed.add_field(name="Right Now", value=sta[0].find('strong').get_text(), inline = False)
         embed.add_field(
             name = "Right Now",
             value = players_now,
@@ -497,7 +502,9 @@ class GuildOnlyCog(commands.Cog):
 
     @commands.command()
     async def rss(self, ctx):
-        NewsFeed = feedparser.parse("https://dark-nova.me/tos/feed.xml")
+        async with aiohttp.ClientSession() as cs:
+            async with cs.get("https://dark-nova.me/tos/feed.xml") as r:
+                NewsFeed = feedparser.parse(await r.text())
 
         entry = NewsFeed.entries[0]
 

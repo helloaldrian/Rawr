@@ -1,3 +1,5 @@
+import asyncio
+import datetime
 import json
 import re
 from inspect import cleandoc
@@ -189,13 +191,17 @@ class GuildOnlyCog(commands.Cog):
 
         # send search result - multiple choice #
         msg = await ctx.send(
+            # This is really awkward, but I couldn't think of a way to force
+            # indentation on the code block. Maybe something to improve.
             cleandoc(
                 f"""
                 {ctx.message.author.mention}
                 **Please choose one by entering its number**
                 _type `next` or `>` to display more result._
-                ```
-                {NEWLINE.join(results)}
+                """
+                ) + cleandoc(
+                f"""
+                ```{NEWLINE.join(results)}
                 ```
                 """
                 )
@@ -227,8 +233,7 @@ class GuildOnlyCog(commands.Cog):
                             {ctx.message.author.mention}
                             **Please choose one by entering its number**
                             _type `next` or `>` to display more result._
-                            ```
-                            {NEWLINE.join(results)}
+                            ```{NEWLINE.join(results)}
                             ```
                             """
                             )
@@ -245,14 +250,18 @@ class GuildOnlyCog(commands.Cog):
                 and int(choice.content) in range(1, len(results) + 1)
                 ):
                 choice_number = int(choice.content)
-                embed = get_item(
+                embed = await get_item(
                     f'https://tos.neet.tv{links[choice_number - 1]}'
                     )
                 await msg.delete()
                 await ctx.send(
-                    f"{ctx.message.author.mention}\n"
-                    "**This is your search result!**\n"
-                    "_Click the item name to see more info on your browser._",
+                    cleandoc(
+                        f"""
+                        {ctx.message.author.mention}
+                        **This is your search result!**
+                        _Click the item name to see more info on your browser._
+                        """
+                        ),
                     embed = embed
                     )
                 return
@@ -280,19 +289,21 @@ class GuildOnlyCog(commands.Cog):
             columns = row.find_all('td')
             link = columns[1].find('a').get('href')
             links.append(link)
-            skill_name = column[2].get_text()
-            skill_type = column[3].get_text()
+            skill_name = columns[2].get_text()
             results.append(
                 f"{number + 1}. {skill_name}"
                 )
         # send search result - multiple choice #
         msg = await ctx.send(
+            # See note around line 194.
             cleandoc(
                 f"""
                 {ctx.message.author.mention}
                 **Please choose one by entering its number**
-                ```
-                {NEWLINE.join(results)}
+                """
+                ) + cleandoc(
+                f"""
+                ```{NEWLINE.join(results)}
                 ```
                 """
                 )
@@ -319,7 +330,7 @@ class GuildOnlyCog(commands.Cog):
                 ):
                 choice = int(choice.content)
                 current_url = f'https://tos.neet.tv{links[choice - 1]}'
-                items = url_break.skill_info(current_url)
+                items = await skill_info(current_url)
                 embed = discord.Embed(
                     colour = discord.Colour(0xD2EE8A),
                     description = items['description'],
@@ -360,9 +371,13 @@ class GuildOnlyCog(commands.Cog):
                             )
                 await msg.delete()
                 await ctx.send(
-                    f"{ctx.message.author.mention}\n"
-                    "**This is your search result!**\n"
-                    "_Click the skill name to see more info on your browser._",
+                    cleandoc(
+                        f"""
+                        {ctx.message.author.mention}
+                        **This is your search result!**
+                        _Click the skill name to see more info on your browser._
+                        """
+                        ),
                     embed = embed
                     )
                 return

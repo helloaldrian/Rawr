@@ -5,6 +5,8 @@ from pathlib import Path
 
 import aiohttp
 import discord
+import feedparser
+from bs4 import BeautifulSoup
 from discord.ext import commands
 
 from urlbreak import get_item, skill_info
@@ -131,7 +133,7 @@ async def get_class(job: str):
 
     """
     for tos_class in all_classes:
-        if tos_class['regex'].match(keyword):
+        if tos_class['regex'].match(job):
             return (tos_class['code'], tos_class['name'])
     return
 
@@ -169,7 +171,6 @@ class GuildOnlyCog(commands.Cog):
     async def get(self, ctx, *name):
         #await bot.type()
         #await ctx.send(WARNING_502)
-        # get keyword #
         name = '+'.join(name)
         async with aiohttp.ClientSession() as cs:
             url = f'https://tos.neet.tv/items?name={name}&f=1'

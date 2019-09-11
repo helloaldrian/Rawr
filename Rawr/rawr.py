@@ -5,10 +5,7 @@ import sys
 
 import aiohttp
 import discord
-import feedparser
 from discord.ext import commands
-from bs4 import BeautifulSoup
-from pytz import timezone
 
 from urlbreak import get_item, skill_info
 from paginator import Pages

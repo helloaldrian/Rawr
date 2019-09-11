@@ -2,6 +2,7 @@ from inspect import cleandoc
 
 import discord
 from discord.ext import commands
+from pytz import timezone
 
 from paginator import Pages
 

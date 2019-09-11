@@ -1,18 +1,18 @@
 import datetime
 import html
 import json
-import os
 import re
 import sys
 import urllib.request
 import urllib.parse
-from pytz import timezone
+from pathlib import Path
 from urllib.parse import urlencode
 
 import discord
 import feedparser
 from discord.ext import commands
 from bs4 import BeautifulSoup
+from pytz import timezone
 
 from urlbreak import get_item, skill_info
 from paginator import Pages
@@ -935,11 +935,8 @@ async def skill(ctx, *job):
     # get keyword #
     #noskill = """
     # get keyword #
-    __location__ = os.path.realpath(
-        os.path.join(os.getcwd(), os.path.dirname(__file__))
-        )
-    with open(os.path.join(__location__, 'classes2.json')) as f:
-    # with open('classes2.json') as f:
+    file  = Path(__file__).resolve().parent / 'classes2.json'
+    with file.open() as f:
         content = f.read()
     tos_classes2 = json.loads(content)
     for tos_class in tos_classes2:

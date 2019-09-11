@@ -1,3 +1,5 @@
+from inspect import cleandoc
+
 import discord
 from discord.ext import commands
 
@@ -7,124 +9,124 @@ from paginator import Pages
 # Rawr-specific
 
 HELP = """
-**[Rawr Help]**
-```md
-<prefix : !rawr>
-<format : prefix command>
-    e.g : !rawr news
-          !rawr get masinios
-```
-**[List of commands:]**
-```md
-# help / halp:
-  this message
+    **[Rawr Help]**
+    ```md
+    <prefix : !rawr>
+    <format : prefix command>
+        e.g : !rawr news
+              !rawr get masinios
+    ```
+    **[List of commands:]**
+    ```md
+    # help / halp:
+      this message
 
-# hello:
-  greets the bot
+    # hello:
+      greets the bot
 
-# news:
-  get latest news/updates from Tree of Savior official website
+    # news:
+      get latest news/updates from Tree of Savior official website
 
-# ping:
-  ping the bot
+    # ping:
+      ping the bot
 
-# ktest: (404)
-  get link for ktest version of tos.neet
+    # ktest: (404)
+      get link for ktest version of tos.neet
 
-# update / updates: (404)
-  get link for latest datamined file(s)
+    # update / updates: (404)
+      get link for latest datamined file(s)
 
-# planner:
-  get link for class/build planner
+    # planner:
+      get link for class/build planner
 
-# inv / invite:
-  get my invitation link
+    # inv / invite:
+      get my invitation link
 
-# db / wiki / database
-  get TOS database link (TOS.guru)
+    # db / wiki / database
+      get TOS database link (TOS.guru)
 
-# pccu:
-  get TOS player statistics
+    # pccu:
+      get TOS player statistics
 
-# lv / leveling:
-  get link for leveling guide (reddit)
+    # lv / leveling:
+      get link for leveling guide (reddit)
 
-# rank:
-  get class build rankings (based on iTOS official website)
+    # rank:
+      get class build rankings (based on iTOS official website)
 
-# explo:
-  get link for Explorer Gimmicks & New Collections Guide (made by TerminalEssence and friends)
+    # explo:
+      get link for Explorer Gimmicks & New Collections Guide (made by TerminalEssence and friends)
 
-# build
-  get builds compilation docs made by Palemoon.
+    # build
+      get builds compilation docs made by Palemoon.
 
-# unlock / hidden
-  Get hidden class/rank 8 class unlock guides doc made by Awoomoon.
+    # unlock / hidden
+      Get hidden class/rank 8 class unlock guides doc made by Awoomoon.
 
-# faq
-  get reddit link for newbie/returning player discussion
+    # faq
+      get reddit link for newbie/returning player discussion
 
-# addon
-  get link to download latest addon manager, by MizukiBelhi.
+    # addon
+      get link to download latest addon manager, by MizukiBelhi.
 
-# guide
-  get link for guide and class breakdown, by Mr pudding lover.
+    # guide
+      get link for guide and class breakdown, by Mr pudding lover.
 
-# pnt:
-  get pastebin link for kTOS/kTEST patch notes translation from Greyhiem & Gwenyth.
+    # pnt:
+      get pastebin link for kTOS/kTEST patch notes translation from Greyhiem & Gwenyth.
 
-# get / item:
-  - get item info
-  command: get "item name"
-  < e.g. : !rawr get solmiki >
-  /* important: now you can search any item(s) information *
+    # get / item:
+      - get item info
+      command: get "item name"
+      < e.g. : !rawr get solmiki >
+      /* important: now you can search any item(s) information *
 
-# skill:
-  - get skill info
-  command: skill "class name"
-  < e.g. : !rawr skill diev >
-  /* you may use class name abbreviation/alias (e.g. sr, pd, diev etc.) *
-```
-"""
+    # skill:
+      - get skill info
+      command: skill "class name"
+      < e.g. : !rawr skill diev >
+      /* you may use class name abbreviation/alias (e.g. sr, pd, diev etc.) *
+    ```
+    """
 
 HELLO = """
-Hello, I am **Rawrr**
+    Hello, I am **Rawrr**
 
-I'm a simple Discord bot born to help Tree of Savior's Discord community members find info about items, skills, ~~maps~~ and etc.
-I am created by the desire of my creator to obtain basic information regarding TOS items or skills without having to open the browser.
+    I'm a simple Discord bot born to help Tree of Savior's Discord community members find info about items, skills, ~~maps~~ and etc.
+    I am created by the desire of my creator to obtain basic information regarding TOS items or skills without having to open the browser.
 
-If you have any feedback or suggestion to improve **Rawrr!**.
-**Please keep in touch,**  @Jiyuu#6312
-**Visit us,**  https://github.com/helloaldrian/Rawr
-"""
+    If you have any feedback or suggestion to improve **Rawrr!**.
+    **Please keep in touch,**  @Jiyuu#6312
+    **Visit us,**  https://github.com/helloaldrian/Rawr
+    """
 
 PING = """
-**__Server Ping__**
+    **__Server Ping__**
 
-**How to perform the ping test:**
-```md
-1. Open a Command Prompt window
-   - Press the (Windows key + R) and type cmd,
-   - Press Enter.
+    **How to perform the ping test:**
+    ```md
+    1. Open a Command Prompt window
+       - Press the (Windows key + R) and type cmd,
+       - Press Enter.
 
-2. Type: ping <server_address> -t
-   - Press Enter
-```
-**Server address:**
-```diff
-+ For [NA]  Klaipeda, type: s3.us-east-1.amazonaws.com
-+ For [EU]  Fedimian, type: s3.eu-central-1.amazonaws.com
-+ For [SEA] Telsiai,  type: s3.ap-southeast-1.amazonaws.com
-+ For [SA]  Silute,   type: s3.sa-east-1.amazonaws.com
+    2. Type: ping <server_address> -t
+       - Press Enter
+    ```
+    **Server address:**
+    ```diff
+    + For [NA]  Klaipeda, type: s3.us-east-1.amazonaws.com
+    + For [EU]  Fedimian, type: s3.eu-central-1.amazonaws.com
+    + For [SEA] Telsiai,  type: s3.ap-southeast-1.amazonaws.com
+    + For [SA]  Silute,   type: s3.sa-east-1.amazonaws.com
 
-- to stop, press: Ctrl+C on the CMD.
-```
-**Alternative:**
-```cpp
-#in-game ping (not reliable)
-type in chat: //ping
-```
-"""
+    - to stop, press: Ctrl+C on the CMD.
+    ```
+    **Alternative:**
+    ```cpp
+    #in-game ping (not reliable)
+    type in chat: //ping
+    ```
+    """
 
 INVITE = (
     "https://discordapp.com/api/oauth2/authorize"
@@ -132,20 +134,20 @@ INVITE = (
     )
 
 PONG = """
- H
-　 O
-　　 O
-　　　 o
-　　 　　o
-　　　    o
-　　　　　o
-　　　　 。
-　　　 。
-　　　.
-　　　.
-　　　 .
-　　　　LY SHIT (╯°□°）╯︵ ┻━┻
-"""
+     H
+    　 O
+    　　 O
+    　　　 o
+    　　 　　o
+    　　　    o
+    　　　　　o
+    　　　　 。
+    　　　 。
+    　　　.
+    　　　.
+    　　　 .
+    　　　　LY SHIT (╯°□°）╯︵ ┻━┻
+    """
 
 # Resources - guides
 
@@ -366,11 +368,11 @@ DOC_UNLOCK = (
 # Resources - miscellaneous posts
 
 POST_PATCH = """
-**[Ktest/Ktos - Patch Notes Translation]**
-_(no longer maintained)_
-**Greyhiem's**  https://pastebin.com/u/Greyhiem
-**Gwenyth's**  https://pastebin.com/u/sunhwapark
-"""
+    **[Ktest/Ktos - Patch Notes Translation]**
+    _(no longer maintained)_
+    **Greyhiem's**  https://pastebin.com/u/Greyhiem
+    **Gwenyth's**  https://pastebin.com/u/sunhwapark
+    """
 
 POST_LORE = (
     "http://toshidden.blog.fc2.com/"
@@ -413,12 +415,12 @@ class CommandsCog(commands.Cog):
     ###-- help --###
     @commands.command(aliases=['halp'])
     async def help(self, ctx):
-        await ctx.author.send(HELP)
+        await ctx.author.send(cleandoc(HELP))
 
     ###-- hello --###
     @commands.command()
     async def hello(self, ctx):
-        await ctx.send(HELLO)
+        await ctx.send(cleandoc(HELLO))
 
     ###-- who --###
     @commands.command()
@@ -428,86 +430,124 @@ class CommandsCog(commands.Cog):
     ###-- ping --###
     @commands.command()
     async def ping(self, ctx):
-        await ctx.send(PING)
+        await ctx.send(cleandoc(PING))
 
     ###-- pong --###
     @commands.command()
     async def pong(self, ctx):
-        await ctx.send(PONG)
+        await ctx.send(cleandoc(PONG))
 
     ###-- ktest --###
     @commands.command()
     async def ktest(self, ctx):
-        await ctx.send("**[Let's see the future!!]**\nhttps://tos-ktest.neet.tv/")
+        await ctx.send(
+            cleandoc(
+                f"""
+                **[Let's see the future!!]**
+                https://tos-ktest.neet.tv/"
+                """
+                )
+            )
 
     ###-- build --###
     @commands.command(aliases = ['builds'])
     async def build(self, ctx):
         await ctx.send(
-            "**[Compilation of Practical Class Build Guide!!]**\n"
-            "_- builds made by reddit community & compiled by Palemoon_\n"
-            DOC_BUILD
+            cleandoc(
+                f"""
+                **[Compilation of Practical Class Build Guide!!]**
+                _- builds made by reddit community & compiled by Palemoon_
+                {DOC_BUILD}
+                """
+                )
             )
 
     ###-- update --###
     @commands.command(aliases = ['updates', 'change', 'changes'])
     async def update(self, ctx):
-        await ctx.send("**[Check what is new!!]**\nhttps://tos.neet.tv/changes")
+        await ctx.send(
+            cleandoc(
+                f"""
+                **[Check what is new!!]**
+                https://tos.neet.tv/changes
+                """
+                )
+            )
 
     ###-- addon manager --###
     @commands.command()
     async def addon(self, ctx):
         await ctx.send(
-            "**[Grab your Tree of Savior addons manager!!]**\n"
-            "_- by MizukiBelhi_\n"
-            ADDON_MIZUKIBELHI
-            "\n"
-            ADDON_JTOS
+            cleandoc(
+                f"""
+                **[Grab your Tree of Savior addons manager!!]**
+                _- by MizukiBelhi_
+                {ADDON_MIZUKIBELHI}
+
+                {ADDON_JTOS}
+                """
+                )
             )
 
     ###-- faq --###
     @commands.command(aliases = ['faq', 'return'])
     async def newbie(self, ctx):
         await ctx.send(
-            "**[FAQ for newbie and returning player!!]**\n"
-            "_- by Palemoon_\n"
-            NEW_OR_RETURN
-            "\n\n"
-            LATEST
+            cleandoc(
+                f"""
+                **[FAQ for newbie and returning player!!]**
+                _- by Palemoon_
+                {NEW_OR_RETURN}
+
+                {LATEST}
+                """
+                )
             )
 
     ###-- holy guides --###
     @commands.command()
     async def guide(self, ctx):
         await ctx.send(
-            "**[Guide blog based on kTOS/kTEST!!]**\n"
-            GUIDE
-            "\n\n"
-            "**[Various class overview by Ritsu!!]**\n"
-            GUIDE_RITSU
+            cleandoc(
+                f"""
+                **[Guide blog based on kTOS/kTEST!!]**
+                {GUIDE}
+
+                **[Various class overview by Ritsu!!]**
+                {GUIDE_RITSU}
+                """
+                )
             )
 
     ###-- unlock guide --###
     @commands.command(aliases = ['hidden'])
     async def unlock(self, ctx):
         await ctx.send(
-            "**[Hidden class/rank 8 class unlock guides!!]**\n"
-            "_- by Palemoon_\n"
-            DOC_UNLOCK
-            "\n\n"
-            "**[Tree of Savior Hidden Secrets & Lore!!]**\n"
-            "_- by Ximi_\n"
-            POST_LORE
+            cleandoc(
+                f"""
+                **[Hidden class unlock guides!!]**
+                _- by Palemoon_
+                {DOC_UNLOCK}
+
+                **[Tree of Savior Hidden Secrets & Lore!!]**
+                _- by Ximi_
+                {POST_LORE}
+                """
+                )
             )
 
     ###-- planner --###
     @commands.command()
     async def planner(self, ctx):
         await ctx.send(
-            "**[Plan your character build!!]**\n"
-            PLANNER_TOSG
-            "\n"
-            PLANNER_TOSCAMP
+            cleandoc(
+                f"""
+                **[Plan your character build!!]**
+                {PLANNER_TOSG}
+
+                {PLANNER_TOSCAMP}
+                """
+                )
             )
         # tos-th.com is no longer available.
 
@@ -515,9 +555,14 @@ class CommandsCog(commands.Cog):
     @commands.command(aliases = ['exploration', 'gimmick'])
     async def explo(self, ctx):
          await ctx.send(
-            "**[Explorer Gimmicks & New Collections Guide]**\n"
-            "[*credits : TerminalEssence & Friends*]\n\n"
-            DOC_GIMMICKS
+            cleandoc(
+                f"""
+                **[Explorer Gimmicks & New Collections Guide]**
+                *[credits : TerminalEssence & Friends]*
+
+                {DOC_GIMMICKS}
+                """
+                )
             )
 
     ###-- timezone --###
@@ -535,13 +580,17 @@ class CommandsCog(commands.Cog):
 
         # Current time in UTC
         await ctx.send(
-            '```cs\n'
-            f"UTC : {now.strftime(fmt)}\n"
-            f"EST : {now.astimezone(est).strftime(fmt)}\n"
-            f"BRST: {now.astimezone(brst).strftime(fmt)}\n"
-            f"CET : {now.astimezone(cet).strftime(fmt)}\n"
-            f"SGT : {now.astimezone(sgt).strftime(fmt)}\n"
-            '```'
+            cleandoc(
+                f"""
+                ```cs
+                UTC : {now.strftime(fmt)}
+                EST : {now.astimezone(est).strftime(fmt)}
+                BRST: {now.astimezone(brst).strftime(fmt)}
+                CET : {now.astimezone(cet).strftime(fmt)}
+                SGT : {now.astimezone(sgt).strftime(fmt)}
+                ```
+                """
+                )
             )
 
         # Convert to Asia/Singapore time zone
@@ -565,22 +614,33 @@ class CommandsCog(commands.Cog):
     @commands.command(aliases = ['invite'])
     async def inv(self, ctx):
         await ctx.send(
-            f"**[Use this link to invite me to your server.]**\n\n{INVITE}"
+            cleandoc(
+                f"""
+                **[Use this link to invite me to your server.]**
+
+                {INVITE}"
+                """
+                )
             )
 
     ###-- ranking --###
     @commands.command(aliases = ['rankings'])
     async def rank(self, ctx):
         await ctx.send(
-            "**[The most popular TOS class builds of all time]**\n"
-            "[Update periodically]\n\n"
-            CLASS_RANKING
+            cleandoc(
+                f"""
+                **[The most popular TOS class builds of all time]**
+                *[Updated periodically]*
+
+                {CLASS_RANKING}
+                """
+                )
             )
 
     ###-- patch notes translation --###
     @commands.command()
     async def pnt(self, ctx):
-        await ctx.send(POST_PATCH)
+        await ctx.send(cleandoc(POST_PATCH))
 
 
 def setup(bot):

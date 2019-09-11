@@ -1,3 +1,6 @@
+from inspect import cleandoc
+from pathlib import Path
+
 import aiohttp
 import discord
 from discord.ext import commands
@@ -5,6 +8,8 @@ from discord.ext import commands
 from urlbreak import get_item, skill_info
 from urlbreak import format_embed_description as FED
 
+
+NEWLINE = '\n'
 
 # Rawr-specific
 
@@ -80,29 +85,29 @@ TOSGURU_DESC = " | ".join(
     )
 
 TOSGURU_LINKS = """
-[Maps - WIP](https://tos.guru/)
-[kTest](https://tos.guru/ktest/database/equipment)
-[Items](https://tos.guru/itos/database/items)
-[Build Simulator](https://tos.guru/itos/simulator)
-[Anvil & Transcendence Calculator](https://tos.guru/itos/database/equipment)
-"""
+    [Maps - WIP](https://tos.guru/)
+    [kTest](https://tos.guru/ktest/database/equipment)
+    [Items](https://tos.guru/itos/database/items)
+    [Build Simulator](https://tos.guru/itos/simulator)
+    [Anvil & Transcendence Calculator](https://tos.guru/itos/database/equipment)
+    """
 
 # Etc
 
 WARNING_502 = """
-:warning: **__502 BAD GATEWAY__** :warning:
-**ReadMe**
-```css
-[ Hi there, this is Rawr! ]
-Since #tos.neet.tv are no longer maintained and/or accessible by Rawr, I can no longer provide a quick search & dispaly both #items and #skills information for you.
-This feature will be disabled for the time being.
-[ I am sorry for the inconvenience! ]
-```
-**Alternative:**
-```cpp
-#use new cmd: !rawr db
-```
-"""
+    :warning: **__502 BAD GATEWAY__** :warning:
+    **ReadMe**
+    ```css
+    [ Hi there, this is Rawr! ]
+    Since #tos.neet.tv are no longer maintained and/or accessible by Rawr, I can no longer provide a quick search & dispaly both #items and #skills information for you.
+    This feature will be disabled for the time being.
+    [ I am sorry for the inconvenience! ]
+    ```
+    **Alternative:**
+    ```cpp
+    #use new cmd: !rawr db
+    ```
+    """
 
 file  = Path(__file__).resolve().parent / 'classes2.json'
 with file.open() as f:
@@ -162,9 +167,7 @@ class GuildOnlyCog(commands.Cog):
     async def get(self, ctx, *name):
         #await bot.type()
         #await ctx.send(WARNING_502)
-
         # get keyword #
-        #Deprecated = """
         name = '+'.join(name)
         async with aiohttp.ClientSession() as cs:
             url = f'https://tos.neet.tv/items?name={name}&f=1'
@@ -183,12 +186,16 @@ class GuildOnlyCog(commands.Cog):
 
         # send search result - multiple choice #
         msg = await ctx.send(
-            f"{ctx.message.author.mention}\n"
-            "**Please choose one by entering its number**\n"
-            "_type `next` or `>` to display more result._"
-            "```"
-            '\n'.join(results)
-            "```"
+            cleandoc(
+                f"""
+                {ctx.message.author.mention}
+                **Please choose one by entering its number**
+                _type `next` or `>` to display more result._
+                ```
+                {NEWLINE.join(results)}
+                ```
+                """
+                )
             )
 
         def pred(m):
@@ -212,12 +219,16 @@ class GuildOnlyCog(commands.Cog):
                 await msg.delete()
                 if results:
                     msg = await ctx.send(
-                        f"{ctx.message.author.mention}\n"
-                        "**Please choose one by entering its number**\n"
-                        "_type `next` or `>` to display more result._"
-                        "```"
-                        '\n'.join(results)
-                        "```"
+                        cleandoc(
+                            f"""
+                            {ctx.message.author.mention}
+                            **Please choose one by entering its number**
+                            _type `next` or `>` to display more result._
+                            ```
+                            {NEWLINE.join(results)}
+                            ```
+                            """
+                            )
                         )
                     continue
                 else:
@@ -244,9 +255,6 @@ class GuildOnlyCog(commands.Cog):
                 return
             else:
                 continue
-        #"""
-    ##-- eol --##
-
 
     ### get skill ###
     @commands.command()
@@ -276,11 +284,15 @@ class GuildOnlyCog(commands.Cog):
                 )
         # send search result - multiple choice #
         msg = await ctx.send(
-            f"{ctx.message.author.mention}\n"
-            "**Please choose one by entering its number**\n"
-            "```"
-            '\n'.join(results)
-            "```"
+            cleandoc(
+                f"""
+                {ctx.message.author.mention}
+                **Please choose one by entering its number**
+                ```
+                {NEWLINE.join(results)}
+                ```
+                """
+                )
             )
 
         def pred(m):
@@ -323,7 +335,7 @@ class GuildOnlyCog(commands.Cog):
                     )
                 embed.add_field(
                     name = "Skill Info",
-                    value = await FED(items['adin'], "{:<15}: {}")
+                    value = await FED(items['adin'], "{:<15}: {}"),
                     inline = True
                     )
                 sklatrb = []
@@ -338,10 +350,8 @@ class GuildOnlyCog(commands.Cog):
                     if sklatrb:
                         embed.add_field(
                             name = "Attributes",
-                            value = (
-                                "```"
+                            value = '```{}```'.format(
                                 '\n'.join(sklatrb)
-                                "```"
                                 ),
                             inline = False
                             )
@@ -495,7 +505,7 @@ class GuildOnlyCog(commands.Cog):
         #embed.add_field(name="Placeholder", value="placeholder")
         embed.add_field(
             name = "Features",
-            value = TOSGURU_LINKS,
+            value = cleandoc(TOSGURU_LINKS),
             inline = False
             )
 

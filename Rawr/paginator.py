@@ -271,7 +271,7 @@ class Pages:
         while self.paginating:
             react = await self.bot.wait_for_reaction(
                 message = self.message,
-                check = self.react_check, 
+                check = self.react_check,
                 timeout = 300.0
                 )
 

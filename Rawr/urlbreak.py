@@ -1,6 +1,7 @@
 import asyncio
 import datetime
 
+import aiohttp
 import discord
 from bs4 import BeautifulSoup
 
@@ -292,11 +293,15 @@ async def skill_info(link):
     ##----- skill factor -----##
     sfact = soup.find(id = 'js-skill-funcs')
 
-    names = sfact.find_all('th')
-    values = sfact.find_all('td')
+    try:
+        names = sfact.find_all('th')
+        values = sfact.find_all('td')
 
-    for name, value in zip(names, values):
-        data['skillfact'][(name.get_text())] = value.get_text()
+        for name, value in zip(names, values):
+            data['skillfact'][(name.get_text())] = value.get_text()
+    except AttributeError:
+        # This skill does not have a skill factor.
+        pass
 
     ##----- attributes -----##
     attribHeader = soup.find('h2', text = 'Attributes')

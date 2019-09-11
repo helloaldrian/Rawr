@@ -111,6 +111,7 @@ all_classes = json.loads(content)
 for tos_class in all_classes:
     tos_class['regex'] = re.compile(tos_class['regex'], re.IGNORECASE)
 
+
 async def get_class(job: str):
     """Gets a class given `job`.
 
@@ -126,6 +127,29 @@ async def get_class(job: str):
         if tos_class['regex'].match(keyword):
             return (tos_class['code'], tos_class['name'])
     return
+
+
+async def get_results(table, start: int, links: list):
+    """Gets results by slices defined by `start` and `end`.
+
+    Args:
+        table: the table
+        start (int): the starting index
+        links (list): contains URLs to the entries
+
+    """
+    results = []
+    # Offset is currently defined at 7
+    end = start + 7
+    for number, row in enumerate(table[start:end], start = 0):
+        columns = row.find_all('td')
+        links.append(columns[1].find('a').get('href'))
+        iname = columns[2].get_text()
+        itype = columns[3].get_text()
+        results.append(
+            f'{number + 1}. {iname} - [{itype}]'
+            )
+    return results
 
 
 class GuildOnlyCog(commands.Cog):
@@ -147,31 +171,20 @@ class GuildOnlyCog(commands.Cog):
             async with cs.get(url) as r:
                 soup = BeautifulSoup(await r.text(), 'html.parser')
 
-        result_table = soup.find(
+        table = soup.find(
             'table',
             {"class": 'results-table'}
             ).find('tbody').find_all('tr')
-        item_names = []
-        item_types = []
-        item_links = []
+        links = []
         results = []
-        res_len = len(result_table)
         start = 0
-        end = 7
-        for no, row in enumerate(result_table[start:end], start = 0):
-            columns = row.find_all('td')
-            item_links.append(columns[1].find('a').get('href'))
-            item_name = columns[2].get_text()
-            item_names.append(item_name)
-            item_type = columns[3].get_text()
-            item_types.append(item_type)
-            results.append(
-                f'{no + 1}. {item_name} - [{item_type}]'
-                )
+
+        results = await get_results(table, start, links)
+
         # send search result - multiple choice #
         msg = await ctx.send(
             f"{ctx.message.author.mention}\n"
-            "**Please choose one by giving its number**,\n"
+            "**Please choose one by entering its number**\n"
             "_type `next` or `>` to display more result._"
             "```"
             '\n'.join(results)
@@ -195,26 +208,23 @@ class GuildOnlyCog(commands.Cog):
                 return
             if choice.content == 'next' or choice.content == '>':
                 start += 7
-                end += 7
-                for no, row in enumerate(result_table[start:end], start = start):
-                    columns = row.find_all('td')
-                    item_links.append(columns[1].find('a').get('href'))
-                    item_name = columns[2].get_text()
-                    item_names.append(item_name)
-                    item_type = columns[3].get_text()
-                    item_types.append(item_type)
-                    results.append(
-                        f'{no + 1}. {item_name} - [{item_type}]'
-                        )
+                results = await get_results(table, start, links)
                 await msg.delete()
-                msg = await ctx.send(
-                    f"{ctx.message.author.mention}\n"
-                    "**Please choose one by giving its number**,\n"
-                    "_type `next` or `>` to display more result._"
-                    "```"
-                    '\n'.join(results)
-                    "```"
-                    )
+                if results:
+                    msg = await ctx.send(
+                        f"{ctx.message.author.mention}\n"
+                        "**Please choose one by entering its number**\n"
+                        "_type `next` or `>` to display more result._"
+                        "```"
+                        '\n'.join(results)
+                        "```"
+                        )
+                    continue
+                else:
+                    await ctx.send(
+                        "**No more results were found.**"
+                        )
+                    return
             # send search result - embed #
             elif (
                 choice.content.isdigit()
@@ -222,7 +232,7 @@ class GuildOnlyCog(commands.Cog):
                 ):
                 choice_number = int(choice.content)
                 embed = get_item(
-                    f'https://tos.neet.tv{item_links[choice_number - 1]}'
+                    f'https://tos.neet.tv{links[choice_number - 1]}'
                     )
                 await msg.delete()
                 await ctx.send(
@@ -253,32 +263,23 @@ class GuildOnlyCog(commands.Cog):
             'table',
             {"class": 'results-table'}
             ).find('tbody').find_all('tr')
-        skill_names = []
-        skill_types = []
-        skill_links = []
-        # results = []
-        skill_res = []
-        res_len = len(result_table)
-        for no, row in enumerate(result_table):
+        links = []
+        results = []
+        for number, row in enumerate(result_table):
             columns = row.find_all('td')
-            skill_link = columns[1].find('a').get('href')
-            skill_links.append(skill_link)
+            link = columns[1].find('a').get('href')
+            links.append(link)
             skill_name = column[2].get_text()
-            skill_names.append(skill_name)
             skill_type = column[3].get_text()
-            skill_types.append(skill_type)
-            # results.append(
-            #     f"{no + 1}. {skill_name} - [{skill_type}] ------ {skill_link}"
-            #     )
-            skill_res.append(
-                f"{no + 1}. {skill_name}"
+            results.append(
+                f"{number + 1}. {skill_name}"
                 )
         # send search result - multiple choice #
         msg = await ctx.send(
             f"{ctx.message.author.mention}\n"
-            "**Please choose one by giving its number:**\n"
+            "**Please choose one by entering its number**\n"
             "```"
-            '\n'.join(skill_res)
+            '\n'.join(results)
             "```"
             )
 
@@ -299,10 +300,10 @@ class GuildOnlyCog(commands.Cog):
             # send search result - embed #
             if (
                 choice.content.isdigit()
-                and int(choice.content) in range(1, len(skill_res) + 1)
+                and int(choice.content) in range(1, len(results) + 1)
                 ):
                 choice = int(choice.content)
-                current_url = f'https://tos.neet.tv{skill_links[choice - 1]}'
+                current_url = f'https://tos.neet.tv{links[choice - 1]}'
                 items = url_break.skill_info(current_url)
                 embed = discord.Embed(
                     colour = discord.Colour(0xD2EE8A),
@@ -322,7 +323,7 @@ class GuildOnlyCog(commands.Cog):
                     )
                 embed.add_field(
                     name = "Skill Info",
-                    value = FED(items['adin'], "{:<15}: {}")
+                    value = await FED(items['adin'], "{:<15}: {}")
                     inline = True
                     )
                 sklatrb = []
@@ -353,6 +354,7 @@ class GuildOnlyCog(commands.Cog):
                     )
                 return
             else:
+                # Ignore invalid input
                 continue
 
     ### get news - official website ###

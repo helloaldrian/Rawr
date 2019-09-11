@@ -1,5 +1,5 @@
+import asyncio
 import datetime
-import urllib.request
 
 import discord
 from bs4 import BeautifulSoup
@@ -11,7 +11,7 @@ TOS_THUMBNAIL = (
     )
 
 
-def format_embed_description(records: dict, format_str: str):
+async def format_embed_description(records: dict, format_str: str):
     """Formats an embed description to use.
 
     Args:
@@ -36,7 +36,7 @@ def format_embed_description(records: dict, format_str: str):
         )
 
 
-def find_tables_after_header(soup, h2_text):
+async def find_tables_after_header(soup, h2_text):
     h2 = soup.find('h2', text = h2_text)
 
     if h2 is not None:
@@ -54,10 +54,11 @@ def find_tables_after_header(soup, h2_text):
 
 
 ##--------- Item Info ---------##
-def get_item(item_links):
+async def get_item(link):
+    async with aiohttp.ClientSession() as cs:
+        async with cs.get(link) as r:
+            soup = BeautifulSoup(await r.text(), 'html.parser')
 
-    r = urllib.request.urlopen(item_links).read()
-    soup = BeautifulSoup(r, 'html.parser')
     tables = soup.find_all('table')
     item_type = soup.find(
         'table',
@@ -66,7 +67,7 @@ def get_item(item_links):
 
     #-- description --#
     description = 'No Description'
-    if soup.find(class_ = 'item-desc') != None:
+    if soup.find(class_ = 'item-desc'):
         description = soup.find(class_ = 'item-desc').get_text()
 
     embed = discord.Embed(
@@ -79,7 +80,7 @@ def get_item(item_links):
     title = soup.find(id = 'title').get_text()
     embed.set_author(
         name = title,
-        url = item_links,
+        url = link,
         icon_url = TOS_THUMBNAIL
         )
 
@@ -126,7 +127,7 @@ def get_item(item_links):
             )
 
     #-- requirements --#
-    req_tables = find_tables_after_header(soup, 'Requirements')
+    req_tables = await find_tables_after_header(soup, 'Requirements')
     if req_tables is not None:
         requirements = req_tables[0].find('td').get_text()
         embed.add_field(
@@ -136,7 +137,7 @@ def get_item(item_links):
             )
 
     #-- stats --#
-    stats_tables = find_tables_after_header(soup, 'Stats\n')
+    stats_tables = await find_tables_after_header(soup, 'Stats\n')
     if stats_tables is not None:
         stats = {}
 
@@ -148,7 +149,7 @@ def get_item(item_links):
 
         embed.add_field(
             name = "Stats",
-            value = format_embed_description(stats, "{:<20}: {}"),
+            value = await format_embed_description(stats, "{:<20}: {}"),
             inline = True
             )
 
@@ -170,7 +171,9 @@ def get_item(item_links):
             if additional:
                 embed.add_field(
                     name = "Additional Stats",
-                    value = format_embed_description(additional, "{:<27}: {}"),
+                    value = await format_embed_description(
+                        additional, "{:<27}: {}"
+                        ),
                     inline = False
                     )
 
@@ -186,7 +189,7 @@ def get_item(item_links):
                     )
 
     #-- stats (set bonus) --#
-    set_tables = find_tables_after_header(soup, 'Set')
+    set_tables = await find_tables_after_header(soup, 'Set')
     if set_tables is not None:
         set_bonus = {}
         rows = set_tables[0].find_all('tr')
@@ -202,12 +205,12 @@ def get_item(item_links):
         if set_bonus:
             embed.add_field(
                 name = "Set Bonus",
-                value = format_embed_description(set_bonus, "{}: {}")
+                value = await format_embed_description(set_bonus, "{}: {}")
                 inline = True
                 )
 
     #-- produces --#
-    produces_tables = find_tables_after_header(soup, 'Produces')
+    produces_tables = await find_tables_after_header(soup, 'Produces')
     if produces_tables:
         embed.add_field(
             name = "Produces",
@@ -216,7 +219,7 @@ def get_item(item_links):
             )
 
     # -- references --#
-    ref_tables = find_tables_after_header(soup, 'References')
+    ref_tables = await find_tables_after_header(soup, 'References')
     if ref_tables is not None:
         ref = {}
 
@@ -228,13 +231,13 @@ def get_item(item_links):
 
         embed.add_field(
             name = "References",
-            value = format_embed_description(ref, "{}: {}"),
+            value = await format_embed_description(ref, "{}: {}"),
             inline = True
             )
 
 
     #----- material -----#
-    mats_tables = find_tables_after_header(soup, 'Materials')
+    mats_tables = await find_tables_after_header(soup, 'Materials')
     if mats_tables is not None:
         rows = mats_tables[0].find_all('tr')
         materials = {}
@@ -248,7 +251,7 @@ def get_item(item_links):
         if materials:
             embed.add_field(
                 name = "Materials",
-                value = format_embed_description(materials, '{:<20}: {}'),
+                value = await format_embed_description(materials, '{:<20}: {}'),
                 inline = False
                 )
 
@@ -256,10 +259,10 @@ def get_item(item_links):
 
 
 ##--------- Skill Info ---------##
-def skill_info(skill_id):
-
-    r = urllib.request.urlopen(skill_id).read()
-    soup = BeautifulSoup(r, 'html.parser')
+async def skill_info(link):
+    async with aiohttp.ClientSession() as cs:
+        async with cs.get(link) as r:
+            soup = BeautifulSoup(await r.text(), 'html.parser')
     tables = soup.find_all('table')
 
     data = {

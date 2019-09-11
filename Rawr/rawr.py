@@ -3,10 +3,7 @@ import html
 import json
 import re
 import sys
-import urllib.request
-import urllib.parse
 from pathlib import Path
-from urllib.parse import urlencode
 
 import aiohttp
 import discord

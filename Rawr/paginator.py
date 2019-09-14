@@ -112,15 +112,13 @@ class Pages:
 
         if not self.paginating:
             self.embed.description = '\n'.join(p)
-            return await self.bot.send_message(
-                self.message.channel,
+            return await self.message.channel.send_message(
                 embed = self.embed
                 )
 
         if not first:
             self.embed.description = '\n'.join(p)
-            await self.bot.edit_message(
-                self.message,
+            await self.message.edit(
                 embed = self.embed
                 )
             return
@@ -139,8 +137,7 @@ class Pages:
         p.append('')
         p.append('Confused? React with \N{INFORMATION SOURCE} for more info.')
         self.embed.description = '\n'.join(p)
-        self.message = await self.bot.send_message(
-            self.message.channel,
+        self.message = await self.message.channel.send_message(
             embed = self.embed
             )
         for (reaction, _) in self.reaction_emojis:
@@ -150,7 +147,7 @@ class Pages:
                 # it from the default set
                 continue
             try:
-                await self.bot.add_reaction(self.message, reaction)
+                await self.message.add_reaction(reaction)
             except discord.NotFound:
                 # If the message isn't found, we don't care about clearing anything
                 return
@@ -183,8 +180,7 @@ class Pages:
         """lets you type a page number to go to"""
         to_delete = []
         to_delete.append(
-            await self.bot.send_message(
-                self.message.channel,
+            await self.message.channel.send_message(
                 'What page do you want to go to?'
                 )
             )
@@ -200,8 +196,7 @@ class Pages:
                 )
         except asyncio.TimeoutError:
             to_delete.append(
-                await self.bot.send_message(
-                    self.message.channel,
+                await self.message.channel.send_message(
                     'Took too long.'
                     )
                 )
@@ -213,7 +208,7 @@ class Pages:
                 await self.show_page(page)
             else:
                 to_delete.append(
-                    await self.bot.say(
+                    await self.message.channel.send_message(
                         'Invalid page given. (%s/%s)'
                         % (page, self.maximum_pages)
                         )
@@ -221,7 +216,7 @@ class Pages:
                 await asyncio.sleep(5)
 
         try:
-            await self.bot.delete_messages(to_delete)
+            await self.message.channel.delete_messages(to_delete)
         except Exception:
             pass
 
@@ -245,7 +240,7 @@ class Pages:
                 % self.current_page
                 )
             )
-        await self.bot.edit_message(self.message, embed=e)
+        await self.message.edit(embed = e)
 
         async def go_back_to_current_page():
             await asyncio.sleep(60.0)
@@ -255,7 +250,7 @@ class Pages:
 
     async def stop_pages(self):
         """stops the interactive pagination session"""
-        await self.bot.delete_message(self.message)
+        await self.message.delete()
         self.paginating = False
 
     def react_check(self, reaction, user):
@@ -273,24 +268,23 @@ class Pages:
         await self.show_page(start_page, first=True)
 
         while self.paginating:
-            react = await self.bot.wait_for_reaction(
-                message = self.message,
-                check = self.react_check,
-                timeout = 300.0
-                )
-
-            if react is None:
+            try:
+                react = await self.bot.wait_for(
+                    'reaction_add',
+                    check = self.react_check,
+                    timeout = 300.0
+                    )
+            except asyncio.TimeoutError:
                 self.paginating = False
                 try:
-                    await self.bot.clear_reactions(self.message)
+                    await self.message.clear_reactions()
                 except:
                     pass
                 finally:
-                    break
+                    return
 
             try:
-                await self.bot.remove_reaction(
-                    self.message,
+                await self.message.remove_reaction(
                     react.reaction.emoji,
                     react.user
                     )

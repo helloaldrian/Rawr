@@ -600,7 +600,7 @@ class CommandsCog(commands.Cog):
     async def lv(self, ctx):
         """Sends a paginated leveling guide, in-line message."""
         pages = Pages(
-            bot,
+            self.bot,
             message = ctx.message,
             entries = GUIDE_LEVELING,
             per_page = 1,

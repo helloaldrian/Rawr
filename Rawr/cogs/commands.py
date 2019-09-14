@@ -556,7 +556,7 @@ class CommandsCog(commands.Cog):
     @commands.command(aliases = ['exploration', 'gimmick'])
     async def explo(self, ctx):
         """Sends a link to a document about Explorer Gimmicks, etc."""
-         await ctx.send(
+        await ctx.send(
             cleandoc(
                 f"""
                 **[Explorer Gimmicks & New Collections Guide]**

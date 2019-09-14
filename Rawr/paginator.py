@@ -112,7 +112,7 @@ class Pages:
 
         if not self.paginating:
             self.embed.description = '\n'.join(p)
-            return await self.message.channel.send_message(
+            return await self.message.channel.send(
                 embed = self.embed
                 )
 
@@ -137,7 +137,7 @@ class Pages:
         p.append('')
         p.append('Confused? React with \N{INFORMATION SOURCE} for more info.')
         self.embed.description = '\n'.join(p)
-        self.message = await self.message.channel.send_message(
+        self.message = await self.message.channel.send(
             embed = self.embed
             )
         for (reaction, _) in self.reaction_emojis:
@@ -180,13 +180,13 @@ class Pages:
         """lets you type a page number to go to"""
         to_delete = []
         to_delete.append(
-            await self.message.channel.send_message(
+            await self.message.channel.send(
                 'What page do you want to go to?'
                 )
             )
 
         def pred(m):
-            return m.author == ctx.author and m.channel == ctx.channel
+            return m.author == self.author and m.channel == self.message.channel
 
         try:
             msg = await self.bot.wait_for(
@@ -196,7 +196,7 @@ class Pages:
                 )
         except asyncio.TimeoutError:
             to_delete.append(
-                await self.message.channel.send_message(
+                await self.message.channel.send(
                     'Took too long.'
                     )
                 )
@@ -208,7 +208,7 @@ class Pages:
                 await self.show_page(page)
             else:
                 to_delete.append(
-                    await self.message.channel.send_message(
+                    await self.message.channel.send(
                         'Invalid page given. (%s/%s)'
                         % (page, self.maximum_pages)
                         )

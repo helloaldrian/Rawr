@@ -543,11 +543,15 @@ class GuildOnlyCog(commands.Cog):
         entry = NewsFeed.entries[0]
 
         await ctx.send(
-            entry.published +
-            "\n******\n" +
-            entry.summary +
-            "\n------Link--------\n" +
-            entry.link
+            cleandoc(
+                f"""
+                {entry.published}
+                ******
+                {entry.summary}
+                ------Link--------
+                {entry.link}
+                """
+                )
             )
 
     async def cog_check(self, ctx):

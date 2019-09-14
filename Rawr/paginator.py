@@ -69,10 +69,10 @@ class Pages:
                 ),
         ]
 
-        server = self.message.server
-        if server is not None:
+        guild = self.message.guild
+        if guild:
             self.permissions = self.message.channel.permissions_for(
-                server.me
+                guild.me
                 )
         else:
             self.permissions = self.message.channel.permissions_for(
@@ -188,13 +188,25 @@ class Pages:
                 'What page do you want to go to?'
                 )
             )
-        msg = await self.bot.wait_for_message(
-            author = self.author,
-            channel = self.message.channel,
-            check = lambda m: m.content.isdigit(),
-            timeout = 30.0
-            )
-        if msg is not None:
+
+        def pred(m):
+            return m.author == ctx.author and m.channel == ctx.channel
+
+        try:
+            msg = await self.bot.wait_for(
+                'message',
+                check = pred,
+                timeout = 30.0
+                )
+        except asyncio.TimeoutError:
+            to_delete.append(
+                await self.bot.send_message(
+                    self.message.channel,
+                    'Took too long.'
+                    )
+                )
+            await asyncio.sleep(5)
+        if msg and msg.content.isdigit():
             page = int(msg.content)
             to_delete.append(msg)
             if page != 0 and page <= self.maximum_pages:
@@ -207,14 +219,6 @@ class Pages:
                         )
                     )
                 await asyncio.sleep(5)
-        else:
-            to_delete.append(
-                await self.bot.send_message(
-                    self.message.channel,
-                    'Took too long.'
-                    )
-                )
-            await asyncio.sleep(5)
 
         try:
             await self.bot.delete_messages(to_delete)

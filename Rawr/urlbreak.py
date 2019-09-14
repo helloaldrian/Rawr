@@ -38,7 +38,7 @@ async def format_embed_description(records: dict, format_str: str):
 async def find_tables_after_header(soup, h2_text):
     h2 = soup.find('h2', text = h2_text)
 
-    if h2 is not None:
+    if h2:
         els = h2.find_next_siblings()
         tables = []
 
@@ -85,7 +85,7 @@ async def get_item(link):
 
     #-- thumbnail --#
     visualheader = soup.find('h2', text = 'Visual')
-    if visualheader is not None:
+    if visualheader:
         table = visualheader.find_next_sibling('img').get('src')
         thumbnail = f'https://tos.neet.tv{table}'
         embed.set_thumbnail(url = thumbnail)
@@ -108,7 +108,7 @@ async def get_item(link):
             )
 
     #-- grade --#
-    if tables[0].find('span') is not None:
+    if tables[0].find('span'):
         name = 'Grade'
         grade = tables[0].find('span')['data-tip']
 
@@ -123,7 +123,7 @@ async def get_item(link):
 
     #-- requirements --#
     req_tables = await find_tables_after_header(soup, 'Requirements')
-    if req_tables is not None:
+    if req_tables:
         requirements = req_tables[0].find('td').get_text()
         embed.add_field(
             name = "Requirement",
@@ -133,7 +133,7 @@ async def get_item(link):
 
     #-- stats --#
     stats_tables = await find_tables_after_header(soup, 'Stats\n')
-    if stats_tables is not None:
+    if stats_tables:
         stats = {}
 
         names = stats_tables[0].find_all('th')
@@ -181,7 +181,7 @@ async def get_item(link):
 
     #-- stats (set bonus) --#
     set_tables = await find_tables_after_header(soup, 'Set')
-    if set_tables is not None:
+    if set_tables:
         set_bonus = {}
         rows = set_tables[0].find_all('tr')
 
@@ -211,7 +211,7 @@ async def get_item(link):
 
     # -- references --#
     ref_tables = await find_tables_after_header(soup, 'References')
-    if ref_tables is not None:
+    if ref_tables:
         ref = {}
 
         names = ref_tables[0].find_all('th')
@@ -229,7 +229,7 @@ async def get_item(link):
 
     #----- material -----#
     mats_tables = await find_tables_after_header(soup, 'Materials')
-    if mats_tables is not None:
+    if mats_tables:
         rows = mats_tables[0].find_all('tr')
         materials = {}
 

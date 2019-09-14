@@ -1,8 +1,8 @@
 import asyncio
-import datetime
 
 import aiohttp
 import discord
+import pendulum
 from bs4 import BeautifulSoup
 
 
@@ -72,7 +72,7 @@ async def get_item(link):
     embed = discord.Embed(
         colour = discord.Colour(0xF16F9B),
         description = description,
-        timestamp = datetime.datetime.now()
+        timestamp = pendulum.now()
         )
 
     #-- title --#

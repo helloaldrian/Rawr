@@ -1,9 +1,7 @@
-import datetime
 import html
 import os
 import sys
 
-import aiohttp
 import discord
 from discord.ext import commands
 

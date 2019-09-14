@@ -1,5 +1,4 @@
 import asyncio
-import datetime
 import json
 import re
 from inspect import cleandoc
@@ -8,6 +7,7 @@ from pathlib import Path
 import aiohttp
 import discord
 import feedparser
+import pendulum
 from bs4 import BeautifulSoup
 from discord.ext import commands
 
@@ -348,7 +348,7 @@ class GuildOnlyCog(commands.Cog):
                 embed = discord.Embed(
                     colour = discord.Colour(0xD2EE8A),
                     description = items['description'],
-                    timestamp = datetime.datetime.now()
+                    timestamp = pendulum.now()
                     )
                 # embed.set_image(url="https://tos.neet.tv/images/equip/icon_item_shirts_acolyte_silver.png")
                 embed.set_thumbnail(url = items['thumbnail'])
@@ -423,7 +423,7 @@ class GuildOnlyCog(commands.Cog):
         embed = discord.Embed(
             colour = discord.Colour(0x1abc9c),
             description = NEWS_ALL,
-            timestamp = datetime.datetime.now()
+            timestamp = pendulum.now()
             )
 
         embed.set_thumbnail(
@@ -472,7 +472,7 @@ class GuildOnlyCog(commands.Cog):
             colour = discord.Colour(0x1abc9c),
             title = "Tree of Savior (English Ver.)",
             description = TOS_DESC,
-            timestamp = datetime.datetime.now()
+            timestamp = pendulum.now()
             )
 
         embed.set_image(
@@ -515,7 +515,7 @@ class GuildOnlyCog(commands.Cog):
         embed = discord.Embed(
             colour = discord.Colour(0x1abc9c),
             description = TOSGURU_DESC,
-            timestamp = datetime.datetime.now()
+            timestamp = pendulum.now()
             )
 
         embed.set_image(

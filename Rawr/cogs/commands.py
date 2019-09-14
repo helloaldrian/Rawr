@@ -1,8 +1,8 @@
 from inspect import cleandoc
 
 import discord
+import pendulum
 from discord.ext import commands
-from pytz import timezone
 
 from paginator import Pages
 
@@ -135,20 +135,20 @@ INVITE = (
     )
 
 PONG = """
-     H
-    　 O
-    　　 O
-    　　　 o
-    　　 　　o
-    　　　    o
-    　　　　　o
-    　　　　 。
-    　　　 。
-    　　　.
-    　　　.
-    　　　 .
-    　　　　LY SHIT (╯°□°）╯︵ ┻━┻
-    """
+ H
+　 O
+　　 O
+　　　 o
+　　 　　o
+　　　    o
+　　　　　o
+　　　　 。
+　　　 。
+　　　.
+　　　.
+　　　 .
+　　　　LY SHIT (╯°□°）╯︵ ┻━┻
+"""
 
 # Resources - guides
 
@@ -381,15 +381,17 @@ POST_LORE = (
 
 NEW_OR_RETURN = (
     "https://www.reddit.com/r/treeofsavior/comments/af1evf"
-    "/read_first_NEW_OR_RETURNing_players_version_20/"
+    "/read_first_new_or_returning_players_version_20/"
     )
 
 # Resources - latest news message for Rawr
 
-LATEST = (
-    "**[The Re:Build Survival Guide, DevBlog & FAQ!!]**\n"
-    "https://treeofsavior.com/news/?n=1584\n"
-    "https://treeofsavior.com/page/news/view.php?n=1534"
+LATEST = '\n'.join(
+    [
+        "**[The Re:Build Survival Guide, DevBlog & FAQ!!]**",
+        "https://treeofsavior.com/news/?n=1584",
+        "https://treeofsavior.com/page/news/view.php?n=1534"
+        ]
     )
 
 # Resources - skill planners
@@ -436,7 +438,7 @@ class CommandsCog(commands.Cog):
     @commands.command()
     async def pong(self, ctx):
         """PONG."""
-        await ctx.send(cleandoc(PONG))
+        await ctx.send(PONG)
 
     @commands.command()
     async def ktest(self, ctx):
@@ -499,10 +501,9 @@ class CommandsCog(commands.Cog):
                 **[FAQ for newbie and returning player!!]**
                 _- by Palemoon_
                 {NEW_OR_RETURN}
-
-                {LATEST}
                 """
                 )
+            + f"""\n{LATEST}"""
             )
 
     @commands.command()
@@ -571,26 +572,25 @@ class CommandsCog(commands.Cog):
     async def time(self, ctx):
         """Sends a list of all of TOS time zones, with the current time
         in those time zones."""
-        fmt = "%H:%M:%S %Y-%m-%d"
+        fmt = "HH:mm:ss YYYY-MM-DD"
 
-        utc = timezone('UTC')
-        est = timezone('EST')
-        brst = timezone('America/Noronha')
-        cet = timezone('CET')
-        sgt = timezone('Asia/Singapore')
+        est = 'America/New_York'
+        brst = 'America/Noronha'
+        cet = 'Europe/Berlin'
+        sgt = 'Asia/Singapore'
 
-        now = datetime.datetime.now(tz = utc)
+        now = pendulum.now(tz = 'utc')
 
         # Current time in UTC
         await ctx.send(
             cleandoc(
                 f"""
                 ```cs
-                UTC : {now.strftime(fmt)}
-                EST : {now.astimezone(est).strftime(fmt)}
-                BRST: {now.astimezone(brst).strftime(fmt)}
-                CET : {now.astimezone(cet).strftime(fmt)}
-                SGT : {now.astimezone(sgt).strftime(fmt)}
+                UTC : {now.format(fmt)}
+                EST : {now.in_tz(est).format(fmt)}
+                BRST: {now.in_tz(brst).format(fmt)}
+                CET : {now.in_tz(cet).format(fmt)}
+                SGT : {now.in_tz(sgt).format(fmt)}
                 ```
                 """
                 )

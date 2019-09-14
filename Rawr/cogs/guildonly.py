@@ -123,6 +123,32 @@ for tos_class in all_classes:
     tos_class['regex'] = re.compile(tos_class['regex'], re.IGNORECASE)
 
 
+async def get_results_as_text(ctx, results):
+    """Sends results, in text form.
+
+    Args:
+        results (list): the results
+
+    Returns:
+        str: the message with results
+
+    """
+    # This is really awkward, but I couldn't think of a way to force
+    # indentation on the code block. Maybe something to improve.
+    return cleandoc(
+        f"""
+        {ctx.message.author.mention}
+        **Please choose one by entering its number**
+        _type `next` or `>` to display more result._
+        """
+        ) + cleandoc(
+        f"""
+        ```{NEWLINE.join(results)}
+        ```
+        """
+        )
+
+
 async def get_class(job: str):
     """Gets a class given `job`.
 
@@ -191,20 +217,7 @@ class GuildOnlyCog(commands.Cog):
 
         # send search result - multiple choice #
         msg = await ctx.send(
-            # This is really awkward, but I couldn't think of a way to force
-            # indentation on the code block. Maybe something to improve.
-            cleandoc(
-                f"""
-                {ctx.message.author.mention}
-                **Please choose one by entering its number**
-                _type `next` or `>` to display more result._
-                """
-                ) + cleandoc(
-                f"""
-                ```{NEWLINE.join(results)}
-                ```
-                """
-                )
+            await get_results_as_text(ctx, results)
             )
 
         def pred(m):
@@ -228,15 +241,7 @@ class GuildOnlyCog(commands.Cog):
                 await msg.delete()
                 if results:
                     msg = await ctx.send(
-                        cleandoc(
-                            f"""
-                            {ctx.message.author.mention}
-                            **Please choose one by entering its number**
-                            _type `next` or `>` to display more result._
-                            ```{NEWLINE.join(results)}
-                            ```
-                            """
-                            )
+                        await get_results_as_text(ctx, results)
                         )
                     continue
                 else:

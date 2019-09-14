@@ -10,13 +10,11 @@ from discord.ext import commands
 from urlbreak import get_item, skill_info
 from paginator import Pages
 
-###-- Invitation Link --###
-#https://discordapp.com/api/oauth2/authorize?client_id=336363921466195968&scope=bot&permissions=0
 
 bot = commands.Bot(
     command_prefix = '!rawr ',
     description = 'just another silly tree of savior bot',
-    pm_help = True
+    dm_help = True
     )
 
 bot.remove_command("help")
@@ -111,7 +109,7 @@ async def on_ready():
         activity = discord.Game(
             name = "Tree of Savior 2.0 - Re:Build",
             ),
-            status = discord.Status.online,
+        status = discord.Status.online,
         )
 
     print('=============================')

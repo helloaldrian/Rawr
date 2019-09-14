@@ -273,9 +273,14 @@ class GuildOnlyCog(commands.Cog):
             else:
                 continue
 
-    ### get skill ###
     @commands.command()
     async def skill(self, ctx, *job):
+        """Gets a skill from `job`. Asks for user input to pick a skill.
+
+        Args:
+            *job: the character class
+
+        """
         #await bot.type()
         try:
             code, name = await get_class(' '.join(job))
@@ -394,9 +399,9 @@ class GuildOnlyCog(commands.Cog):
                 # Ignore invalid input
                 continue
 
-    ### get news - official website ###
     @commands.command()
     async def news(self, ctx):
+        """Gets news from the official website."""
         #await bot.type()
         async with aiohttp.ClientSession(headers = headers) as cs:
             async with cs.get(TOS_NEWS) as r:
@@ -442,9 +447,9 @@ class GuildOnlyCog(commands.Cog):
 
         await ctx.send(embed = embed)
 
-    ### get PCCU from steamspy ###
     @commands.command()
     async def pccu(self, ctx):
+        """Gets player count from iTOS."""
         #await bot.type()
 
         user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'
@@ -502,10 +507,9 @@ class GuildOnlyCog(commands.Cog):
 
         await ctx.send(embed = embed)
 
-
-    ###-- wiki --###
     @commands.command(aliases = ['wiki', 'database'])
     async def db(self, ctx):
+        """Sends information about tos.guru."""
         #await bot.type()
 
         embed = discord.Embed(
@@ -541,6 +545,7 @@ class GuildOnlyCog(commands.Cog):
 
     @commands.command()
     async def rss(self, ctx):
+        """Gets entries from RSS."""
         async with aiohttp.ClientSession() as cs:
             async with cs.get("https://dark-nova.me/tos/feed.xml") as r:
                 NewsFeed = feedparser.parse(await r.text())

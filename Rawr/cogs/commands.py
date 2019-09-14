@@ -413,34 +413,34 @@ class CommandsCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    ###-- help --###
     @commands.command(aliases=['halp'])
     async def help(self, ctx):
+        """Help command."""
         await ctx.author.send(cleandoc(HELP))
 
-    ###-- hello --###
     @commands.command()
     async def hello(self, ctx):
+        """Says hello."""
         await ctx.send(cleandoc(HELLO))
 
-    ###-- who --###
     @commands.command()
     async def who(self, ctx):
+        """Says who Rawr is."""
         await ctx.send("Full-fledged Hero!!")
 
-    ###-- ping --###
     @commands.command()
     async def ping(self, ctx):
+        """Sends info about how to ping TOS servers."""
         await ctx.send(cleandoc(PING))
 
-    ###-- pong --###
     @commands.command()
     async def pong(self, ctx):
+        """PONG."""
         await ctx.send(cleandoc(PONG))
 
-    ###-- ktest --###
     @commands.command()
     async def ktest(self, ctx):
+        """Sends a link to the kTEST side of tos.neet.tv."""
         await ctx.send(
             cleandoc(
                 f"""
@@ -450,9 +450,9 @@ class CommandsCog(commands.Cog):
                 )
             )
 
-    ###-- build --###
     @commands.command(aliases = ['builds'])
     async def build(self, ctx):
+        """Sends a link to a document about builds."""
         await ctx.send(
             cleandoc(
                 f"""
@@ -463,9 +463,9 @@ class CommandsCog(commands.Cog):
                 )
             )
 
-    ###-- update --###
     @commands.command(aliases = ['updates', 'change', 'changes'])
     async def update(self, ctx):
+        """Sends a link to updates found by tos.neet.tv."""
         await ctx.send(
             cleandoc(
                 f"""
@@ -475,9 +475,9 @@ class CommandsCog(commands.Cog):
                 )
             )
 
-    ###-- addon manager --###
     @commands.command()
     async def addon(self, ctx):
+        """Sends links to TOS Addon Managers."""
         await ctx.send(
             cleandoc(
                 f"""
@@ -490,9 +490,9 @@ class CommandsCog(commands.Cog):
                 )
             )
 
-    ###-- faq --###
     @commands.command(aliases = ['faq', 'return'])
     async def newbie(self, ctx):
+        """Sends a link for new or returning players."""
         await ctx.send(
             cleandoc(
                 f"""
@@ -505,9 +505,9 @@ class CommandsCog(commands.Cog):
                 )
             )
 
-    ###-- holy guides --###
     @commands.command()
     async def guide(self, ctx):
+        """Sends links to guides."""
         await ctx.send(
             cleandoc(
                 f"""
@@ -520,9 +520,10 @@ class CommandsCog(commands.Cog):
                 )
             )
 
-    ###-- unlock guide --###
     @commands.command(aliases = ['hidden'])
     async def unlock(self, ctx):
+        """Sends a link to a document about hidden class unlock
+        and a link to in-game lore."""
         await ctx.send(
             cleandoc(
                 f"""
@@ -537,9 +538,9 @@ class CommandsCog(commands.Cog):
                 )
             )
 
-    ###-- planner --###
     @commands.command()
     async def planner(self, ctx):
+        """Sends links to skill planners."""
         await ctx.send(
             cleandoc(
                 f"""
@@ -552,9 +553,9 @@ class CommandsCog(commands.Cog):
             )
         # tos-th.com is no longer available.
 
-    ###-- gimmick --###
     @commands.command(aliases = ['exploration', 'gimmick'])
     async def explo(self, ctx):
+        """Sends a link to a document about Explorer Gimmicks, etc."""
          await ctx.send(
             cleandoc(
                 f"""
@@ -566,9 +567,10 @@ class CommandsCog(commands.Cog):
                 )
             )
 
-    ###-- timezone --###
     @commands.command()
     async def time(self, ctx):
+        """Sends a list of all of TOS time zones, with the current time
+        in those time zones."""
         fmt = "%H:%M:%S %Y-%m-%d"
 
         utc = timezone('UTC')
@@ -594,14 +596,9 @@ class CommandsCog(commands.Cog):
                 )
             )
 
-        # Convert to Asia/Singapore time zone
-        #now_sgt = now_utc.astimezone(timezone('Asia/Singapore'))
-        #await ctx.send (now_sgt.strftime(fmt) + " (SGT)")
-
-
-    ###-- leveling --###
     @commands.command(aliases = ['leveling', 'lvl', 'level'])
     async def lv(self, ctx):
+        """Sends a paginated leveling guide, in-line message."""
         pages = Pages(
             bot,
             message = ctx.message,
@@ -611,9 +608,9 @@ class CommandsCog(commands.Cog):
             )
         await pages.paginate()
 
-    ###-- invite --###
     @commands.command(aliases = ['invite'])
     async def inv(self, ctx):
+        """Sends the link to invite Rawr."""
         await ctx.send(
             cleandoc(
                 f"""
@@ -624,9 +621,9 @@ class CommandsCog(commands.Cog):
                 )
             )
 
-    ###-- ranking --###
     @commands.command(aliases = ['rankings'])
     async def rank(self, ctx):
+        """Sends a link to the official class ranking page."""
         await ctx.send(
             cleandoc(
                 f"""
@@ -638,9 +635,9 @@ class CommandsCog(commands.Cog):
                 )
             )
 
-    ###-- patch notes translation --###
     @commands.command()
     async def pnt(self, ctx):
+        """Sends links to `p`atch `n`ote `t`ranslations."""
         await ctx.send(cleandoc(POST_PATCH))
 
 

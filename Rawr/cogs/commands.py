@@ -447,7 +447,7 @@ class CommandsCog(commands.Cog):
             cleandoc(
                 f"""
                 **[Let's see the future!!]**
-                https://tos-ktest.neet.tv/"
+                https://tos-ktest.neet.tv/
                 """
                 )
             )
@@ -616,7 +616,7 @@ class CommandsCog(commands.Cog):
                 f"""
                 **[Use this link to invite me to your server.]**
 
-                {INVITE}"
+                {INVITE}
                 """
                 )
             )

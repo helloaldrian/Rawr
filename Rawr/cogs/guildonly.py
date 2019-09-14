@@ -208,10 +208,14 @@ class GuildOnlyCog(commands.Cog):
             async with cs.get(url) as r:
                 soup = BeautifulSoup(await r.text(), 'html.parser')
 
-        table = soup.find(
-            'table',
-            {"class": 'results-table'}
-            ).find('tbody').find_all('tr')
+        try:
+            table = soup.find(
+                'table',
+                {"class": 'results-table'}
+                ).find('tbody').find_all('tr')
+        except AttributeError:
+            await ctx.send('**No results were found!**')
+            return
         links = []
         results = []
         start = 0

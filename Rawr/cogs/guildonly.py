@@ -174,17 +174,20 @@ async def get_results(table, start: int, links: list):
         start (int): the starting index
         links (list): contains URLs to the entries
 
+    Returns:
+        list: of str of results
+
     """
     results = []
     # Offset is currently defined at 7
     end = start + 7
-    for number, row in enumerate(table[start:end], start = 0):
+    for number, row in enumerate(table[start:end], start = 1):
         columns = row.find_all('td')
         links.append(columns[1].find('a').get('href'))
         iname = columns[2].get_text()
         itype = columns[3].get_text()
         results.append(
-            f'{number + 1}. {iname} - [{itype}]'
+            f'{number + start}. {iname} - [{itype}]'
             )
     return results
 
@@ -225,7 +228,6 @@ class GuildOnlyCog(commands.Cog):
 
         # waiting for response from user #
         while True:
-            results = []
             try:
                 choice = await self.bot.wait_for(
                     'message',
@@ -235,6 +237,7 @@ class GuildOnlyCog(commands.Cog):
             except asyncio.TimeoutError:
                 await ctx.send('_**too slow...**_   **(╯°□°）╯︵ ┻━┻**')
                 return
+
             if choice.content == 'next' or choice.content == '>':
                 start += 7
                 results = await get_results(table, start, links)
@@ -252,7 +255,7 @@ class GuildOnlyCog(commands.Cog):
             # send search result - embed #
             elif (
                 choice.content.isdigit()
-                and int(choice.content) in range(1, len(results) + 1)
+                and int(choice.content) in range(start, start + 7)
                 ):
                 choice_number = int(choice.content)
                 embed = await get_item(

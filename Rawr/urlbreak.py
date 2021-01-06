@@ -1,22 +1,49 @@
-import bs4, sys
-from bs4 import BeautifulSoup
-import urllib.request
-import pprint
+import asyncio
+
+import aiohttp
 import discord
-import datetime
+import pendulum
+from bs4 import BeautifulSoup
 
 
-def find_tables_after_header(soup, h2_text):
-    h2 = soup.find('h2', text=h2_text)
+TOS_THUMBNAIL = (
+    "http://bestonlinegamesreview.com/wp-content/uploads/2016/04"
+    "/p1_2006411_5eae6fd9.png"
+    )
 
-    if h2 is not None:
+
+async def format_embed_description(records: dict, format_str: str):
+    """Formats an embed description to use.
+
+    Args:
+        records (dict): records to convert to description
+        format_str (str, optional): the format string to use;
+            do not pass a F-String!
+
+    Returns:
+        str: the formatted description
+
+    """
+    return '```{}```'.format(
+        '\n'.join(
+            [
+                format_str.format(*record)
+                for record
+                in records.items()
+                ]
+            )
+        )
+
+
+async def find_tables_after_header(soup, h2_text):
+    h2 = soup.find('h2', text = h2_text)
+
+    if h2:
         els = h2.find_next_siblings()
-        tables = None
+        tables = []
 
         for el in els:
             if el.name == 'table':
-                if tables == None:
-                    tables = []
                 tables.append(el)
             else:
                 break
@@ -26,75 +53,87 @@ def find_tables_after_header(soup, h2_text):
 
 
 ##--------- Item Info ---------##
-def get_item(item_links):
+async def get_item(link):
+    async with aiohttp.ClientSession() as cs:
+        async with cs.get(link) as r:
+            soup = BeautifulSoup(await r.text(), 'html.parser')
 
-    r = urllib.request.urlopen(item_links).read()
-    soup = BeautifulSoup(r, 'html.parser')
     tables = soup.find_all('table')
-    item_type = soup.find('table', {'class': 'pure-table'}).find('td')
-
-    if item_type is not None:
-        item_type = item_type.get_text()
-    else:
-        item_type = ''
-
+    item_type = soup.find(
+        'table',
+        {'class': 'pure-table'}
+        ).find('td').get_text()
 
     #-- description --#
     description = 'No Description'
-    if soup.find(class_='item-desc') != None:
-        description = soup.find(class_='item-desc').get_text()
+    if soup.find(class_ = 'item-desc'):
+        description = soup.find(class_ = 'item-desc').get_text()
 
-    embed = discord.Embed(colour=discord.Colour(0xF16F9B), description=description, timestamp=datetime.datetime.now())
-
+    embed = discord.Embed(
+        colour = discord.Colour(0xF16F9B),
+        description = description,
+        timestamp = pendulum.now()
+        )
 
     #-- title --#
-    title = soup.find(id='title').get_text()
-    embed.set_author(name=title, url=item_links, icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
-
+    title = soup.find(id = 'title').get_text()
+    embed.set_author(
+        name = title,
+        url = link,
+        icon_url = TOS_THUMBNAIL
+        )
 
     #-- thumbnail --#
-    visualheader = soup.find('h2', text='Visual')
-    if visualheader is not None:
+    visualheader = soup.find('h2', text = 'Visual')
+    if visualheader:
         table = visualheader.find_next_sibling('img').get('src')
-        thumbnail = 'https://tos.neet.tv' + table
-        embed.set_thumbnail(url=thumbnail)
-
+        thumbnail = f'https://tos.neet.tv{table}'
+        embed.set_thumbnail(url = thumbnail)
 
     #-- gem info --#
     if item_type == 'Gems':
         info_table = soup.find('table', {'class', 'list-table'})
-        infos = []
+        info = []
 
         for row in info_table.find_all('tr'):
             name = row.find('th').get_text()
             value = row.find('td').get_text()
 
-            infos.append('{:<7}: {}'.format(name, value))
+            info.append(f'{name:<7}: {value}')
 
-        embed.add_field(name="Info", value='```' + '\n'.join(infos) + '```', inline=True)
-
+        embed.add_field(
+            name = "Info",
+            value = '```{}```'.format('\n'.join(info)),
+            inline = True
+            )
 
     #-- grade --#
-    if tables[0].find('span') is not None:
+    if tables[0].find('span'):
         name = 'Grade'
         grade = tables[0].find('span')['data-tip']
 
         if item_type == 'Card':
             name = 'Card Group'
 
-        embed.add_field(name=name, value=grade, inline=False)
-
+        embed.add_field(
+            name = name,
+            value = grade,
+            inline = False
+            )
 
     #-- requirements --#
-    req_tables = find_tables_after_header(soup, 'Requirements')
-    if req_tables is not None:
+    req_tables = await find_tables_after_header(soup, 'Requirements')
+    if req_tables:
         requirements = req_tables[0].find('td').get_text()
-        embed.add_field(name="Requirement", value=requirements, inline=False)
-
+        embed.add_field(
+            name = "Requirement",
+            value = requirements,
+            inline = False
+            )
 
     #-- stats --#
-    stats_tables = find_tables_after_header(soup, 'Stats\n')
-    if stats_tables is not None:
+    stats_tables = await find_tables_after_header(soup, 'Stats\n')
+    if stats_tables:
         stats = {}
 
         names = stats_tables[0].find_all('th')
@@ -103,9 +142,11 @@ def get_item(item_links):
         for name, value in zip(names, values):
             stats[name.get_text()] = value.get_text()
 
-        stats = '```' + '\n'.join(["{:<20}: {}".format(*item) for item in stats.items()]) + '```'
-        embed.add_field(name="Stats", value=stats, inline=True)
-
+        embed.add_field(
+            name = "Stats",
+            value = await format_embed_description(stats, "{:<20}: {}"),
+            inline = True
+            )
 
         #-- stats (additional & bonus) --#
         if len(stats_tables) > 1:
@@ -122,18 +163,26 @@ def get_item(item_links):
                 else:
                     bonus.append(value.get_text())
 
-            if additional != {}:
-                addsts = '```' + '\n'.join(["{:<27}: {}".format(*item) for item in additional.items()]) + '```'
-                embed.add_field(name="Additional Stats", value=addsts, inline=False)
+            if additional:
+                embed.add_field(
+                    name = "Additional Stats",
+                    value = await format_embed_description(
+                        additional, "{:<27}: {}"
+                        ),
+                    inline = False
+                    )
 
-            if len(bonus) != 0:
-                embed.add_field(name="Bonus Stats", value='```' + '\n'.join(bonus) + '```', inline=False)
-
+            if bonus:
+                embed.add_field(
+                    name = "Bonus Stats",
+                    value = '```{}```'.format(bonus),
+                    inline = False
+                    )
 
     #-- stats (set bonus) --#
-    set_tables = find_tables_after_header(soup, 'Set')
-    if set_tables is not None:
-        setbonus = {}
+    set_tables = await find_tables_after_header(soup, 'Set')
+    if set_tables:
+        set_bonus = {}
         rows = set_tables[0].find_all('tr')
 
         for row in rows[2:]:
@@ -142,24 +191,27 @@ def get_item(item_links):
             values = [value.get_text().strip() for value in values]
 
             value =', '.join(values)
-            setbonus[name] = value
+            set_bonus[name] = value
 
-        if setbonus != {}:
-            setbns = '\n'.join(["{}: {}".format(*item) for item in setbonus.items()])
-            embed.add_field(name="Set Bonus", value='```' + setbns + '```', inline=True)
-
+        if set_bonus:
+            embed.add_field(
+                name = "Set Bonus",
+                value = await format_embed_description(set_bonus, "{}: {}"),
+                inline = True
+                )
 
     #-- produces --#
-    produces_tables = find_tables_after_header(soup, 'Produces')
-    if produces_tables is not None:
-        name = produces_tables[0].find('a').get_text()
-        produces = name
-        embed.add_field(name="Produces", value=produces, inline=False)
-
+    produces_tables = await find_tables_after_header(soup, 'Produces')
+    if produces_tables:
+        embed.add_field(
+            name = "Produces",
+            value = produces_tables[0].find('a').get_text(),
+            inline = False
+            )
 
     # -- references --#
-    ref_tables = find_tables_after_header(soup, 'References')
-    if ref_tables is not None:
+    ref_tables = await find_tables_after_header(soup, 'References')
+    if ref_tables:
         ref = {}
 
         names = ref_tables[0].find_all('th')
@@ -168,13 +220,16 @@ def get_item(item_links):
         for name, value in zip(names, values):
             ref[name.get_text()] = value.get_text().replace('\n ', '\n')
 
-        refs = '```' + '\n'.join(["{}: {}".format(*item) for item in ref.items()]) + '```'
-        embed.add_field(name="References", value=refs, inline=True)
+        embed.add_field(
+            name = "References",
+            value = await format_embed_description(ref, "{}: {}"),
+            inline = True
+            )
 
 
     #----- material -----#
-    mats_tables = find_tables_after_header(soup, 'Materials')
-    if mats_tables is not None:
+    mats_tables = await find_tables_after_header(soup, 'Materials')
+    if mats_tables:
         rows = mats_tables[0].find_all('tr')
         materials = {}
 
@@ -184,26 +239,35 @@ def get_item(item_links):
 
             materials[name] = value
 
-        if len(materials) != 0:
-            mats = '```' + '\n'.join(['{:<20}: {}'.format(name, value) for name, value in materials.items()]) + '```'
-            embed.add_field(name="Materials", value=mats, inline=False)
+        if materials:
+            embed.add_field(
+                name = "Materials",
+                value = await format_embed_description(materials, '{:<20}: {}'),
+                inline = False
+                )
 
     return embed
 
 
 ##--------- Skill Info ---------##
-def skill_info(skill_id):
-
-    r = urllib.request.urlopen(skill_id).read()
-    soup = BeautifulSoup(r, 'html.parser')
+async def skill_info(link):
+    async with aiohttp.ClientSession() as cs:
+        async with cs.get(link) as r:
+            soup = BeautifulSoup(await r.text(), 'html.parser')
     tables = soup.find_all('table')
 
-    data = {'info': {}, 'addsinfo': {}, 'skillfact': {}, 'attribs': [], 'adin': {}}
+    data = {
+        'info': {},
+        'addsinfo': {},
+        'skillfact': {},
+        'attribs': [],
+        'adin': {}
+        }
 
-    data['title'] = soup.find(id='title').get_text()
-    data['description'] = soup.find(class_='item-desc').get_text()
-    data['requirement'] = "stance :" + tables[2].find('td').get_text()
-    data['efx'] = soup.find(id='js-skill-effect').get_text()
+    data['title'] = soup.find(id = 'title').get_text()
+    data['description'] = soup.find(class_ = 'item-desc').get_text()
+    data['requirement'] = f"stance :{tables[2].find('td').get_text()}"
+    data['efx'] = soup.find(id = 'js-skill-effect').get_text()
 
     ##----- info -----##
     rows = tables[0].find_all('tr')
@@ -219,38 +283,54 @@ def skill_info(skill_id):
     values = tables[1].find_all('td')
 
     for name, value in zip(names, values):
-        if not value.find(class_='cat-toggle'):
+        if not value.find(class_ = 'cat-toggle'):
             data['addsinfo'][(name.get_text())] = value.get_text()
 
-    data['adin'] = dict(list(data['info'].items()) + list(data['addsinfo'].items()))
+    data['adin'] = dict(
+        list(data['info'].items()) + list(data['addsinfo'].items())
+        )
 
     ##----- skill factor -----##
-    sfact = soup.find(id='js-skill-funcs')
+    sfact = soup.find(id = 'js-skill-funcs')
 
-    names = sfact.find_all('th')
-    values = sfact.find_all('td')
+    try:
+        names = sfact.find_all('th')
+        values = sfact.find_all('td')
 
-    for name, value in zip(names, values):
-        data['skillfact'][(name.get_text())] = value.get_text()
+        for name, value in zip(names, values):
+            data['skillfact'][(name.get_text())] = value.get_text()
+    except AttributeError:
+        # This skill does not have a skill factor.
+        pass
 
     ##----- attributes -----##
-    attribHeader = soup.find('h2', text='Attributes')
-    if attribHeader is not None:
+    attribHeader = soup.find('h2', text = 'Attributes')
+    if attribHeader:
         table = attribHeader.find_next_sibling('table')
         rows = table.find_all('tr')
 
         for row in rows:
             names = row.find('a').get_text()
-            values = row.find(class_='item-desc').get_text()
-            mod = '\n'.join(('* ' + tooltip.get_text()) for tooltip in row.find_all('span', {'data-tip': True}))
+            values = row.find(class_ = 'item-desc').get_text()
+            mod = '\n'.join(
+                (f'* {tooltip.get_text()}')
+                for tooltip
+                in row.find_all('span', {'data-tip': True})
+                )
 
-            data['attribs'].append({'name': names, 'value': values, 'mod': mod})
+            data['attribs'].append(
+                {
+                    'name': names,
+                    'value': values,
+                    'mod': mod
+                    }
+                )
     ## ----- ##
 
     ##----- thumbnail -----##
-    visualheader = soup.find('h2', text='Visual')
-    if visualheader is not None:
+    visualheader = soup.find('h2', text = 'Visual')
+    if visualheader:
         table = visualheader.find_next_sibling('img').get('src')
-        data['thumbnail'] = 'https://tos.neet.tv' + table
+        data['thumbnail'] = f'https://tos.neet.tv{table}'
 
     return data

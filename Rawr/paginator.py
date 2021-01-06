@@ -1,5 +1,17 @@
 import asyncio
+
 import discord
+
+
+TOS_THUMBNAIL = (
+    "http://bestonlinegamesreview.com/wp-content/uploads/2016/04"
+    "/p1_2006411_5eae6fd9.png"
+    )
+
+LEVELING_GUIDE = (
+    "https://www.reddit.com/r/treeofsavior/comments/ah8nlz"
+    "/updated_leveling_guide_version_20/"
+    )
 
 class CannotPaginate(Exception):
     pass
@@ -27,20 +39,45 @@ class Pages:
         self.embed = discord.Embed()
         self.paginating = len(entries) > per_page
         self.reaction_emojis = [
-            ('\N{BLACK LEFT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR}', self.first_page),
-            ('\N{BLACK LEFT-POINTING TRIANGLE}', self.previous_page),
-            ('\N{BLACK RIGHT-POINTING TRIANGLE}', self.next_page),
-            ('\N{BLACK RIGHT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR}', self.last_page),
-            ('\N{INPUT SYMBOL FOR NUMBERS}', self.numbered_page ),
-            ('\N{BLACK SQUARE FOR STOP}', self.stop_pages),
-            ('\N{INFORMATION SOURCE}', self.show_help),
+            (
+                '\N{BLACK LEFT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR}',
+                self.first_page
+                ),
+            (
+                '\N{BLACK LEFT-POINTING TRIANGLE}',
+                self.previous_page
+                ),
+            (
+                '\N{BLACK RIGHT-POINTING TRIANGLE}',
+                self.next_page
+                ),
+            (
+                '\N{BLACK RIGHT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR}',
+                self.last_page
+                ),
+            (
+                '\N{INPUT SYMBOL FOR NUMBERS}',
+                self.numbered_page
+                ),
+            (
+                '\N{BLACK SQUARE FOR STOP}',
+                self.stop_pages
+                ),
+            (
+                '\N{INFORMATION SOURCE}',
+                self.show_help
+                ),
         ]
 
-        server = self.message.server
-        if server is not None:
-            self.permissions = self.message.channel.permissions_for(server.me)
+        guild = self.message.guild
+        if guild:
+            self.permissions = self.message.channel.permissions_for(
+                guild.me
+                )
         else:
-            self.permissions = self.message.channel.permissions_for(self.bot.user)
+            self.permissions = self.message.channel.permissions_for(
+                self.bot.user
+                )
 
         if not self.permissions.embed_links:
             raise CannotPaginate('Bot does not have embed links permission.')
@@ -61,29 +98,48 @@ class Pages:
             for t in entries:
                 p.append('%s' % t)
 
-        self.embed.set_author(name="[Interactive Leveling Guide]", url="https://www.reddit.com/r/treeofsavior/comments/ah8nlz/updated_leveling_guide_version_20/", icon_url="http://bestonlinegamesreview.com/wp-content/uploads/2016/04/p1_2006411_5eae6fd9.png")
-        self.embed.set_footer(text='Page %s/%s (%s entries)' % (page, self.maximum_pages, len(self.entries)))
+        self.embed.set_author(
+            name = "[Interactive Leveling Guide]",
+            url = LEVELING_GUIDE,
+            icon_url = TOS_THUMBNAIL
+            )
+        self.embed.set_footer(
+            text = (
+                'Page %s/%s (%s entries)'
+                % (page, self.maximum_pages, len(self.entries))
+                )
+            )
 
         if not self.paginating:
             self.embed.description = '\n'.join(p)
-            return await self.bot.send_message(self.message.channel, embed=self.embed)
+            return await self.message.channel.send(
+                embed = self.embed
+                )
 
         if not first:
             self.embed.description = '\n'.join(p)
-            await self.bot.edit_message(self.message, embed=self.embed)
+            await self.message.edit(
+                embed = self.embed
+                )
             return
 
         # verify we can actually use the pagination session
         if not self.permissions.add_reactions:
-            raise CannotPaginate('Bot does not have add reactions permission.')
+            raise CannotPaginate(
+                'Bot does not have add reactions permission.'
+                )
 
         if not self.permissions.read_message_history:
-            raise CannotPaginate('Bot does not have Read Message History permission.')
+            raise CannotPaginate(
+                'Bot does not have Read Message History permission.'
+                )
 
         p.append('')
         p.append('Confused? React with \N{INFORMATION SOURCE} for more info.')
         self.embed.description = '\n'.join(p)
-        self.message = await self.bot.send_message(self.message.channel, embed=self.embed)
+        self.message = await self.message.channel.send(
+            embed = self.embed
+            )
         for (reaction, _) in self.reaction_emojis:
             if self.maximum_pages == 2 and reaction in ('\u23ed', '\u23ee'):
                 # no |<< or >>| buttons if we only have two pages
@@ -91,7 +147,7 @@ class Pages:
                 # it from the default set
                 continue
             try:
-                await self.bot.add_reaction(self.message, reaction)
+                await self.message.add_reaction(reaction)
             except discord.NotFound:
                 # If the message isn't found, we don't care about clearing anything
                 return
@@ -123,23 +179,44 @@ class Pages:
     async def numbered_page(self):
         """lets you type a page number to go to"""
         to_delete = []
-        to_delete.append(await self.bot.send_message(self.message.channel, 'What page do you want to go to?'))
-        msg = await self.bot.wait_for_message(author=self.author, channel=self.message.channel,
-                                              check=lambda m: m.content.isdigit(), timeout=30.0)
-        if msg is not None:
+        to_delete.append(
+            await self.message.channel.send(
+                'What page do you want to go to?'
+                )
+            )
+
+        def pred(m):
+            return m.author == self.author and m.channel == self.message.channel
+
+        try:
+            msg = await self.bot.wait_for(
+                'message',
+                check = pred,
+                timeout = 30.0
+                )
+        except asyncio.TimeoutError:
+            to_delete.append(
+                await self.message.channel.send(
+                    'Took too long.'
+                    )
+                )
+            await asyncio.sleep(5)
+        if msg and msg.content.isdigit():
             page = int(msg.content)
             to_delete.append(msg)
             if page != 0 and page <= self.maximum_pages:
                 await self.show_page(page)
             else:
-                to_delete.append(await self.bot.say('Invalid page given. (%s/%s)' % (page, self.maximum_pages)))
+                to_delete.append(
+                    await self.message.channel.send(
+                        'Invalid page given. (%s/%s)'
+                        % (page, self.maximum_pages)
+                        )
+                    )
                 await asyncio.sleep(5)
-        else:
-            to_delete.append(await self.bot.send_message(self.message.channel, 'Took too long.'))
-            await asyncio.sleep(5)
 
         try:
-            await self.bot.delete_messages(to_delete)
+            await self.message.channel.delete_messages(to_delete)
         except Exception:
             pass
 
@@ -147,16 +224,23 @@ class Pages:
         """shows this message"""
         e = discord.Embed()
         messages = ['Welcome to the interactive paginator!\n']
-        messages.append('This interactively allows you to see pages of text by navigating with ' \
-                        'reactions. They are as follows:\n')
+        messages.append(
+            'This interactively allows you to see pages of text by navigating '
+            'with reactions. They are as follows:\n'
+            )
 
         for (emoji, func) in self.reaction_emojis:
             messages.append('%s %s' % (emoji, func.__doc__))
 
         e.description = '\n'.join(messages)
         e.colour =  0x738bd7 # blurple
-        e.set_footer(text='We were on page %s before this message.' % self.current_page)
-        await self.bot.edit_message(self.message, embed=e)
+        e.set_footer(
+            text = (
+                'We were on page %s before this message.'
+                % self.current_page
+                )
+            )
+        await self.message.edit(embed = e)
 
         async def go_back_to_current_page():
             await asyncio.sleep(60.0)
@@ -166,7 +250,7 @@ class Pages:
 
     async def stop_pages(self):
         """stops the interactive pagination session"""
-        await self.bot.delete_message(self.message)
+        await self.message.delete()
         self.paginating = False
 
     def react_check(self, reaction, user):
@@ -184,19 +268,26 @@ class Pages:
         await self.show_page(start_page, first=True)
 
         while self.paginating:
-            react = await self.bot.wait_for_reaction(message=self.message, check=self.react_check, timeout=300.0)
-
-            if react is None:
+            try:
+                react = await self.bot.wait_for(
+                    'reaction_add',
+                    check = self.react_check,
+                    timeout = 300.0
+                    )
+            except asyncio.TimeoutError:
                 self.paginating = False
                 try:
-                    await self.bot.clear_reactions(self.message)
+                    await self.message.clear_reactions()
                 except:
                     pass
                 finally:
-                    break
+                    return
 
             try:
-                await self.bot.remove_reaction(self.message, react.reaction.emoji, react.user)
+                await self.message.remove_reaction(
+                    react.reaction.emoji,
+                    react.user
+                    )
             except:
                 print("Can\'t remove reaction")
                 pass # can't remove it so don't bother doing so

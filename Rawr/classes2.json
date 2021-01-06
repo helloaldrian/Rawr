@@ -2,401 +2,421 @@
 	{
 		"code": "Char2_5",
 		"name": "Alchemist",
-		"regex": "Alchemistake|Alche?m?i?s?t?"
+		"regex": "^alch|mist[ae]k"
 	},
 	{
 		"code": "Char3_13",
 		"name": "Appraiser",
-		"regex": "Appra?i?s?e?r?"
+		"regex": "^app"
 	},
 	{
 		"code": "Char3_1",
 		"name": "Archer",
-		"regex": "Arc?h?e?r?"
+		"regex": "^arc?h?"
+	},
+	{
+		"code": "Char5_13",
+		"name": "Ardito",
+		"regex": "^ard"
 	},
 	{
 		"code": "Char5_2",
 		"name": "Assassin",
-		"regex": "Ass?(ass)?(sin)?"
+		"regex": "^ass|sin"
 	},
 	{
 		"code": "Char1_6",
 		"name": "Barbarian",
-		"regex": "Barba?r?i?a?n?"
+		"regex": "^barb?"
 	},
 	{
 		"code": "Char2_22",
 		"name": "Bokor",
-		"regex": "Boko?r?"
+		"regex": "^bok"
 	},
 	{
 		"code": "Char5_12",
 		"name": "Bullet Marker",
-		"regex": "B(ullet)? ?M(arker)?"
+		"regex": "^b(ullet)? ?m(arker)?"
 	},
 	{
 		"code": "Char3_15",
 		"name": "Cannoneer",
-		"regex": "Canno?n?e?e?r?"
+		"regex": "^can"
 	},
 	{
 		"code": "Char1_7",
 		"name": "Cataphract",
-		"regex": "Catap?h?r?a?c?t?"
+		"regex": "^cata?"
 	},
 	{
 		"code": "Char1_5",
 		"name": "Centurion",
-		"regex": "Centu?r?i?o?n?"
+		"regex": "^cent"
 	},
 	{
 		"code": "Char4_12",
 		"name": "Chaplain",
-		"regex": "Chapl?a?i?n?"
+		"regex": "^chap"
 	},
 	{
 		"code": "Char2_8",
 		"name": "Chronomancer",
-		"regex": "Chron?o?m?a?n?c?e?r?"
+		"regex": "^chr"
 	},
 	{
 		"code": "Char4_1",
 		"name": "Cleric",
-		"regex": "Cler?i?c?"
+		"regex": "^cle"
 	},
 	{
 		"code": "Char5_5",
 		"name": "Corsair",
-		"regex": "Cors?a?i?r?"
+		"regex": "^cor|sair"
 	},
 	{
 		"code": "Char2_3",
 		"name": "Cryomancer",
-		"regex": "Cryom?a?n?c?e?r?"
+		"regex": "^cryo?"
 	},
 	{
 		"code": "Char4_7",
 		"name": "Dievdirbys",
-		"regex": "Dievd?i?r?b?y?s?"
+		"regex": "^diev"
 	},
 	{
 		"code": "Char1_9",
 		"name": "Doppelsoeldner",
-		"regex": "Dopp?e?l?s?o?e?l?d?n?e?r?"
+		"regex": "^dopp"
 	},
 	{
 		"code": "Char1_15",
 		"name": "Dragoon",
-		"regex": "goon|Drago?o?n?"
+		"regex": "^dra?g|goon"
 	},
 	{
 		"code": "Char4_5",
 		"name": "Druid",
-		"regex": "Drui?d?"
+		"regex": "^dru"
 	},
 	{
 		"code": "Char2_11",
 		"name": "Elementalist",
-		"regex": "Elem?e?n?t?a?l?i?s?t?"
+		"regex": "^ele"
 	},
 	{
 		"code": "Char5_8",
 		"name": "Enchanter",
-		"regex": "Encha?n?t?e?r?"
+		"regex": "^ench"
 	},
 	{
 		"code": "Char4_20",
 		"name": "Exorcist",
-		"regex": "Exor?(cist)?"
+		"regex": "^exo"
 	},
 	{
 		"code": "Char3_14",
 		"name": "Falconer",
-		"regex": "Falc?o?n?e?r?"
+		"regex": "^falc?"
 	},
 	{
 		"code": "Char2_16",
 		"name": "Featherfoot",
-		"regex": "ff|Feather?f?o?o?t?"
+		"regex": "^f(f|eather)"
 	},
 	{
 		"code": "Char1_14",
 		"name": "Fencer",
-		"regex": "Fencer"
+		"regex": "^fenc?"
 	},
 	{
 		"code": "Char3_11",
 		"name": "Fletcher",
-		"regex": "Fletc?h?e?r?"
+		"regex": "^flet?"
 	},
 	{
 		"code": "Char4_99",
 		"name": "GM",
-		"regex": "GM"
+		"regex": "gm"
 	},
 	{
 		"code": "Char3_7",
 		"name": "Hackapell",
-		"regex": "hakka|Hackap?e?l?l?"
+		"regex": "^ha[ck]a?"
 	},
 	{
 		"code": "Char1_2",
 		"name": "Highlander",
-		"regex": "hl|High(lander)?"
+		"regex": "^h(l|igh)"
 	},
 	{
 		"code": "Char1_4",
 		"name": "Hoplite",
-		"regex": "Hopl?i?t?e?"
+		"regex": "^hop"
 	},
 	{
 		"code": "Char3_2",
 		"name": "Hunter",
-		"regex": "Hunte?r?"
+		"regex": "^hunt"
 	},
 	{
 		"code": "Char4_16",
 		"name": "Inquisitor",
-		"regex": "Inqui?s?i?t?o?r?"
+		"regex": "^inq"
 	},
 	{
 		"code": "Char4_15",
 		"name": "Kabbalist",
-		"regex": "Kab?b?a?l?i?s?t?"
+		"regex": "^kab"
 	},
 	{
 		"code": "Char4_3",
 		"name": "Krivis",
-		"regex": "Kriv?i?s?"
+		"regex": "^kri"
 	},
 	{
 		"code": "Char1_17",
 		"name": "Lancer",
-		"regex": "Lanc?e?r?"
+		"regex": "^lan"
 	},
 	{
 		"code": "Char5_9",
 		"name": "Linker",
-		"regex": "Linke?r?"
+		"regex": "^link"
 	},
 	{
 		"code": "Char1_19",
 		"name": "Matador",
-		"regex": "Matad?o?r?"
+		"regex": "^mata"
+	},
+	{
+		"code": "Char3_18",
+		"name": "Matross",
+		"regex": "^mat"
 	},
 	{
 		"code": "Char3_17",
 		"name": "Mergen",
-		"regex": "Merg?e?n?"
+		"regex": "^merg"
 	},
 	{
 		"code": "Char4_18",
 		"name": "Miko",
-		"regex": "Miko"
+		"regex": "^miko"
 	},
 	{
 		"code": "Char2_12",
 		"name": "Mimic",
-		"regex": "Mimic"
+		"regex": "^mimic"
 	},
 	{
 		"code": "Char4_9",
 		"name": "Monk",
-		"regex": "Monk"
+		"regex": "^monk"
 	},
 	{
 		"code": "Char1_12",
 		"name": "Murmillo",
-		"regex": "Murmi?l?l?o?"
+		"regex": "^murm"
 	},
 	{
 		"code": "Char3_16",
 		"name": "Musketeer",
-		"regex": "Muske?t?e?e?r?"
+		"regex": "^musk"
 	},
 	{
 		"code": "Char1_20",
 		"name": "Nak Muay",
-		"regex": "Nak ?(Muay)?"
+		"regex": "^nak|muay"
 	},
 	{
 		"code": "Char2_9",
 		"name": "Necromancer",
-		"regex": "Necrom?a?n?c?e?r?"
+		"regex": "^necro"
 	},
 	{
 		"code": "Char2_20",
 		"name": "Onmyoji",
-		"regex": "Onmy?o??j?i?"
+		"regex": "^onm"
 	},
 	{
 		"code": "Char4_8",
 		"name": "Oracle",
-		"regex": "Orac?l?e?"
+		"regex": "^ora"
 	},
 	{
 		"code": "Char5_3",
 		"name": "Outlaw",
-		"regex": "Out(law)?"
+		"regex": "^out(law)?"
 	},
 	{
 		"code": "Char4_11",
 		"name": "Paladin ",
-		"regex": "Palad?i?n?"
+		"regex": "^pala"
 	},
 	{
 		"code": "Char4_10",
 		"name": "Pardoner",
-		"regex": "Pardo?n?e?r?"
+		"regex": "^pard"
 	},
 	{
 		"code": "Char1_3",
 		"name": "Peltasta",
-		"regex": "Pelta?s?t?a?"
+		"regex": "^pelt"
 	},
 	{
 		"code": "Char3_12",
 		"name": "Pied Piper",
-		"regex": "PiedPiper|Pied? Piper"
+		"regex": "^p(p|ied)|piper"
 	},
 	{
 		"code": "Char4_14",
 		"name": "Plague Doctor",
-		"regex": "PD|(Plague ?(Doctor)?)"
+		"regex": "^p(d|lague)|doctor"
 	},
 	{
 		"code": "Char4_2",
 		"name": "Priest",
-		"regex": "Prie?s?t?"
+		"regex": "^prie"
 	},
 	{
 		"code": "Char2_4",
 		"name": "Psychokino",
-		"regex": "P?s?y?c?h?o?kino"
+		"regex": "^psy|kino"
 	},
 	{
 		"code": "Char2_2",
 		"name": "Pyromancer",
-		"regex": "Pyrom?a?n?c?e?r?"
+		"regex": "^pyro"
 	},
 	{
 		"code": "Char3_3",
 		"name": "Quarrel Shooter",
-		"regex": "qs|Quarrel? ?S?h?o?o?t?e?r?"
+		"regex": "^q(s|uarrel)"
 	},
 	{
 		"code": "Char3_4",
 		"name": "Ranger",
-		"regex": "Range?r?"
+		"regex": "^ran"
 	},
 	{
 		"code": "Char1_18",
 		"name": "Retiarius",
-		"regex": "Reti?a?r?i?u?s?"
+		"regex": "^ret"
 	},
 	{
 		"code": "Char1_10",
 		"name": "Rodelero",
-		"regex": "Rodel?e?r?o?"
+		"regex": "^rod"
 	},
 	{
 		"code": "Char5_10",
 		"name": "Rogue",
-		"regex": "Rog?u?e?"
+		"regex": "^[lr]og"
 	},
 	{
 		"code": "Char2_17",
 		"name": "Rune Caster",
-		"regex": "rc|Rune ?C?a?s?t?e?r?"
+		"regex": "^r(c|une)"
 	},
 	{
 		"code": "Char4_6",
 		"name": "Sadhu",
-		"regex": "Sadhu"
+		"regex": "^sad"
 	},
 	{
 		"code": "Char2_14",
 		"name": "Sage",
-		"regex": "Sage"
+		"regex": "^sage"
 	},
 	{
 		"code": "Char3_5",
 		"name": "Sapper",
-		"regex": "Sapp?e?r?"
+		"regex": "^sap"
 	},
 	{
 		"code": "Char5_11",
 		"name": "Schwarzer Reiter",
-		"regex": "SR|(Schwarzer ?(Reiter)?)"
+		"regex": "^s(r|chwarze)|reit"
 	},
 	{
 		"code": "Char5_1",
 		"name": "Scout",
-		"regex": "Sco?u?t?"
+		"regex": "^sco"
 	},
 	{
 		"code": "Char2_19",
 		"name": "Shadowmancer",
-		"regex": "sm|Shado?w?m?a?n?c?e?r?"
+		"regex": "^s(m|had)"
 	},
 	{
 		"code": "Char4_13",
 		"name": "Shepherd",
-		"regex": "Shepherd"
+		"regex": "^shep"
+	},
+	{
+		"code": "Char5_14",
+		"name": "Sheriff",
+		"regex": "^sher"
 	},
 	{
 		"code": "Char5_6",
 		"name": "Shinobi",
-		"regex": "(Shi)?nobi"
+		"regex": "^shi|nobi"
 	},
 	{
 		"code": "Char2_6",
 		"name": "Sorcerer",
-		"regex": "Sorce?r?e?r?"
+		"regex": "^sorc?"
 	},
 	{
 		"code": "Char5_4",
 		"name": "Squire",
-		"regex": "Squ?i?r?e?"
+		"regex": "^squ"
 	},
 	{
 		"code": "Char1_1",
 		"name": "Swordsman",
-		"regex": "Sw(ordsman)?"
+		"regex": "^swo?"
 	},
 	{
 		"code": "Char2_21",
 		"name": "Taoist",
-		"regex": "Taoi?s?t?"
+		"regex": "^[dt]ao"
 	},
 	{
 		"code": "Char1_16",
 		"name": "Templar",
-		"regex": "Templar"
+		"regex": "^temp"
 	},
 	{
 		"code": "Char5_7",
 		"name": "Thaumaturge",
-		"regex": "Thaum?(aturge)?"
+		"regex": "^th(m|au)"
+	},
+	{
+		"code": "Char3_19",
+		"name": "Tiger Hunter",
+		"regex": "^t(h|iger)"
 	},
 	{
 		"code": "Char2_15",
 		"name": "Warlock",
-		"regex": "wl|Warlock"
+		"regex": "^w(l|ar)"
 	},
 	{
 		"code": "Char2_1",
 		"name": "Wizard",
-		"regex": "Wiz(ard)?"
+		"regex": "^wiz"
 	},
 	{
 		"code": "Char3_6",
 		"name": "Wugushi",
-		"regex": "Wugu(shi)?"
+		"regex": "^wugu"
 	},
 	{
 		"code": "Char4_19",
 		"name": "Zealot",
-		"regex": "Zeal?o?t?"
+		"regex": "^zea"
 	}
 ]
